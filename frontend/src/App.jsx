@@ -1,9 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useState } from 'react';
 import Home from './pages/userPages/Home';
-JobListing
 import './App.css';
 import JobListing from './pages/userPages/JobListing';
+import Jobs from './pages/adminPages/Jobs';
 
 function App() {
 
@@ -12,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/job-listing" element={<JobListing/>} />
+        <Route path="/jobs" element={<Jobs/>} />
       </Routes>
     </Router>
   )

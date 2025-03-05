@@ -20,7 +20,7 @@ function JobListing() {
         <div>
             {jobs.map((job, index) => (
                 <div key={index} className='p-20'>
-                    <h2>Job Title: {job.title}</h2>
+                    <h2 className='font-bold'>Job Title: {job.title}</h2>
                     <p>Job Description: {job.description}</p>
                     <p>Company: {job.company}</p>
                     <p>Location: {job.location}</p>
