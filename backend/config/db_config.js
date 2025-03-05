@@ -8,7 +8,7 @@ dotenv.config();
 //   dialect: 'postgresql' 
 // });
 
-const sequelize = new Sequelize(process.env.DB_HOST);
-// const sequelize = new Sequelize('postgresql://postgres.zfjzgvyyjhpbgbpmpeox:internstreetcloudcomputing@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres');
+// const sequelize = new Sequelize(process.env.DB_HOST);
+const sequelize = new Sequelize('postgresql://postgres.zfjzgvyyjhpbgbpmpeox:internstreetcloudcomputing@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres');
 
 export { sequelize };
