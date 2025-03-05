@@ -1,5 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
+
 
 // ROUTES IMPORT
 import jobsRoute from './routes/jobs.js';
@@ -16,6 +18,7 @@ const PORT = process.env.PORT || 3000;
 //   exposedHeaders: ['Content-Disposition'],
 // }));
 
+app.use(cors());
 app.use(express.json());
 
 // ROUTES
