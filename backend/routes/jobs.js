@@ -16,29 +16,6 @@ router.post('/login', async (req, res) => {
   res.json({ accessToken: accessToken });
 });
 
-router.get('/', async (req, res) => {
-  try {
-    const jobs = await Job.findAll();
-    res.status(200).send(jobs);
-  } catch (error) {
-    console.error('Error fetching jobs: ', error);
-    res.status(500).json({message: 'Internal Server Error'});
-  }
-});
-
-router.get('/:id', async (req, res) => {
-  try {
-    const job = await Job.findByPk(req.params.id);
-    if (!job) {
-      return res.status(404).json({ message: 'Job not found' });
-    }
-    res.status(200).send(job);
-  } catch (error) {
-    console.error('Error fetching job: ', error);
-    res.status(500).json({message: 'Internal Server Error'});
-  }
-});
-
 // DUMMY PROTECTED ROUTE ?
 router.put('/:id', checkToken, async (req, res) => {
   try {
@@ -72,5 +49,99 @@ function checkToken (req, res, next) {
     res.sendStatus(403);
   }
 };
+
+// =======================================================================
+
+// FETCH JOBS
+router.get('/', async (req, res) => {
+  try {
+    const jobs = await Job.findAll();
+    res.status(200).send(jobs);
+  } catch (error) {
+    console.error('Error fetching jobs: ', error);
+    res.status(500).json({message: 'Internal Server Error'});
+  }
+});
+
+// FETCH JOB
+router.get('/:id', async (req, res) => {
+  try {
+    const job = await Job.findByPk(req.params.id);
+    if (!job) {
+      return res.status(404).json({ message: 'Job not found' });
+    }
+    res.status(200).send(job);
+  } catch (error) {
+    console.error('Error fetching job: ', error);
+    res.status(500).json({message: 'Internal Server Error'});
+  }
+});
+
+// EDIT JOB
+router.put('/:id', async (req, res, next) => {
+  const { id } = req.params;
+  const { title, description, company, location } = req.body;
+  
+  try {
+      const job = await Job.findOne({ where: { 'id' : id } });
+      if (!job) {
+        return res.status(404).json({ message: 'Job not found' });
+      }
+  
+      await Job.update(
+        { title, description, company, location }, { where: { 'id' : id } }
+      );
+  
+      const updateJob = await Job.findOne({ where: { 'id' : id } });
+      res.status(200).json({ message: 'Job updated successfully!', updateJob });
+    } catch (error) {
+      console.error('Error updating job:', error);
+      next(error);
+    }
+});
+
+// DELETE JOB
+router.delete('/:id', async (req, res, next) => {
+  try {
+      const { id } = req.params;
+      const job = await Job.findOne({ where: { "id" : id } });
+
+      if (!job) return res.status(404).json({ message: 'Job not found!'});
+
+      await Job.destroy({ where: { "id" : id } });
+      res.status(200).json({ message: 'Job successfully deleted!' });
+  } catch (error) {
+      console.error(error);
+      return next(error);
+  }
+});
+
+// ADD JOB
+router.post('/add', async (req, res, next) => {
+  const { title, description, company, location } = req.body;
+
+  try {
+    const newJob = await Job.create({
+        title: title, 
+        description: description,
+        company: company, 
+        location: location 
+    });
+    res.status(201).json({ message: 'Job has been added successfully!', newJob });
+    } catch (error) {
+      console.error("Error registering job:", error);
+
+      // if (error.title === 'SequelizeUniqueConstraintError') {
+      //     res.status(400).json({ message: 'Job already exists!' });
+      // } 
+      // else if (error.title === 'SequelizeValidationError') {
+      //     res.status(400).json({ message: 'Validation error: Check your inputs.' });
+      // } 
+      // else {
+      //     res.status(500).json({ message: 'Internal server error. Please try again later.' });
+      // }
+    }
+
+})
 
 export default router;
