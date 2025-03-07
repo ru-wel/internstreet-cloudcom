@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Home from './pages/userPages/Home';
 import JobListing from './pages/userPages/JobListing';
-import Jobs from './pages/adminPages/Jobs';
 import Login from './pages/userPages/Login';
 import AdminJobs from './pages/adminPages/AdminJobs';
 import AdminUsers from './pages/adminPages/AdminUsers';
@@ -15,7 +14,6 @@ function App() {
       <Routes>
         <Route path="/" element={< Home />} />
         <Route path="/job-listing" element={<JobListing/>} />
-        <Route path="/jobs" element={<Jobs/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/admin-jobs" element={<AdminJobs/>} />
         <Route path="/admin-users" element={<AdminUsers/>} />
