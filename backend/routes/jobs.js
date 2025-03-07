@@ -1,6 +1,7 @@
 import express from 'express';
 import Job from '../models/Job.js';
 import jwt from 'jsonwebtoken';
+import { LogAction } from '../utils/logger.js';
 
 const app = express();
 app.use(express.json());
@@ -93,7 +94,9 @@ router.put('/:id', async (req, res, next) => {
       );
   
       const updateJob = await Job.findOne({ where: { 'id' : id } });
-      res.status(200).json({ message: 'Job updated successfully!', updateJob });
+      const message = `Successfully edited Job: "${updateJob.title}" from "${updateJob.company}"`;
+      res.status(200).json({ message: message, updateJob });
+      await LogAction(message);
     } catch (error) {
       console.error('Error updating job:', error);
       next(error);
@@ -109,7 +112,9 @@ router.delete('/:id', async (req, res, next) => {
       if (!job) return res.status(404).json({ message: 'Job not found!'});
 
       await Job.destroy({ where: { "id" : id } });
-      res.status(200).json({ message: 'Job successfully deleted!' });
+      const message = `Successfully deleted Job: "${job.title}" from "${job.company}"`;
+      res.status(200).json({ message: message });
+      await LogAction(message);
   } catch (error) {
       console.error(error);
       return next(error);
@@ -127,7 +132,9 @@ router.post('/add', async (req, res, next) => {
         company: company, 
         location: location 
     });
-    res.status(201).json({ message: 'Job has been added successfully!', newJob });
+    const message = `Successfully added Job: "${newJob.title}" from "${newJob.company}"`;
+    res.status(201).json({ message: message, newJob });
+    await LogAction(message);
     } catch (error) {
       console.error("Error registering job:", error);
 
