@@ -4,16 +4,22 @@ import Home from './pages/userPages/Home';
 import JobListing from './pages/userPages/JobListing';
 import Jobs from './pages/adminPages/Jobs';
 import Login from './pages/userPages/Login';
+import AdminJobs from './pages/adminPages/AdminJobs';
+import AdminUsers from './pages/adminPages/AdminUsers';
+import AdminLogs from './pages/adminPages/AdminLogs';
 
 function App() {
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={< Home />} />
         <Route path="/job-listing" element={<JobListing/>} />
         <Route path="/jobs" element={<Jobs/>} />
         <Route path="/login" element={<Login/>} />
+        <Route path="/admin-jobs" element={<AdminJobs/>} />
+        <Route path="/admin-users" element={<AdminUsers/>} />
+        <Route path="/admin-logs" element={<AdminLogs/>} />
       </Routes>
     </Router>
   )
