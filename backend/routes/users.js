@@ -1,5 +1,6 @@
 import express from 'express';
 import User from '../models/User.js';
+import { LogAction } from '../utils/logger.js';
 
 const app = express();
 app.use(express.json());
@@ -48,7 +49,7 @@ router.put('/profile/:id', async (req, res, next) => {
         );
     
         const updateUser = await User.findOne({ where: { 'id' : id } });
-        res.status(200).json({ message: 'User updated successfully!', updateUser });
+        res.status(200).json({ message: 'Profile updated successfully!', updateUser });
       } catch (error) {
         console.error('Error updating user:', error);
         next(error);
@@ -72,7 +73,9 @@ router.put('/:id', async (req, res, next) => {
         );
     
         const updateUser = await User.findOne({ where: { 'id' : id } });
-        res.status(200).json({ message: 'User updated successfully!', updateUser });
+        const message = `Successfully edited User: "${updateUser.email}"`;
+        res.status(200).json({ message: message, updateUser});
+        await LogAction(message);
       } catch (error) {
         console.error('Error updating user:', error);
         next(error);
@@ -88,7 +91,9 @@ router.delete('/:id', async (req, res, next) => {
         if (!user) return res.status(404).json({ message: 'User not found!'});
 
         await User.destroy({ where: { "id" : id } });
-        res.status(200).json({ message: 'User successfully deleted!' });
+        const message = `Successfully deleted User: "${user.email}"`;
+        res.status(200).json({ message: message });
+        await LogAction(message);
     } catch (error) {
         console.error(error);
         return next(error);
@@ -107,7 +112,9 @@ router.post('/add', async (req, res, next) => {
         password: password, 
         user_role: user_role 
     });
-    res.status(201).json({ message: 'User has been registered successfully!', newUser });
+    const message = `Successfully added User: "${email}"`;
+    res.status(201).json({ message: message, newUser });
+    await LogAction(message);
     } catch (error) {
       console.error("Error registering user:", error);
 
