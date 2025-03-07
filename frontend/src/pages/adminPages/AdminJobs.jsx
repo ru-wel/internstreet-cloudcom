@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-function Jobs() {
+function AdminJobs() {
     const [jobs, setJobs] = useState([]);
     useEffect(() => {
         const fetchJobs = async () => {
@@ -14,7 +14,7 @@ function Jobs() {
               } finally {
               }
             };
-        fetchJobs();
+            fetchJobs();
     }, []);
   return (
     <div>
@@ -40,10 +40,8 @@ function Jobs() {
                 </tbody>
             </table>
         </div>
-    
-    <h2></h2>
-</div>
+    </div>
   )
 }
 
-export default Jobs
+export default AdminJobs
