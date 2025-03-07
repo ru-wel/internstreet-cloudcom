@@ -7,6 +7,7 @@ import Register from './pages/userPages/Register';
 import AdminJobs from './pages/adminPages/AdminJobs';
 import AdminUsers from './pages/adminPages/AdminUsers';
 import AdminLogs from './pages/adminPages/AdminLogs';
+import Job from './pages/userPages/Job';
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={< Home />} />
+        <Route path='/job/:jId' element={<Job/>} />
         <Route path="/job-listing" element={<JobListing/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
