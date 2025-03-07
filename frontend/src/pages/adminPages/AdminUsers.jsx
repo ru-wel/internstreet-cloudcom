@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 
 function AdminUsers() {
     const [users, setUsers] = useState([]);
@@ -17,7 +17,30 @@ function AdminUsers() {
             fetchUsers();
     }, []);
   return (
-    <div>Users</div>
+    <div>
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Date/Time</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {users.map((user, index) => (
+                        <tr key={index}>
+                            <td>{user.created_at}</td>
+                            <td>{user.name}</td>
+                            <td>{user.email}</td>
+                            <td>{user.user_role}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    </div>
   )
 }
 
