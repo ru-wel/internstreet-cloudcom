@@ -1,5 +1,6 @@
 import express from 'express';
 import User from '../models/User.js';
+import { LogAction } from '../utils/logger.js';
 
 const app = express();
 app.use(express.json());
@@ -60,6 +61,7 @@ router.put('/profile/:id', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
     const { id } = req.params;
     const { name, email, password, user_role } = req.body;
+    const message = "User Edit: User updated successfully!";
     
     try {
         const user = await User.findOne({ where: { 'id' : id } });
@@ -72,7 +74,7 @@ router.put('/:id', async (req, res, next) => {
         );
     
         const updateUser = await User.findOne({ where: { 'id' : id } });
-        res.status(200).json({ message: 'User updated successfully!', updateUser });
+        res.status(200).json({ message: message, updateUser });
       } catch (error) {
         console.error('Error updating user:', error);
         next(error);
@@ -99,6 +101,7 @@ router.delete('/:id', async (req, res, next) => {
 router.post('/add', async (req, res, next) => {
   const { name, email, password } = req.body;
   const user_role = "user";
+  const message = "User Add: User has been registered successfully!";
 
   try {
     const newUser = await User.create({
@@ -107,7 +110,8 @@ router.post('/add', async (req, res, next) => {
         password: password, 
         user_role: user_role 
     });
-    res.status(201).json({ message: 'User has been registered successfully!', newUser });
+    res.status(201).json({ message: message, newUser });
+    await LogAction(email, message);
     } catch (error) {
       console.error("Error registering user:", error);
 
