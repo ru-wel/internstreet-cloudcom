@@ -3,6 +3,7 @@ import './App.css';
 import Landing from './pages/userPages/Landing';
 import JobListing from './pages/userPages/JobListing';
 import Login from './pages/userPages/Login';
+import Logout from './pages/userPages/Logout';
 import Register from './pages/userPages/Register';
 import AdminJobs from './pages/adminPages/AdminJobs';
 import AdminUsers from './pages/adminPages/AdminUsers';
@@ -29,7 +30,7 @@ function App() {
 
         <Route element={<UserWrapper/>}>
           <Route path="/profile" element={<Profile/>} />
-          { /* <Route path="/logout"/> { /* TO BE ADDED */ } 
+          <Route path="/logout" element={<Logout/>}/>
 
           <Route element={<AdminWrapper/>}> { /* TO BE TESTED */ }
             <Route path="/admin-jobs" element={<AdminJobs/>} />
