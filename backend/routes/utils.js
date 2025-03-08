@@ -1,6 +1,6 @@
 import express from 'express';
 import platform from 'platform';
-import { LogAction } from '../utils/logger';
+import { LogAction } from '../utils/logger.js';
 
 const router = express.Router();
 let browserType = null;
