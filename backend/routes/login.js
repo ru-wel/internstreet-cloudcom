@@ -2,6 +2,7 @@ import express from 'express';
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { LogAction } from '../utils/logger.js';
 
 const app = express();
 app.use(express.json());
@@ -41,8 +42,8 @@ router.post('/', async (req, res) => {
 
     userToken = token;
 
-
     console.log('Logged In Successfully!');
+    payload.role == "admin" ? (LogAction("Has logged in")) : null;
 
   } catch (error) {
     console.error(error);
