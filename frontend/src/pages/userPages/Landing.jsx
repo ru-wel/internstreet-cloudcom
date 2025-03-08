@@ -2,6 +2,7 @@ import React from 'react'
 import Nav from '../Nav'
 import Hero from '../Hero'
 import Marquee from '../Marquee'
+import Benefits from '../Benefits'
 
 function Landing() {
   return (
@@ -9,6 +10,7 @@ function Landing() {
       <Nav></Nav>
       <Hero></Hero>
       <Marquee></Marquee>
+      <Benefits></Benefits>
     </div>
   )
 }
