@@ -36,7 +36,7 @@ const Nav = () => {
     <div className='mx-5 my-5'>
       <nav className='bg-[#a4bdb9] shadow-md top-0 w-full sticky z-50 rounded-3xl'>
         <div className='w-[95%] mx-auto px-4 py-3 flex justify-between items-center rounded-lg'>
-          <a href="#">
+          <a href="/landing">
             <img src={logo} alt="InternStreet Logo" className="h-15 w-auto" />
           </a>
 

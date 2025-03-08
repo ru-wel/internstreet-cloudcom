@@ -3,7 +3,7 @@ import React from "react";
 const Benefits = () => {
   return (
     <div className="bg-[#497D74] text-white py-20 px-6 flex flex-col items-center text-center">
-      <h2 className="text-6xl font-bold mb-8">Why Choose Intern Street?</h2>
+      <h2 className="lg:text-6xl text-5xl font-bold mb-8">Why Choose Intern Street?</h2>
       
       <div className="grid md:grid-cols-2 gap-8 max-w-3xl w-full my-6">
         <div className="bg-[#F8F5EC] text-gray-900 p-6 rounded-4xl shadow-lg">

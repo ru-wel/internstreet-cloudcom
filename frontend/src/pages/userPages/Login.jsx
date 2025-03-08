@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Nav from '../Nav';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -37,17 +38,35 @@ function Login() {
 
   return (
     <div>
-      <h1>Login Page</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email
-          <input type="email" name="email" value={email} onChange={handleEmailChange} style={{border: '1px solid #000'}}/>
-        </label>
-        <label htmlFor="password">Password
-          <input type="password" name="password" value={password} onChange={handlePasswordChange} style={{border: '1px solid #000'}}/>
-        </label>
-        {error && <p style={{ color: 'red' }}>{error}</p>} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
-        <button type="submit">Login</button>
-      </form>
+      <Nav></Nav>
+      <h1 className='lg:text-5xl md:text-3xl text-xl font-bold text-center my-6'>Log in to Your Account</h1>
+
+      <div className='flex items-center justify-center mx-8'>
+        <div className='bg-[#27445D] py-12 px-12 rounded-4xl shadow-lg text-center'>
+          <h2 className='text-3xl font-bold mb-6 text-white'>Log in</h2>
+
+          <form onSubmit={handleSubmit} className='flex flex-col px-2'>
+            <label htmlFor="email" className='text-left text-white text-md font-medium mb-1'>Email
+              <input type="email" name="email" value={email} placeholder='Email' onChange={handleEmailChange} className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
+            </label>
+
+            <label htmlFor="password" className='text-left text-white font-medium'>Password
+              <input type="password" name="password" value={password} placeholder='Password' onChange={handlePasswordChange} className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
+            </label>
+
+            {error && <p className='text-red-500 text-md font-bold'>{error}</p>} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
+
+            <button type='submit' className="bg-[#497D74] text-white py-3 mt-6 rounded-2xl font-medium transition transform hover:scale-105">
+              Submit
+            </button>
+
+            <p className='mt-6 text-white'>
+              Don't have an Account?{' '}
+              <a href="/signup" className="font-medium hover:underline">Sign Up</a>
+            </p>
+          </form>
+        </div>
+      </div>
     </div>
   )
 }
