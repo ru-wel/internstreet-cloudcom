@@ -1,7 +1,9 @@
 import Log from "../models/Log.js";
-import axios from 'axios';
 import { UAParser } from 'ua-parser-js';
+import { getToken } from "../routes/login.js";
+import { jwtDecode } from "jwt-decode";
 import os from 'os';
+import axios from 'axios';
 
 async function getUserDetails() {
   const parser = new UAParser();
@@ -26,9 +28,35 @@ async function getUserDetails() {
 export async function LogAction(message) {
 
     const { ip_address, location, os_version, processor, browser_type } = await getUserDetails();
-    const adminUser = "adminuser@gmail.com";
+
+    const token = getToken();
+    let email = null;
+
+    try {
+      const response = await fetch('http://localhost:3000/validate-token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      if (!response.ok && !data.valid){
+        console.log("User is not logged in!")
+      }
+      const decoded = jwtDecode(token);
+      if (decoded.exp * 1000 < Date.now()){
+        console.log("Token expired!")
+      } else { 
+        email = decoded.email; 
+      }
+    } catch (error) {
+      console.error('Error decoding token: ', error);
+    }
+
     const newLog = await Log.create({
-        email: adminUser,
+        email: email,
         action: message,
         ip_address: ip_address,
         os_version: os_version,

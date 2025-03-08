@@ -6,6 +6,8 @@ import bcrypt from 'bcryptjs';
 const app = express();
 app.use(express.json());
 
+let userToken = null;
+
 const router = express.Router();
 
 router.post('/', async (req, res) => {
@@ -37,6 +39,9 @@ router.post('/', async (req, res) => {
     res.header('Authorization', `Bearer ${token}`)
     res.json({ token });
 
+    userToken = token;
+
+
     console.log('Logged In Successfully!');
 
   } catch (error) {
@@ -45,4 +50,5 @@ router.post('/', async (req, res) => {
   }
 });
 
+export const getToken = () => userToken;
 export default router;
