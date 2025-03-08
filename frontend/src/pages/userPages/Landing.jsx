@@ -1,11 +1,13 @@
 import React from 'react'
 import Nav from '../Nav'
+import Hero from '../Hero'
+import Job from './Job'
 
 function Landing() {
   return (
     <div>
       <Nav></Nav>
-      <h1>Landing Page</h1>
+      <Hero></Hero>
     </div>
   )
 }
