@@ -10,6 +10,7 @@ import AdminLogs from './pages/adminPages/AdminLogs';
 import Job from './pages/userPages/Job';
 import Profile from './pages/userPages/UserProfile';
 import { UserWrapper, AdminWrapper, GuestWrapper } from './auth/authentication';
+import AboutPage from './pages/userPages/AboutPage';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/landing" element={< Landing />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/" element={<JobListing/>} />
         <Route path='/job/:jId' element={<Job/>} />
 

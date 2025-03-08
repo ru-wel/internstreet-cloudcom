@@ -4,7 +4,7 @@ import Hero from '../Hero'
 import Marquee from '../Marquee'
 import Benefits from '../Benefits'
 import Testimonials from '../Testimonials'
-import FeaturedJob from './FeaturedJob'
+import FeaturedJob from '../FeaturedJob'
 
 function Landing() {
   return (
