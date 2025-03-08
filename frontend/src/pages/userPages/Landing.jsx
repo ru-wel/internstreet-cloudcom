@@ -4,7 +4,10 @@ import Hero from '../Hero'
 import Marquee from '../Marquee'
 import Benefits from '../Benefits'
 import Testimonials from '../Testimonials'
-import FeaturedJob from './FeaturedJob'
+import FeaturedJob from '../FeaturedJob'
+import About from '../About'
+import Footer from '../Footer'
+
 
 function Landing() {
   return (
@@ -13,8 +16,10 @@ function Landing() {
       <Hero></Hero>
       <Marquee></Marquee>
       <FeaturedJob></FeaturedJob>
+      <About></About>
       <Benefits></Benefits>
       <Testimonials></Testimonials>
+      <Footer></Footer>
     </div>
   )
 }
