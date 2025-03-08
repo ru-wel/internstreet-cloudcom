@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
 
 const Nav = () => {
+
+  const navigate = useNavigate();
+
+  const Logout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  }
+  
   const [role, setRole] = useState(null);
 
   useEffect(() => {
@@ -43,7 +52,7 @@ const Nav = () => {
             <a href="/profile" style={{ marginRight: '10px', color: 'white', textDecoration: 'none' }}>
               Profile
             </a>
-            <a href="/logout" style={{ color: 'white', textDecoration: 'none' }}>
+            <a onClick={Logout} style={{ color: 'white', textDecoration: 'none' }}>
               Logout
             </a>
           </>
