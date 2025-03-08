@@ -4,12 +4,12 @@ import { getToken } from "../routes/login.js";
 import { jwtDecode } from "jwt-decode";
 import os from 'os';
 import axios from 'axios';
+import { fetchedBrowser } from "../routes/utils.js";
 
 async function getUserDetails() {
   const parser = new UAParser();
   const fetchOs = parser.getOS();
   const cpu = parser.getCPU();
-  const browser = parser.getBrowser();
 
   const osVersion = fetchOs.name + ' ' + fetchOs.version;
   const realOS = osVersion.includes("undefined") ? null : osVersion;
@@ -21,7 +21,7 @@ async function getUserDetails() {
     location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
     os_version: realOS || os.type + ' ' + os.release + ' ' + os.platform || "Empty",
     processor: cpu.architecture || os.cpus()[0].model || "Empty",
-    browser_type: browser.name + ' ' + browser.version
+    browser_type: fetchedBrowser() || "Unknown Browser"
   };
 }
 

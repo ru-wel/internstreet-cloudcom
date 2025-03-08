@@ -16,6 +16,7 @@ function Login() {
     try {
       console.log(email, password);
       const response = await axios.post(`http://localhost:3000/login`, { email, password });
+      await axios.get('http://localhost:3000/utils/detect-browser');
       const token = response.data.token;
       localStorage.setItem('token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
