@@ -6,6 +6,7 @@ import Benefits from '../Benefits'
 import Testimonials from '../Testimonials'
 import FeaturedJob from '../FeaturedJob'
 import About from '../About'
+import Footer from '../Footer'
 
 
 function Landing() {
@@ -18,6 +19,7 @@ function Landing() {
       <About></About>
       <Benefits></Benefits>
       <Testimonials></Testimonials>
+      <Footer></Footer>
     </div>
   )
 }
