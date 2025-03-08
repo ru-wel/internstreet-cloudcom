@@ -5,7 +5,6 @@ const Hero = () => {
     return (
         <section className="bg-white">
             <div className='flex flex-col lg:flex-row-reverse items-center lg:items-start justify-center lg:justify-between lg:py-16 py-12 lg:px-20 px-8'>
-                {/* Right Section - Image */}
                 <div className="w-full lg:w-[45%] mb-8 lg:mb-0 flex justify-center">
                     <img 
                         src={heroimg} 
@@ -14,7 +13,6 @@ const Hero = () => {
                     />
                 </div>
 
-                {/* Left Section - Content */}
                 <div className="flex flex-col items-center lg:items-start lg:w-[55%]">
                     <h1 className="lg:text-6xl text-3xl font-bold text-black lg:my-10 my-6 text-center lg:text-left">
                         Your Number 1 Platform to Land Internships in the Philippines!

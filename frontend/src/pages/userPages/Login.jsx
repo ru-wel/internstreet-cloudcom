@@ -40,11 +40,11 @@ function Login() {
   return (
     <div>
       <Nav></Nav>
-      <h1 className='lg:text-5xl md:text-3xl text-xl font-bold text-center my-6'>Log in to Your Account</h1>
+      <h1 className='lg:text-5xl text-3xl font-bold text-center my-10'>Log in to Your Account</h1>
 
       <div className='flex items-center justify-center mx-8'>
-        <div className='bg-[#27445D] py-12 px-12 rounded-4xl shadow-lg text-center'>
-          <h2 className='text-3xl font-bold mb-6 text-white'>Log in</h2>
+        <div className='bg-[#27445D] lg:p-12 p-4 rounded-4xl shadow-lg text-center max-w-md w-full'>
+          <h2 className='text-4xl font-bold mb-6 mt-4 text-white'>Log in</h2>
 
           <form onSubmit={handleSubmit} className='flex flex-col px-2'>
             <label htmlFor="email" className='text-left text-white text-md font-medium mb-1'>Email
@@ -63,7 +63,7 @@ function Login() {
 
             <p className='mt-6 text-white'>
               Don't have an Account?{' '}
-              <a href="/signup" className="font-medium hover:underline">Sign Up</a>
+              <a href="/register" className="font-medium hover:underline">Sign Up</a>
             </p>
           </form>
         </div>

@@ -55,7 +55,7 @@ const Nav = () => {
                 {!role ? (
                   <>
                     <a href="/login" className="block px-4 py-2 text-gray-700 text-center mx-2">Login</a>
-                    <a href="/signup" className="block px-4 py-2 text-gray-700 text-center mx-2">Sign Up</a>
+                    <a href="/register" className="block px-4 py-2 text-gray-700 text-center mx-2">Sign Up</a>
                   </>
                 ) : (
                   <>
@@ -79,7 +79,7 @@ const Nav = () => {
                 <a href="/login" className="border-2 border-[#497D74] text-black rounded-full py-2 px-6 hover:bg-[#497D74] hover:text-white">
                   Login
                 </a>
-                <a href="/signup" className="border-2 border-[#497D74] bg-[#497D74] text-white rounded-full py-2 px-6">
+                <a href="/register" className="border-2 border-[#497D74] bg-[#497D74] text-white rounded-full py-2 px-6">
                   Sign Up
                 </a>
               </>
