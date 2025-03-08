@@ -16,17 +16,18 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/landing" element={< Landing />} />
+        <Route path="/" element={<JobListing/>} />
+        <Route path='/job/:jId' element={<Job/>} />
+
         <Route element={<GuestWrapper/>}>
-          <Route path="/landing" element={< Landing />} />
-          <Route path="/" element={<JobListing/>} />
-          <Route path='/job/:jId' element={<Job/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
         </Route>
 
         <Route element={<UserWrapper/>}>
           <Route path="/profile" element={<Profile/>} />
-          <Route path="/logout" /> { /* TO BE ADDED */ }
+          { /* <Route path="/logout"/> { /* TO BE ADDED */ } 
 
           <Route element={<AdminWrapper/>}> { /* TO BE TESTED */ }
             <Route path="/admin-jobs" element={<AdminJobs/>} />

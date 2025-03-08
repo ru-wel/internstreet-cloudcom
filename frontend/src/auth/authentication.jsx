@@ -51,6 +51,7 @@ const UserWrapper = () => {
   }
 
   if (!isAuthenticated){
+    alert('Please log in.');
     return <Navigate to="/login" replace />
   }
 
@@ -66,6 +67,7 @@ const AdminWrapper = () => {
   const { role } = useContext(AuthContext);
 
   if (!role || role !== 'admin'){
+    alert('Insufficient permissions.');
     return <Navigate to="/" replace /> // TO BE REPLACED
   }
 
@@ -116,11 +118,12 @@ const GuestWrapper = () => {
     return <div>Loading...</div>;
   }
 
-  // if (!isValidToken) {
-  //   return <Navigate to="/" replace />;
-  // }
+  if (isValidToken) {
+    alert('Already logged in.');
+    return <Navigate to="/profile" replace />;
+  }
 
   return <Outlet />;
 }
 
-export { UserWrapper, AdminWrapper, GuestWrapper };
+export { UserWrapper, AdminWrapper, GuestWrapper, AuthContext };

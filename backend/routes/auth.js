@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/', checkToken, async (req, res) => {
   try {
     jwt.verify(req.token, process.env.JWT_SECRET || 'internstreetcloudcomputing', (err, tokenData) => {
-      if (err || tokenData.role != 'admin'){
+      if (err || tokenData.role != 'admin'){      // ADD tokenData.role != 'user'
         console.log(err);
         res.status(403).json({message:'Please log in.'});
       } else {
