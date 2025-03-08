@@ -9,6 +9,7 @@ import logsRoute from './routes/logs.js';
 import loginRoute from './routes/login.js';
 import registerRoute from './routes/register.js';
 import authRoute from './routes/auth.js';
+import utilsRoute from './routes/utils.js';
 
 dotenv.config();
 const app = express();
@@ -32,6 +33,7 @@ app.use('/logs', logsRoute);
 app.use('/login', loginRoute);
 app.use('/register', registerRoute);
 app.use('/validate-token', authRoute);
+app.use('/utils', utilsRoute);
 
 app.use((err, req, res, next) => {
   console.error(err.message);
