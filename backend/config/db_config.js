@@ -9,6 +9,12 @@ dotenv.config();
 // });
 
 // const sequelize = new Sequelize(process.env.DB_HOST);
-const sequelize = new Sequelize('postgresql://postgres.zfjzgvyyjhpbgbpmpeox:internstreetcloudcomputing@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres');
+const sequelize = new Sequelize('postgresql://postgres.zfjzgvyyjhpbgbpmpeox:internstreetcloudcomputing@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres', {
+  dialect: 'postgres',
+  dialectOptions: {
+    keepDefaultTimezone: false,
+  },
+  timezone: 'Asia/Manila',
+});
 
 export { sequelize };
