@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
 import logo from '../assets/internstreet-logo.png';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Nav = () => {
-
-  const navigate = useNavigate();
 
   const [role, setRole] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
