@@ -5,6 +5,8 @@ import Marquee from '../Marquee'
 import Benefits from '../Benefits'
 import Testimonials from '../Testimonials'
 import FeaturedJob from '../FeaturedJob'
+import About from '../About'
+
 
 function Landing() {
   return (
@@ -13,6 +15,7 @@ function Landing() {
       <Hero></Hero>
       <Marquee></Marquee>
       <FeaturedJob></FeaturedJob>
+      <About></About>
       <Benefits></Benefits>
       <Testimonials></Testimonials>
     </div>

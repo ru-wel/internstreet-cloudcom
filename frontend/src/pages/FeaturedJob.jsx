@@ -140,7 +140,7 @@ function FeaturedJob(){
                 </div>
             </div>
             <div className="flex justify-center pb-3">
-                <button className="bg-[#27445D] rounded-3xl px-7 p-2 text-md text-white transition transform hover:scale-105 border-[#1d3346] border-b-4 border-r-5 ">Browse more jobs</button>
+                <button className="bg-[#27445D] rounded-3xl px-7 p-2 text-md text-white transition transform hover:scale-105 border-[#1d3346] border-b-4 border-r-5 ">Browse more jobs &gt;&gt;</button>
             </div>
 
             
