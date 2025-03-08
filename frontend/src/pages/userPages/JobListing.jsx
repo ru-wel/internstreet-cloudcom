@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Nav from '../Nav'
 
 function JobListing() {
     const [jobs, setJobs] = useState([]);
@@ -18,6 +19,7 @@ function JobListing() {
     }, []);
     return (
         <div>
+          <Nav />
             {jobs.map((job, index) => (
                 <div key={index} className='p-20'>
                     <h2 className='font-bold'>Job Title: {job.title}</h2>

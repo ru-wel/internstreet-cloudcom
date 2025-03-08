@@ -11,8 +11,8 @@ const router = express.Router();
 // DUMMY LOGIN ROUTE
 router.post('/login', async (req, res) => {
   const username = req.body.username;
-  // const user = { name: username, role: 'admin' };
-  const user = { name: username, role: 'user' };
+  const user = { name: username, role: 'admin' };
+  // const user = { name: username, role: 'user' };
   const accessToken = jwt.sign(user, 'internstreetcloudcomputing', { expiresIn: '1h' } );
   res.json({ accessToken: accessToken });
 });
@@ -21,13 +21,9 @@ router.post('/login', async (req, res) => {
 router.put('/:id', checkToken, async (req, res) => {
   try {
     jwt.verify(req.token, 'internstreetcloudcomputing', (err, authorizedData) => {
-      // if (authorizedData.role != 'admin'){
-      //   console.log('Unauthorized user ', err);
-      //   res.sendStatus(403);
-      // }
       if (err || authorizedData.role != 'admin'){
         console.log('Could not connect to the protected route: ', err);
-        res.sendStatus(403);
+        res.status(403).json({message:'Access to this resource is prohibited'});
       } else {
         res.status(200).send('Accessed Succesfully');
       }
