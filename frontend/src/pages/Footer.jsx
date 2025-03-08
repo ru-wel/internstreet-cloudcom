@@ -14,7 +14,7 @@ function Footer (){
                     </a>
                 </div>
                 <hr className="my-6 border-white sm:mx-auto lg:my-6 " />
-                <span className="block text-sm text-gray-500 sm:text-center text-white py-3">© 2025 Intern Street. All Rights Reserved.</span>
+                <span className="block text-sm text-center text-white py-3">© 2025 Intern Street. All Rights Reserved.</span>
             </div>
         </footer>
 
