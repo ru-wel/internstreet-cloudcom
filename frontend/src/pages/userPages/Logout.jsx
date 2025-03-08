@@ -1,11 +1,12 @@
+import axios from 'axios';
+
 export const Logout = () => {
-  console.log('Clicked logout button');
-  const logAction = async () => {
-    await axios.get('http://localhost:3000/utils/logout')
+  async function logOut() {
+    await axios.get('http://localhost:3000/utils/logout');
+    localStorage.removeItem('token');
+    window.location.href = "/login";
   }
-  logAction();
-  localStorage.removeItem('token');
-  window.location.href = "/login";
+  logOut();
 }
 
 export default Logout;
