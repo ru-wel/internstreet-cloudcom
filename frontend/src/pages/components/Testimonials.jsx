@@ -1,5 +1,5 @@
 import React from "react";
-import person from "../assets/person-placeholder.png"
+import person from "/images/person-placeholder.png"
 
 const testimonials = [
   {

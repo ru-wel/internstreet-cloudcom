@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Nav from '../Nav'
+import Nav from '../components/Nav'
 
 function JobListing() {
     const [jobs, setJobs] = useState([]);
