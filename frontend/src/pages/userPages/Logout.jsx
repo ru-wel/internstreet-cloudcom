@@ -1,9 +1,11 @@
-import { useNavigate } from "react-router-dom";
-
 export const Logout = () => {
-  const navigate = useNavigate();
+  console.log('Clicked logout button');
+  const logAction = async () => {
+    await axios.get('http://localhost:3000/utils/logout')
+  }
+  logAction();
   localStorage.removeItem('token');
-  navigate('/login');
+  window.location.href = "/login";
 }
 
 export default Logout;
