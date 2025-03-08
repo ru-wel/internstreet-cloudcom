@@ -1,7 +1,7 @@
 import React from "react";
-import figma from '../assets/figma-logo.png';
-import google from '../assets/google-logo.png';
-import microsoft from '../assets/microsoft-logo.png';
+import figma from '/images/figma-logo.png';
+import google from '/images/google-logo.png';
+import microsoft from '/images/microsoft-logo.png';
 
 
 function FeaturedJob(){
@@ -125,8 +125,6 @@ function FeaturedJob(){
                                     src="https://randomuser.me/api/portraits/women/31.jpg" alt=""/>
                                 <img className="border-2 border-white dark:border-gray-800 rounded-full h-5 w-5 -mr-2"
                                     src="https://randomuser.me/api/portraits/men/33.jpg" alt=""/>
-                                
-                                
                                 <p className="pl-3 text-sm">+15 Applicants</p>
                                 <p></p>
                             </div>
@@ -140,11 +138,8 @@ function FeaturedJob(){
                 </div>
             </div>
             <div className="flex justify-center pb-3">
-                <button className="bg-[#27445D] rounded-3xl px-7 p-2 text-md text-white transition transform hover:scale-105 border-[#1d3346] border-b-4 border-r-5 ">Browse more jobs &gt;&gt;</button>
+                <button className="bg-[#27445D] rounded-3xl px-7 p-2 text-md text-white transition transform hover:scale-105 border-[#1d3346] border-b-4 border-r-5 "><a href="/">Browse more jobs &gt;&gt;</a></button>
             </div>
-
-            
-
       </div>
         
     )

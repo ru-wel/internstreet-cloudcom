@@ -1,7 +1,7 @@
 import React from 'react'
-import MoreAbout from '../MoreAbout'
-import Nav from '../Nav'
-import MeetTheTeam from '../MeetTheTeam'
+import MoreAbout from '../components/MoreAbout'
+import Nav from '../components/Nav'
+import MeetTheTeam from '../components/MeetTheTeam'
 
 const AboutPage = () => {
   return (

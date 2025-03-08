@@ -1,12 +1,12 @@
 import React from 'react'
-import Nav from '../Nav'
-import Hero from '../Hero'
-import Marquee from '../Marquee'
-import Benefits from '../Benefits'
-import Testimonials from '../Testimonials'
-import FeaturedJob from '../FeaturedJob'
-import About from '../About'
-import Footer from '../Footer'
+import Nav from '../components/Nav'
+import Hero from '../components/Hero'
+import Marquee from '../components/Marquee'
+import Benefits from '../components/Benefits'
+import Testimonials from '../components/Testimonials'
+import FeaturedJob from '../components/FeaturedJob'
+import About from '../components/About'
+import Footer from '../components/Footer'
 
 
 function Landing() {
