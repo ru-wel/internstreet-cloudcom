@@ -1,10 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -12,8 +15,15 @@ function Login() {
 
     try {
       console.log(email, password);
+      const response = await axios.post(`http://localhost:3000/login`, { email, password });
+      const token = response.data.token;
+      localStorage.setItem('token', token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      // navigate('/job-listing');
+      navigate('/'); // ----- TESTING PURPOSES ONLY -----
     } catch (error) {
-      
+      console.error('Login failed: ', error.response.data || error.message);
+      setError(error.response.data.message || 'Login failed! Please try again.');
     }
   }
 
@@ -35,7 +45,7 @@ function Login() {
         <label htmlFor="password">Password
           <input type="password" name="password" value={password} onChange={handlePasswordChange} style={{border: '1px solid #000'}}/>
         </label>
-        {error && <p>{error}</p>} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
+        {error && <p style={{ color: 'red' }}>{error}</p>} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
         <button type="submit">Login</button>
       </form>
     </div>

@@ -6,6 +6,9 @@ import cors from 'cors';
 import jobsRoute from './routes/jobs.js';
 import usersRoute from './routes/users.js';
 import logsRoute from './routes/logs.js';
+import loginRoute from './routes/login.js';
+import registerRoute from './routes/register.js';
+import authRoute from './routes/auth.js';
 
 dotenv.config();
 const app = express();
@@ -26,6 +29,9 @@ app.use(express.json());
 app.use('/jobs', jobsRoute);
 app.use('/users', usersRoute);
 app.use('/logs', logsRoute);
+app.use('/login', loginRoute);
+app.use('/register', registerRoute);
+app.use('/validate-token', authRoute);
 
 app.use((err, req, res, next) => {
   console.error(err.message);
