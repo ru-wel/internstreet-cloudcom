@@ -1,5 +1,6 @@
 import express from 'express';
 import platform from 'platform';
+//import { LogAction } from '../utils/logger';
 
 const router = express.Router();
 let browserType = null;
@@ -16,6 +17,12 @@ router.get('/detect-browser', (req, res) => {
     res.json({ message: "Successfully fetched browser type." });
     browserType = browser.name + ' ' + browser.version;
 });
+
+router.put('/logout', (req, res) => {
+    LogAction('Has logged out')
+    res.json({ message: "User has logged out successfuly." });
+})
+
 
 export default router;
 export const fetchedBrowser = () => browserType;
