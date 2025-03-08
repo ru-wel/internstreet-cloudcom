@@ -1,12 +1,14 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { Outlet, Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 const AuthContext = createContext();
 
 const UserWrapper = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [role, setRole] = useState(null);
+  const [isVPN, setIsVPN] = useState(null);
 
   useEffect(() => {
     const checkToken = async () => {
@@ -27,6 +29,14 @@ const UserWrapper = () => {
         });
 
         const data = await response.json();
+
+        const getIp = await axios.get("https://ipinfo.io/json");
+        const userIp = getIp.data.ip;
+
+        const res = await axios.get(`http://ip-api.com/json/${userIp}?fields=proxy`);
+
+        const vpnDetected = res.data.proxy;
+
         if (!response.ok && !data.valid){
           setIsAuthenticated(false);
         }
@@ -37,7 +47,8 @@ const UserWrapper = () => {
           setIsAuthenticated(false);
         } else { 
           setIsAuthenticated(true);
-          setRole(decoded.role); 
+          setRole(decoded.role);
+          vpnDetected ? (setIsVPN(true)): (setIsVPN(false));
         }
       } catch (error) {
         console.error('Error decoding token: ', error);
@@ -56,7 +67,7 @@ const UserWrapper = () => {
   }
 
   return (
-    <AuthContext.Provider value={{ role }}>
+    <AuthContext.Provider value={{ role, isVPN }}>
       <Outlet />
     </AuthContext.Provider>
   );
@@ -64,14 +75,20 @@ const UserWrapper = () => {
 }
 
 const AdminWrapper = () => {
-  const { role } = useContext(AuthContext);
+  const { role, isVPN } = useContext(AuthContext);
 
-  if (!role || role !== 'admin'){
+  if (!role || role !== 'admin') {
     alert('Insufficient permissions.');
-    return <Navigate to="/" replace /> // TO BE REPLACED
+    return <Navigate to="/" replace />;
   }
-
-  return <Outlet />
+  
+  if (!isVPN) {
+    alert('VPN not detected.');
+    return <Navigate to="/" replace />;
+  }
+  
+  return <Outlet />;
+  
 }
 
 const GuestWrapper = () => {
