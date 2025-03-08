@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Nav from '../Nav';
 
 function Register() {
 
@@ -52,37 +53,52 @@ function Register() {
 
   return (
     <div>
-      <h1>Register Page</h1>
-      <form onSubmit={handleSubmit}>
+      <Nav></Nav>
+      <h1 className='lg:text-5xl text-3xl font-bold text-center my-10'>Create Your Account</h1>
 
-        <label htmlFor="name">Full Name
-          <input type="text" name="name" value={userData.name} onChange={handleChange} required style={{border: '1px solid #000'}}/>
-        </label>
+      <div className='flex items-center justify-center mx-8'>
+        <div className='bg-[#27445D] lg:p-12 p-4 rounded-4xl shadow-lg text-center max-w-md w-full'>
+          <h2 className='text-4xl font-bold mb-6 mt-4 text-white'>Sign Up</h2>
 
-        <label htmlFor="email">Email
-          <input type="email" name="email" value={userData.email} onChange={handleChange} required style={{border: '1px solid #000'}}/>
-        </label>
+          <form onSubmit={handleSubmit} className='flex flex-col px-2'>
 
-        <label htmlFor="password">Password
-          <input type="password" name="password" value={userData.password} onChange={handleChange} required style={{border: '1px solid #000'}}/>
-        </label>
+            <label htmlFor="name" className='text-left text-white text-md font-medium mb-1'>Name
+              <input type="text" name="name"  value={userData.name} onChange={handleChange} required placeholder='Name' className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
+            </label>
 
-        <label htmlFor="password2">Repeat Password
-          <input type="password" name="password2" value={userData.password2} onChange={handleChange} required style={{border: '1px solid #000'}}/>
-        </label>
+            <label htmlFor="email" className='text-left text-white text-md font-medium mb-1'>Email
+              <input type="email" name="email"  value={userData.email} onChange={handleChange} required placeholder='Email' className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
+            </label>
 
-        {error.password && <p style={{ color: 'red' }}>{error.password}</p>} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
+            <label htmlFor="password" className='text-left text-white font-medium'>Password
+              <input type="password" name="password" value={userData.password} onChange={handleChange} required placeholder='Password' className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
+            </label>
 
-        {!match && userData.password2 && (
-          <p style={{ color: 'red' }}>Passwords do not match!</p>
-        )} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
+            <label htmlFor="password2" className='text-left text-white font-medium'>Repeat Password
+              <input type="password" name="password2" value={userData.password2} onChange={handleChange} required placeholder='Repeat Password' className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
+            </label>
 
-        {match && userData.password2 && (
-          <p style={{ color: 'green' }}>Passwords match!</p>
-        )} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
+            {error.password && <p className='text-red-500 text-md font-bold'>{error.password}</p>} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
 
-        <button type='submit' disabled = {loading}>{loading ? 'Registering...' : 'Register'}</button>
-      </form>
+            {!match && userData.password2 && (
+              <p className='text-red-500 text-md font-bold'>Passwords do not match!</p>
+            )} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
+
+            {match && userData.password2 && (
+              <p className='text-green-500 text-md font-bold'>Passwords match!</p>
+            )} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
+
+            <button type='submit' disabled = {loading} className="bg-[#497D74] text-white py-3 mt-6 rounded-2xl font-medium transition transform hover:scale-105">
+            {loading ? 'Registering...' : 'Register'}
+            </button>
+
+            <p className='mt-6 text-white'>
+              Already have an account?{' '}
+              <a href="/login" className="font-medium hover:underline">Log in</a>
+            </p>
+          </form>
+        </div>
+      </div>
     </div>
   )
 }

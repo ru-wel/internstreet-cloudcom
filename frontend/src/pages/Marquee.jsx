@@ -29,7 +29,6 @@ const Marquee = () => {
         ))}
       </div>
 
-      {/* Tailwind Keyframes for Marquee */}
       <style>
         {`
           @keyframes marquee {
