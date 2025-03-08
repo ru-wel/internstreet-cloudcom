@@ -33,8 +33,8 @@ const Nav = () => {
   }, []);
 
   return (
-    <div>
-      <nav className='bg-[#a4bdb9] shadow-md fixed w-full top-0 left-0 z-50 rounded-3xl'>
+    <div className='mx-5 my-5'>
+      <nav className='bg-[#a4bdb9] shadow-md top-0 w-full sticky z-50 rounded-3xl'>
         <div className='w-[95%] mx-auto px-4 py-3 flex justify-between items-center rounded-lg'>
           <a href="#">
             <img src={logo} alt="InternStreet Logo" className="h-15 w-auto" />

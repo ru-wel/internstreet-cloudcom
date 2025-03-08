@@ -5,7 +5,7 @@ import axios from 'axios';
 
 function Register() {
 
-  const [userData, setUserData] = useState({ name: '', email: '', password: '', });
+  const [userData, setUserData] = useState({ name: '', email: '', password: '', password2: '', });
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ function Register() {
     if (!userData.password || userData.password.length < 8 || !!/[A-Z]/.test(userData.password)){
       error.password = 'Password must be at least 8 characters and must include an uppercase letter.';
     }
-
+    
     setError(error);
     return Object.keys(error).length === 0;
   }
@@ -32,18 +32,23 @@ function Register() {
 
     if (validateData()){
       try {
-        console.log(userData);
-        // insert axios link here
+        const response = await axios.post('http://localhost:3000/register', userData);
+        setUserData({ name: '', email: '', password: '', password2: '', });
+        alert('Registration successful! You can now log in.');
         navigate('/login');
       } catch (error) {
         console.error(error);
         alert(error.response.data.message || 'Registration failed');
-      } finally { setLoading(false); }
+      } finally { 
+        setLoading(false); 
+      }
     } else {
       console.log("Error with input validation: ", error);
       setLoading(false);
     }
   }
+
+  const match = userData.password === userData.password2;
 
   return (
     <div>
@@ -62,7 +67,19 @@ function Register() {
           <input type="password" name="password" value={userData.password} onChange={handleChange} required style={{border: '1px solid #000'}}/>
         </label>
 
+        <label htmlFor="password2">Repeat Password
+          <input type="password" name="password2" value={userData.password2} onChange={handleChange} required style={{border: '1px solid #000'}}/>
+        </label>
+
         {error.password && <p style={{ color: 'red' }}>{error.password}</p>} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
+
+        {!match && userData.password2 && (
+          <p style={{ color: 'red' }}>Passwords do not match!</p>
+        )} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
+
+        {match && userData.password2 && (
+          <p style={{ color: 'green' }}>Passwords match!</p>
+        )} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
 
         <button type='submit' disabled = {loading}>{loading ? 'Registering...' : 'Register'}</button>
       </form>

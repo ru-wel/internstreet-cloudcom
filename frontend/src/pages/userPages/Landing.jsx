@@ -1,11 +1,18 @@
 import React from 'react'
 import Nav from '../Nav'
+import Hero from '../Hero'
+import Marquee from '../Marquee'
+import Benefits from '../Benefits'
+import Testimonials from '../Testimonials'
 
 function Landing() {
   return (
     <div>
       <Nav></Nav>
-      <h1>Landing Page</h1>
+      <Hero></Hero>
+      <Marquee></Marquee>
+      <Benefits></Benefits>
+      <Testimonials></Testimonials>
     </div>
   )
 }
