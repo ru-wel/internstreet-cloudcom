@@ -23,7 +23,7 @@ function About (){
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                     </p>
                     <div className="flex justify-center pt-10 pb-3">
-                        <a href="/about"><button className="bg-[#497D74] rounded-3xl px-7 p-2 text-md text-white transition transform hover:scale-105">Read More &gt;&gt;</button></a>
+                        <a href="/about"><button className="bg-[#497D74] rounded-3xl px-7 p-2 text-md text-white transition transform hover:scale-105 cursor-pointer">Read More &gt;&gt;</button></a>
                     </div>
                     </div>
                     

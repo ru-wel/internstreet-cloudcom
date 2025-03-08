@@ -21,10 +21,10 @@ const Hero = () => {
                         Intern Street is an online platform that connects interns with companies to find job opportunities. Intern Street is an online platform that connects interns with companies to find job opportunities.
                     </p>
                     <div className="flex sm:flex-row flex-col sm:space-x-4 items-center sm:items-start">
-                        <button className="bg-[#27445d] border-2 border-[#1d3346] border-b-6 border-r-6 text-white py-2 px-6 rounded-2xl transition transform hover:scale-105 mb-4 sm:mb-0">
+                        <button className="bg-[#27445d] border-2 border-[#1d3346] border-b-6 border-r-6 text-white py-2 px-6 rounded-2xl transition transform hover:scale-105 mb-4 sm:mb-0 cursor-pointer">
                             Get Started
                         </button>
-                        <button className="border-2 border-[#27445D] text-black py-2 px-6 rounded-2xl transition transform hover:scale-105">
+                        <button className="border-2 border-[#27445D] text-black py-2 px-6 rounded-2xl transition transform hover:scale-105 cursor-pointer">
                             For Employers
                         </button>
                     </div>
