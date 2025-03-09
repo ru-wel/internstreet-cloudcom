@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Nav from '../components/Nav';
+import Footer from '../components/Footer';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -44,7 +45,7 @@ function Login() {
       <Nav></Nav>
       <h1 className='lg:text-5xl text-3xl font-bold text-center my-10'>Log in to Your Account</h1>
 
-      <div className='flex items-center justify-center mx-8'>
+      <div className='flex items-center justify-center mx-8 my-10'>
         <div className='bg-[#27445D] lg:p-12 p-4 rounded-4xl shadow-lg text-center max-w-md w-full'>
           <h2 className='text-4xl font-bold mb-6 mt-4 text-white'>Log in</h2>
 
@@ -70,6 +71,8 @@ function Login() {
           </form>
         </div>
       </div>
+
+      <Footer></Footer>
     </div>
   )
 }

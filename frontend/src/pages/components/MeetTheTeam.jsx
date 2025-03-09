@@ -12,10 +12,8 @@ function MeetTheTeam() {
 
   return (
     <div className="bg-[#F8F5EC] py-12">
-      {/* Header */}
       <h1 className="lg:text-6xl text-4xl font-bold text-center py-10">Meet the Team</h1>
 
-      {/* Grid Container for Team Members */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-6 sm:px-8 lg:px-20 lg:mx-20 mx-8">
         {team.map((member, index) => (
           <div key={index} className="text-center hover:scale-105 transition-all duration-300 pb-4">

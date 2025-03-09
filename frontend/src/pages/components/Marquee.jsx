@@ -10,7 +10,6 @@ import itsquarehub from '/images/companies/itsquarehub.png'
 import bb88 from '/images/companies/bb88.png'
 import hooli from '/images/companies/hooli.png'
 
-
 const companies = [
     cloudstaff, co, accenture, concentrix, mvp, shore, taskus, hooli, itsquarehub, bb88
 ];

@@ -36,7 +36,7 @@ function JobListing() {
 
                     <div className="flex flex-col items-center justify-center p-4">
                         <div className="flex w-full md:w-2/3 gap-2 items-center md:my-10 my-4 flex-col md:flex-row">
-                            {/* Search Bar Container */}
+                    
                             <div className="flex w-full items-center border bg-white border-gray-300 rounded-3xl p-2 mb-4 md:mb-0">
                                 <div className="flex items-center w-1/2">
                                     <FaSearch className="text-gray-700 ms-3 text-xl" />
@@ -57,7 +57,6 @@ function JobListing() {
                                 </div>
                             </div>
 
-                            {/* Find Jobs Button */}
                             <button className="bg-[#1D3346] text-white px-6 py-4 rounded-3xl hover:opacity-90 hover:scale-105 text-center whitespace-nowrap">
                                 Find Jobs
                             </button>
