@@ -1,4 +1,6 @@
+import React from 'react';
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 
 function AdminJobs() {
     const [jobs, setJobs] = useState([]);
@@ -18,6 +20,9 @@ function AdminJobs() {
     }, []);
   return (
     <div>
+      <Helmet>
+        <title>Admin - Jobs | InternStreet</title>
+      </Helmet>
         <div>
             <table>
                 <thead>

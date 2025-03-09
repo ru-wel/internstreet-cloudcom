@@ -1,5 +1,5 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Nav from '../components/Nav';
@@ -53,6 +53,9 @@ function Register() {
 
   return (
     <div>
+      <Helmet>
+        <title>Register | InternStreet</title>
+      </Helmet>
       <Nav></Nav>
       <h1 className='lg:text-5xl text-3xl font-bold text-center my-10'>Create Your Account</h1>
 
