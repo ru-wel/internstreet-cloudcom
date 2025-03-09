@@ -58,7 +58,7 @@ const UserWrapper = () => {
   }, []);
 
   if (isAuthenticated === null) {
-    return <div>Loading...</div>;
+    return <div className='flex justify-center align-middle h-screen w-screen'>Loading...</div>;
   }
 
   if (!isAuthenticated){
@@ -132,7 +132,7 @@ const GuestWrapper = () => {
   }, []);
 
   if (isValidToken === null) {
-    return <div>Loading...</div>;
+    return <div className='flex justify-center align-middle h-screen w-screen'>Loading...</div>;
   }
 
   if (isValidToken) {

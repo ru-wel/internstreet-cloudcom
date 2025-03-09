@@ -18,6 +18,14 @@ function Register() {
     if (!userData.password || userData.password.length < 8 || !!/[A-Z]/.test(userData.password)){
       error.password = 'Password must be at least 8 characters and must include an uppercase letter.';
     }
+
+    if (userData.name.length > 100){
+      error.name = 'Name must not succeed 100 characters.';
+    }
+
+    if (userData.email.length > 100){
+      error.email = 'Email must not succeed 100 characters.';
+    }
     
     setError(error);
     return Object.keys(error).length === 0;
@@ -82,7 +90,11 @@ function Register() {
               <input type="password" name="password2" value={userData.password2} onChange={handleChange} required placeholder='Repeat Password' className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
             </label>
 
-            {error.password && <p className='text-red-500 text-md font-bold'>{error.password}</p>} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
+            {(error.password || error.name || error.email) && (
+              <p className='text-red-500 text-md font-bold'>
+                {error.password || error.name || error.email}
+              </p>
+            )} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
 
             {!match && userData.password2 && (
               <p className='text-red-500 text-md font-bold'>Passwords do not match!</p>

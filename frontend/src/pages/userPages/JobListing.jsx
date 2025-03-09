@@ -3,6 +3,7 @@ import { FaSearch, FaMapMarkerAlt } from "react-icons/fa";
 import { Helmet } from 'react-helmet';
 import Nav from '../components/Nav'
 import Footer from '../components/Footer';
+import google from '/images/google-logo.png';
 
 function JobListing() {
     const [jobs, setJobs] = useState([]);
@@ -18,7 +19,7 @@ function JobListing() {
                 setJobs(fetchedJobs);
             } catch (err) {
                 console.error('Error fetching jobs:', err);
-                setErrors(err.response?.data?.message || 'Failed to fetch jobs.');
+                setErrors(err.message || 'Failed to fetch jobs.');
             } finally {
             }
         };
@@ -82,17 +83,57 @@ function JobListing() {
                 </div>
             </div>
 
+            <div className = "bg-[#d5e1df] rounded-3xl lg:p-10 md:p-5">
+              <div className="lg:grid lg:grid-cols-3 gap-4 max-w-6xl lg:mx-auto md:mx-10 mx-10 m-5 p-5">
 
-            {jobs.map((job, index) => (
-                <div key={index} className='p-20'>
-                    <h2 className='font-bold'>Job Title: {job.title}</h2>
-                    <p>Job Description: {job.description}</p>
-                    <p>Company: {job.company}</p>
-                    <p>Location: {job.location}</p>
+              {/* INDIV CARDS */}
+              {jobs.map((job, index) => ( 
+                <div key={index} className="my-2 lg:m-0 md:mx-25">
+                    <div className="bg-[#EFE9D5] p-6 rounded-3xl border">
+                        <div className="flex items-center">
+                            <span className="text-xl">
+                                <img src = {google} />
+                            </span>
+                            <div className="">
+                                <h3 className=" ml-3 text-md font-bold text-gray-800 ">{job.company}</h3>
+                                <p className=" ml-3 text-sm text-gray-800 ">{job.location}</p>
+                            </div>
+                        </div>
+
+                        <div className="mt-9">
+                            <h2 className = "text-xl text-left">{job.title}</h2>
+                            <div className="">
+                                <button className="bg-[#497D74] rounded-2xl px-3 text-sm text-white">Intern</button>
+                            </div>
+                            
+                        </div>
+
+                        <div className="flex pt-7 ">
+                            <div className="flex justify-end mr-2">
+                                <img className="border-2 border-white dark:border-gray-800 rounded-full h-5 w-5 -mr-2"
+                                    src="https://randomuser.me/api/portraits/men/32.jpg" alt="" />
+                                <img className="border-2 border-white dark:border-gray-800 rounded-full h-5 w-5 -mr-2"
+                                    src="https://randomuser.me/api/portraits/women/31.jpg" alt=""/>
+                                <img className="border-2 border-white dark:border-gray-800 rounded-full h-5 w-5 -mr-2"
+                                    src="https://randomuser.me/api/portraits/men/33.jpg" alt=""/>
+                                
+                                
+                                <p className="pl-3 text-sm">+15 Applicants</p>
+                                <p></p>
+                            </div>
+                        </div>
+
+                        <div className="flex justify-center gap-10 pt-8">
+                            <button className="bg-[#497D74] lg:rounded-4xl rounded-2xl lg:px-7 px-5 p-1 text-md text-white transition transform hover:scale-105">Apply</button>
+                            <button className="bg-[#27445D] lg:rounded-3xl rounded-2xl lg:px-7 px-4 p-1 text-md text-white transition transform hover:scale-105 border-[#1d3346] border-b-4 border-r-5"><a href={`/job/${job.id}`}>View Details</a></button>
+                        </div>
+                    </div> 
                 </div>
-            ))}
+                
+              ))}
+              </div>
+            </div>
 
-            <h2></h2>
             <Footer></Footer>
         </div>
     );

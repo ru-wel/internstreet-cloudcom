@@ -25,7 +25,12 @@ router.get('/:id', async (req, res) => {
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
-      res.status(200).send(user);
+      const filteredUser = {
+        email: user.email,
+        name: user.name,
+        // ADD MORE FIELDS LATER
+      }
+      res.status(200).send(filteredUser);
     } catch (error) {
       console.error('Error fetching user: ', error);
       res.status(500).json({message: 'Internal Server Error'});
@@ -36,7 +41,7 @@ router.get('/:id', async (req, res) => {
 // EDIT PROFILE
 router.put('/profile/:id', async (req, res, next) => {
     const { id } = req.params;
-    const { name, email, password } = req.body;
+    const { name } = req.body; // ADD MORE FIELDS LATER
     
     try {
         const user = await User.findOne({ where: { 'id' : id } });
@@ -45,7 +50,7 @@ router.put('/profile/:id', async (req, res, next) => {
         }
     
         await User.update(
-          { name, email, password }, { where: { 'id' : id } }
+          { name }, { where: { 'id' : id } } // ADD MORE FIELDS LATER
         );
     
         const updateUser = await User.findOne({ where: { 'id' : id } });
