@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { Helmet } from 'react-helmet';
+import Nav from '../components/Nav'
+import Footer from '../components/Footer';
 import cloudstaff from '/images/cloudstaff.png'
 
 function Job() {
@@ -31,19 +34,27 @@ function Job() {
   }, [jId]);
 
   if (error) return <p>Error: {error}</p>;
-  if (!job) return <p>Loading job details...</p>;
+  if (!job) return <p className='flex justify-center align-middle h-screen w-screen'>Loading job details...</p>;
 
   return (
     <div>
-      <div className="bg-[#497D74] rounded-3xl px-6 py-3 text-3xl font-bold text-center mb-10">
+      <Helmet>
+        <title>Job | InternStreet</title>
+      </Helmet>
+      <Nav></Nav>
+
+      {/* TO BE DISCUSSED */}
+
+      {/* <div className="bg-[#497D74] rounded-3xl px-6 py-3 text-3xl font-bold text-center mb-10">
         <h1>{job.title}</h1>
-      </div>
+      </div> */}
 
       <div className="lg:grid lg:grid-cols-2 mx-10">
         <div className="flex items-center lg:mx-10">
           <img src = {cloudstaff} className="w-40 h-40 bg-[#EFE9D5] border rounded-4xl p-2"/>
           <div className="">
-            <h3 className=" lg:ml-10 ml-5 lg:text-3xl text-xl font-bold text-gray-800 ">{job.company}</h3>
+            <h1 className="lg:ml-10 ml-5 lg:text-4xl text-2xl font-bold text-gray-800">{job.title}</h1>
+            <h3 className=" lg:ml-10 ml-5 lg:text-2xl text-xl font-semibold text-gray-800 ">{job.company}</h3>
             <p className=" lg:ml-10 ml-5 lg:text-lg text-md text-gray-800 ">{job.location}</p>
 
             <div className="mt-4">
@@ -77,7 +88,7 @@ function Job() {
         </div>
       </div>
 
-      <div className="lg:grid lg:grid-cols-2 md:grid md:grid-cols-2 gap-4 lg:mx-20 md:mx-20 mx-5 lg:mt-5 md:mt-2">
+      <div className="lg:grid lg:grid-cols-2 md:grid md:grid-cols-2 gap-4 lg:mx-20 md:mx-20 mx-5 lg:mt-5 md:mt-2 mb-4">
 
         <div className="rounded-3xl bg-[#ADC4C0] lg:px-15 lg:py-10 md:px-10 md:py-10 mt-5 px-8 py-10 lg:mt-0 md:mt-0">
           <h2 className="text-xl font-bold">Job Qualification:</h2>
@@ -97,6 +108,7 @@ function Job() {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 }
