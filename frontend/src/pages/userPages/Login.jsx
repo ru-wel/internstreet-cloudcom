@@ -1,5 +1,5 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Nav from '../components/Nav';
@@ -21,8 +21,7 @@ function Login() {
       const token = response.data.token;
       localStorage.setItem('token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      // navigate('/job-listing');
-      navigate('/'); // ----- TESTING PURPOSES ONLY -----
+      navigate('/');
     } catch (error) {
       console.error('Login failed: ', error.response.data || error.message);
       setError(error.response.data.message || 'Login failed! Please try again.');
@@ -39,6 +38,9 @@ function Login() {
 
   return (
     <div>
+      <Helmet>
+        <title>Login | InternStreet</title>
+      </Helmet>
       <Nav></Nav>
       <h1 className='lg:text-5xl text-3xl font-bold text-center my-10'>Log in to Your Account</h1>
 

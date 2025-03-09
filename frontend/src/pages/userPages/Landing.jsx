@@ -1,4 +1,5 @@
 import React from 'react'
+import { Helmet } from 'react-helmet';
 import Nav from '../components/Nav'
 import Hero from '../components/Hero'
 import Marquee from '../components/Marquee'
@@ -12,6 +13,9 @@ import Footer from '../components/Footer'
 function Landing() {
   return (
     <div>
+      <Helmet>
+        <title>Landing Page | InternStreet</title>
+      </Helmet>
       <Nav></Nav>
       <Hero></Hero>
       <Marquee></Marquee>

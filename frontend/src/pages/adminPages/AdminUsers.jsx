@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 
 function AdminUsers() {
     const [users, setUsers] = useState([]);
@@ -18,6 +19,9 @@ function AdminUsers() {
     }, []);
   return (
     <div>
+      <Helmet>
+        <title>Admin - Users | InternStreet</title>
+      </Helmet>
         <div>
             <table>
                 <thead>
