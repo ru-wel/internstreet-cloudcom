@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Helmet } from 'react-helmet';
 
 function AdminLogs() {
     const [logs, setLogs] = useState([]);
@@ -41,6 +42,9 @@ function AdminLogs() {
 
     return (
         <div>
+          <Helmet>
+            <title>Admin - Logs | InternStreet</title>
+          </Helmet>
             {error && <p style={{ color: "red" }}>{error}</p>}
             <table>
                 <thead>

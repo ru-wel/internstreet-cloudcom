@@ -22,7 +22,7 @@ const testimonials = [
 const Testimonials = () => {
   return (
     <div className="bg-[#D5E1DF] py-18 px-6 text-center">
-      <h2 className="text-6xl font-bold mb-12">Testimonials</h2>
+      <h2 className="lg:text-6xl text-5xl font-bold mb-12">Testimonials</h2>
       
       <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
         {testimonials.map((testimonial, index) => (
