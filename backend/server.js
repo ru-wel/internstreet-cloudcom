@@ -4,6 +4,7 @@ import cors from 'cors';
 
 // ROUTES IMPORT
 import jobsRoute from './routes/jobs.js';
+import applyRoute from './routes/apply.js';
 import usersRoute from './routes/users.js';
 import logsRoute from './routes/logs.js';
 import loginRoute from './routes/login.js';
@@ -28,6 +29,7 @@ app.use(express.json());
 
 // ROUTES
 app.use('/jobs', jobsRoute);
+app.use('/apply-job', applyRoute);
 app.use('/users', usersRoute);
 app.use('/logs', logsRoute);
 app.use('/login', loginRoute);

@@ -7,18 +7,26 @@ function Job() {
   const { jId } = useParams();
   const [job, setJob] = useState(null);
   const [error, setError] = useState(null);
+  const [isApplied, setApplied] = useState(false);
 
+  const fetchApplication = async (company, title) =>{
+    const application = await axios.get(`http://localhost:3000/apply-job/${company}/${title}`);
+    console.log(application.data);
+    application.data ? (setApplied(true)) : (setApplied(false));
+  }
   useEffect(() => {
+
     const fetchJobDetails = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/jobs/${jId}`);
         setJob(response.data);
+        fetchApplication(response.data.company, response.data.title);
+
       } catch (err) {
         console.error("Error fetching job details:", err);
         setError(err.response?.data?.message || "Failed to fetch job details.");
       }
     };
-
     fetchJobDetails();
   }, [jId]);
 
@@ -48,7 +56,7 @@ function Job() {
               <p className=" lg:ml-10 ml-5 lg:text-lg text-md text-gray-800 ">{job.location}</p>
 
               <div className="mt-4">
-                <button className=" lg:ml-10 ml-5 text-white lg:text-lg text-md rounded-3xl px-5 py-2 bg-[#497D74]">Apply Now</button>
+                <button className=" lg:ml-10 ml-5 text-white lg:text-lg text-md rounded-3xl px-5 py-2 bg-[#497D74]" disabled={isApplied}>Apply Now</button>
               </div> 
             </div>
           </div>

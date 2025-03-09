@@ -8,6 +8,7 @@ const app = express();
 app.use(express.json());
 
 let userToken = null;
+let userEmail = null;
 
 const router = express.Router();
 
@@ -41,6 +42,7 @@ router.post('/', async (req, res) => {
     res.json({ token });
 
     userToken = token;
+    userEmail = user.email;
 
     console.log('Logged In Successfully!');
     LogAction("Has logged in");
@@ -53,4 +55,5 @@ router.post('/', async (req, res) => {
 });
 
 export const getToken = () => userToken;
+export const getEmail = () => userEmail;
 export default router;
