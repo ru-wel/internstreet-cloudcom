@@ -2,6 +2,9 @@ import express from 'express';
 import platform from 'platform';
 import { LogAction } from '../utils/logger.js';
 
+const app = express();
+app.use(express.json());
+
 const router = express.Router();
 let browserType = null;
 
