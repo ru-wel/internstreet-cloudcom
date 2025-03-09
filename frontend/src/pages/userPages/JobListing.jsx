@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Nav from '../components/Nav'
 import { FaSearch, FaMapMarkerAlt } from "react-icons/fa";
+import { Helmet } from 'react-helmet';
+import Nav from '../components/Nav'
 import Footer from '../components/Footer';
-
 
 function JobListing() {
     const [jobs, setJobs] = useState([]);
@@ -22,6 +22,9 @@ function JobListing() {
     }, []);
     return (
         <div>
+            <Helmet>
+              <title>Search Jobs | InternStreet</title>
+            </Helmet>
             <Nav></Nav>
             <div className="">
                 <hr className="border-t-4 mx-10 border-gray-500 my-4" />
