@@ -45,8 +45,6 @@ router.post('/', async (req, res) => {
 });
 
 
-
-
 // CHECK IF CLIENT HAS ALREADY APPLIED FOR THAT JOB
 
 router.get('/:company/:position', async (req, res) => {

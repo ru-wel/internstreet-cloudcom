@@ -6,6 +6,10 @@ import Footer from '../components/Footer';
 
 function JobListing() {
     const [jobs, setJobs] = useState([]);
+    const [jTitle, setJTitle] = useState("");
+    const [jLocation, setJLocation] = useState("");
+    const [error, setErrors] = useState("");
+
     useEffect(() => {
         const fetchJobs = async () => {
             try {
@@ -19,7 +23,16 @@ function JobListing() {
             }
         };
         fetchJobs();
-    }, []);
+    },[]);
+
+    const handleSearch = async () => {
+        const result = jobs.filter(
+            (job) =>
+                job.title.toLowerCase().includes(jTitle.toLowerCase()) && job.location.toLowerCase().includes(jLocation.toLowerCase())
+        );
+        setJobs(result);
+    }
+
     return (
         <div>
             <Helmet>
@@ -43,6 +56,8 @@ function JobListing() {
                                     <input
                                         type="text"
                                         placeholder="Job Title"
+                                        value={jTitle}
+                                        onChange={(e) => setJTitle(e.target.value)}
                                         className="w-full p-2 focus:outline-none text-center placeholder:text-center"
                                     />
                                 </div>
@@ -52,12 +67,14 @@ function JobListing() {
                                     <input
                                         type="text"
                                         placeholder="Location"
+                                        value={jLocation}
+                                        onChange={(e) => setJLocation(e.target.value)}
                                         className="w-full p-2 focus:outline-none text-center placeholder:text-center"
                                     />
                                 </div>
                             </div>
 
-                            <button className="bg-[#1D3346] text-white px-6 py-4 rounded-3xl hover:opacity-90 hover:scale-105 text-center whitespace-nowrap">
+                            <button onClick={handleSearch} className="bg-[#1D3346] text-white px-6 py-4 rounded-3xl hover:opacity-90 hover:scale-105 text-center whitespace-nowrap">
                                 Find Jobs
                             </button>
                         </div>
