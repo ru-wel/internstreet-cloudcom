@@ -1,8 +1,13 @@
 import express from 'express';
 import { LogAction } from '../utils/logger.js';
 import Application from '../models/Application.js';
+import Job from '../models/Job.js';
 import { getEmail } from './login.js';
 import multer from 'multer';
+
+Application.belongsTo(Job, { foreignKey: 'job_id' });
+Job.hasMany(Application, { foreignKey: 'job_id' });
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads/');
@@ -66,19 +71,20 @@ router.post('/', upload.fields([{ name: "resume" }, { name: "cover"}]), async (r
     
         console.log('RESUME: ', resume);
         console.log('COVER: ', cover);
-        const { email, c_name, c_position } = req.body;
+        const { email, c_name, c_location, c_position } = req.body;
         console.log(req.body);
     
         const apply = await Application.create({
             email: email,
             c_name: c_name,
+            c_location: c_location,
             c_position: c_position,
             resume: resume.originalname,
             cover_letter: cover.originalname,
             status: "pending"
         })
         const message = `Has successfully applied to "${c_name}" as a "${c_position}"`;
-        console.log(message);
+        console.log(message); // FOR TESTING PURPOSES
 
         res.status(201).json({ message: message, apply});
         await LogAction(message);
@@ -88,7 +94,6 @@ router.post('/', upload.fields([{ name: "resume" }, { name: "cover"}]), async (r
 
     }
 });
-
 
 // CHECK IF CLIENT HAS ALREADY APPLIED FOR THAT JOB
 
@@ -103,10 +108,10 @@ router.get('/:company/:position', async (req, res) => {
         });
         if(application){
             res.status(200).send(true);
-            console.log('YOU DID THE RIGHT CHOICE!');
+            console.log('YOU DID THE RIGHT CHOICE!'); // FOR TESTING PURPOSES
         }else{
             res.status(200).send(false);
-            console.log('APPLY NOW!');
+            console.log('APPLY NOW!'); // FOR TESTING PURPOSES
         }
     } catch(error){
         console.error('Error fetching application: ', error);
@@ -114,10 +119,28 @@ router.get('/:company/:position', async (req, res) => {
     }
 });
 
-// router.get('/validate-application', (req, res) => {
+// FETCH APPLICATIONS OF A USER
 
-// });
+router.get('/', async (req, res) => {
 
+  try {
+
+    const application = await Application.findAll({
+      where: {
+        email: getEmail(),
+      },
+      order: [['applied_at', 'DESC']]
+    });
+
+    if (!application){
+      return res.status(404).json({ message: 'Application not found' })
+    }
+    res.status(200).send(application);
+  } catch (error) {
+    console.error('Error fetching applications:', error);
+    res.status(500).json({message:'Internal Server Error'});
+  }
+});
 
 
 export default router;

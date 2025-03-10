@@ -12,6 +12,7 @@ import Job from './pages/userPages/Job';
 import Profile from './pages/userPages/UserProfile';
 import { UserWrapper, AdminWrapper, GuestWrapper } from './auth/authentication';
 import AboutPage from './pages/userPages/AboutPage';
+import Application from './pages/userPages/Application';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/" element={<JobListing/>} />
         <Route path='/job/:jId' element={<Job/>} />
+        <Route path='/apply' element={<Application/>} />
 
         <Route element={<GuestWrapper/>}>
           <Route path="/login" element={<Login/>} />
