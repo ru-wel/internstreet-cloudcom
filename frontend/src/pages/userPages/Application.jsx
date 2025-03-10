@@ -13,11 +13,7 @@ const Application = () => {
             <div className="items-start bg-[#cfdbd8] px-10 py-7 rounded-t-3xl">
                 <div className="flex flex-col lg:flex-row lg:ml-30 ml-0 mt-10 overflow-hidden max-w-2xl md:max-w-4xl w-full items-center justify-center">
                     <div className="bg-[#EFE9D5] p-2 rounded-3xl border-1 max-w-xs sm:max-w-md">
-                        <img
-                            src={google}
-                            alt="Job Image"
-                            className="w-48 p-4 h-auto object-cover rounded-2xl"
-                        />
+                        <img src={google} alt="Job Image" className="w-24 p-4 h-auto object-cover rounded-2xl" />
                     </div>
 
                     <div className="w-full lg:w-2/3 lg:ml-12 flex flex-col items-center lg:items-start justify-center mt-4 lg:mt-0">

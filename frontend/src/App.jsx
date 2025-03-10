@@ -23,7 +23,7 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/" element={<JobListing/>} />
         <Route path='/job/:jId' element={<Job/>} />
-        <Route path='/application' element={<Application/>} />
+        <Route path='/apply' element={<Application/>} />
 
         <Route element={<GuestWrapper/>}>
           <Route path="/login" element={<Login/>} />
