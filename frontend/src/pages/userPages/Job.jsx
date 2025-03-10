@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Helmet } from 'react-helmet';
 import Nav from '../components/Nav'
@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 import cloudstaff from '/images/cloudstaff.png'
 
 function Job() {
+  const navigate = useNavigate();
   const { jId } = useParams();
   const [job, setJob] = useState(null);
   const [error, setError] = useState(null);
@@ -33,6 +34,9 @@ function Job() {
     fetchJobDetails();
   }, [jId]);
 
+  const handleApply = () =>{
+    navigate('/apply', { state: { title: job.title, desc: job.description, name: job.company, location: job.location }})
+  }
   if (error) return <p>Error: {error}</p>;
   if (!job) return <p className='flex justify-center align-middle h-screen w-screen'>Loading job details...</p>;
 
@@ -58,7 +62,7 @@ function Job() {
             <p className=" lg:ml-10 ml-5 lg:text-lg text-md text-gray-800 ">{job.location}</p>
 
             <div className="mt-4">
-              <button className=" lg:ml-10 ml-5 text-white lg:text-lg text-md rounded-3xl px-5 py-2 bg-[#497D74]" disabled={isApplied}><a href="/apply">{isApplied ? "Applied" : "Apply Now"}</a></button> {/* TO BE FIXED */}
+              <button onClick={handleApply} className=" lg:ml-10 ml-5 text-white lg:text-lg text-md rounded-3xl px-5 py-2 bg-[#497D74]" disabled={isApplied}><a className="cursor-pointer">{isApplied ? "Applied" : "Apply Now"}</a></button> {/* TO BE FIXED */}
             </div> 
           </div>
         </div>
