@@ -4,6 +4,7 @@ import { sequelize } from '../config/db_config.js';
 const Application = sequelize.define('try_application', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   applied_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+  name: { type: DataTypes.STRING, allowNull: false },
   email: { type: DataTypes.STRING, allowNull: false },
   c_name: { type: DataTypes.STRING, allowNull: false },
   c_location: { type: DataTypes.STRING, allowNull: false },

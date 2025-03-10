@@ -93,82 +93,92 @@ function UserProfile() {
         <div className="error">{error}</div>
       ) : (
 
-        <div className='bg-[#ADC4C0] rounded-3xl flex flex-col items-center mx-5 my-5'> {/* remove mx-5 my-5 if ever, rounded-t-3xl */}
-          <div className="flex flex-col md:flex-row lg:px-20 px-10 pt-26 pb-2 lg:w-4/5">
-
-            <div className="bg-[#497D74] rounded-3xl p-6 md:w-1/3 relative">
-              <div className="w-32 h-32 rounded-full border-4 border-gray-400 bg-cover bg-center absolute top-[-60px] left-1/2 transform -translate-x-1/2">
-                <img src={person} alt="Profile" className="w-full h-full rounded-full" />
+        <div className='flex flex-col items-center'>
+          <div className='bg-[#ADC4C0] rounded-3xl flex flex-col items-center mx-auto my-5 max-w-6xl shadow-lg w-[95%]'>
+            <div className="flex flex-col md:flex-row w-full p-6 lg:p-10 gap-6">
+            
+            <div className="bg-[#497D74] rounded-2xl p-8 mt-8 md:mt-8 md:w-1/3 relative shadow-md">
+              <div className="w-28 h-28 rounded-full bg-white p-1 shadow-lg absolute top-[-40px] left-8">
+                <img src={person} alt="Profile" className="w-full h-full rounded-full object-cover" />
               </div>
 
-              <div className="mt-20 text-white text-left">
-                <h1 className="text-5xl font-bold">{user.name}</h1>
-                <p className="text-xl my-4 text-[#EFE9D5]">Angeles City, Philippines | TO BE ADDED</p>
-                <p className="text-xl text-[#EFE9D5]">{user.email}</p>
-              </div>
-
-              {/* TO BE DISCUSSED (CONTACT) */}
-
-              {/* <div className="mt-6 text-left text-white">
-                <h3 className="text-xl font-semibold">Contact</h3>
-                <hr className="border-gray-700 border-t-2 my-2" />
-                <div className="flex justify-start space-x-4 text-2xl">
-                  <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                    <FaLinkedin />
-                  </a>
-                  <a href="mailto:example@example.com">
-                    <FaEnvelope />
-                  </a>
-                  <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-                    <FaGithub />
-                  </a>
+              <div className="mt-16 text-white">
+                <h1 className="text-3xl font-bold tracking-tight">{user.name}</h1>
+                <div className="flex items-center gap-1 my-3 text-[#EFE9D5]">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span className="text-sm">Angeles City, Philippines | TO BE ADDED</span>
                 </div>
-              </div> */}
+                
+                <div className="flex items-center gap-1 text-[#EFE9D5]">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <span className="text-sm">{user.email}</span>
+                </div>
+              </div>
 
-              <div className="mt-6 text-right">
-                <button className="bg-[#27445d] border-2 border-[#1d3346] border-b-6 border-r-6 text-white py-2 px-6 rounded-2xl transition transform hover:scale-105 mb-4 sm:mb-0 cursor-pointer" onClick={() => handleEdit(user)}>
+              <div className="mt-8">
+                <button className="bg-[#27445d] text-white py-2 px-6 rounded-lg w-full font-medium shadow-md hover:bg-[#1d3346] transition-colors border-2 border-[#1d3346] border-b-6 border-r-6 cursor-pointer" onClick={() => handleEdit(user)}>
                   Edit Profile
                 </button>
               </div>
             </div>
 
-            <div className="mt-6 md:mt-0 md:w-2/3 md:ml-6 bg-[#EFE9D5] rounded-3xl p-10 shadow-lg">
-              <h3 className="lg:text-5xl text-4xl font-bold mb-4">Personal Details:</h3>
-              <p><strong>Bio:</strong> I am Levina. A Full-Stack Web Developer. I break down complex user experience problems to create integrity focussed solutions that connect billions of people. | TO BE ADDED</p>
-              <p><strong>Phone:</strong> 0912 345 6789 | TO BE ADDED</p>
-            </div>
-
-          </div>
-
-          {/* MODAL SECTION */}
-
-          {editModalOpen && (
-            <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-50">
-              <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
-                <h2 className="text-xl font-bold text-gray-800 mb-4">Edit User</h2>
-                {/* {errors.lrn && <p className="text-red-500 mb-3">{errors.lrn}</p>}
-                {errors.password && <p className="text-red-500 mb-3">{errors.password}</p>} */}
-
-                <form onSubmit={handleEditSubmit}>
-                  <input type="text" placeholder="name" value={editUser.name} onChange={(e) => setEditUser({ ...editUser, name: e.target.value })} required className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"/> { /* ADD MORE FIELDS LATER */ }
-                  <div className="flex justify-end space-x-3 mt-2">
-                    <button type="button" onClick={() => setEditModalOpen(false)} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors">
-                      Cancel
-                    </button>
-                    <button type="submit" className="bg-[#27445d] border-2 border-[#1d3346] border-b-6 border-r-6 text-white py-2 px-6 rounded-2xl transition transform hover:scale-105 mb-4 sm:mb-0 cursor-pointer">
-                      Save
-                    </button>
-                  </div>
-                </form>
+            <div className="md:w-2/3 bg-[#EFE9D5] rounded-2xl p-8 mt-4 md:mt-8 shadow-md">
+              <h3 className="text-2xl font-bold mb-6 text-[#497D74] border-b border-[#497D74] pb-2">About Me</h3>
+              
+              <div className="space-y-5">
+                <div>
+                  <h4 className="text-sm uppercase text-gray-500 font-medium mb-1">Bio</h4>
+                  <p className="text-gray-800">I am Levina. A Full-Stack Web Developer. I break down complex user experience problems to create integrity focused solutions that connect billions of people. | TO BE ADDED</p>
+                </div>
                 
+                <div>
+                  <h4 className="text-sm uppercase text-gray-500 font-medium mb-1">Contact</h4>
+                  <div className="flex items-center gap-2 text-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#497D74]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                    <span>0912 345 6789 | TO BE ADDED</span>
+                  </div>
+                </div>
               </div>
             </div>
-          )}
 
-          {/* APPLICATIONS SECTION | FRONTENDERS PLS MODIFY*/}
+            {/* MODAL SECTION */}
 
-          <div className="bg-[#EBF1F0] rounded-3xl p-6 w-3/5 mt-2.5 mb-8">
-            <div className="w-full flex items-center justify-center min-h-full p-2">
+            {editModalOpen && (
+              <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-50">
+                <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
+                  <h2 className="text-xl font-bold text-gray-800 mb-4">Edit User</h2>
+                  {/* {errors.lrn && <p className="text-red-500 mb-3">{errors.lrn}</p>}
+          //         {errors.password && <p className="text-red-500 mb-3">{errors.password}</p>} */}
+
+                  <form onSubmit={handleEditSubmit}>
+                    <input type="text" placeholder="name" value={editUser.name} onChange={(e) => setEditUser({ ...editUser, name: e.target.value })} required className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"/> { /* ADD MORE FIELDS LATER */ }
+                    <div className="flex justify-end space-x-3 mt-2">
+                      <button type="button" onClick={() => setEditModalOpen(false)} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors">
+                        Cancel
+                      </button>
+                      <button type="submit" className="bg-[#27445d] border-2 border-[#1d3346] border-b-6 border-r-6 text-white py-2 px-6 rounded-2xl transition transform hover:scale-105 mb-4 sm:mb-0 cursor-pointer">
+                        Save
+                      </button>
+                    </div>
+                  </form>
+                  
+                </div>
+              </div>
+            )}   
+            </div>
+          </div>
+
+          {/* APPLICATIONS SECTION */}
+
+          <div className='bg-[#ADC4C0] rounded-3xl flex flex-col items-center mx-auto my-5 max-w-6xl shadow-lg w-[95%]'>
+            <div className="w-full flex items-center justify-center min-h-full p-6 lg:p-10">
               <div className="container max-w-6xl">
                 <div className="bg-white rounded-xl shadow-md overflow-hidden">
                   <div className="p-6 border-b border-gray-200">
@@ -179,7 +189,7 @@ function UserProfile() {
                       </div>
                     </div>
                   </div>
-                  
+                
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
@@ -228,29 +238,11 @@ function UserProfile() {
                       </tbody>
                     </table>
                   </div>
-                  
+                
                 </div>
               </div>
             </div>
           </div>
-
-          
-          {/* KUNG ITUTULOY ANG RESUME */}
-
-          {/* <div className="pb-14">
-            <div className="max-w-xl mx-auto text-center">
-              <h2 className="text-6xl font-bold mb-10">Resume</h2>
-
-              <div className="bg-[#EBF1F0] rounded-lg p-8 shadow-lg">
-                <p className="text-xl mb-6">Upload a resume for easy applying and access</p>
-
-                <button className="bg-[#497D74] text-white px-6 py-3 rounded-full hover:opacity-90 transition-all">
-                  Add Resume
-                </button>
-              </div>
-            </div>
-          </div> */}
-
         </div>
       )}
       <Footer></Footer>

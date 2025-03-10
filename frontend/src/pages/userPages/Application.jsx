@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import Nav from '../components/Nav'
-import google from '../../../public/images/google.png'
-import Footer from '../components/Footer'
 import { FaUpload } from "react-icons/fa";
 import { useLocation } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
+import Nav from '../components/Nav'
+import google from '/images/google.png'
+import Footer from '../components/Footer'
 
 const Application = () => {
     const compData = useLocation();
