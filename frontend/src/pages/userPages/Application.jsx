@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FaUpload } from "react-icons/fa";
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import Nav from '../components/Nav'
@@ -8,6 +8,7 @@ import google from '/images/google.png'
 import Footer from '../components/Footer'
 
 const Application = () => {
+    const navigate = useNavigate();
     const compData = useLocation();
     const company = compData.state;
     const [error, setError] = useState('');
@@ -36,23 +37,26 @@ const Application = () => {
         }
 
         const applyData = new FormData();
-        applyData.append('email', email);
+        applyData.append('email', user.email);
         applyData.append('c_name', company.name);
         applyData.append('c_position', company.title);
         applyData.append('resume', resume);
         applyData.append('cover', cover);
         applyData.append('c_location', company.location);
-        applyData.append('')
+        applyData.append('job_id', company.id);
+        applyData.append('name', user.name);
         
         try{
             const result = await axios.post("http://localhost:3000/apply-job", applyData,
             {
                 headers: {"Content-Type": "multipart/form-data" },
-            }
-            );
+            });
+            alert('Successfully applied');
             console.log(result.data);
+            navigate(`/job/${company.id}`);
         }catch(error){
             console.log(error);
+            alert('Application failed');
         }
     }
     // SUBMIT EDIT
@@ -61,7 +65,7 @@ const Application = () => {
     
         if (Object.keys(error).length === 0){
           try {
-            const response = await axios.put(`http://localhost:3000/users/applyjob/${UID}`, editDetails);
+            const response = await axios.put(`http://localhost:3000/users/profile/${UID}`, editDetails);
             alert('Successfully updated user details');
           } catch (error) {
             console.error('Error updating user:', error);
@@ -163,13 +167,12 @@ const Application = () => {
                                         <input onChange={handleCover} type="file" name="cover" id="cover"/></button>
                                 </div>
                             </div>
-
-                            <div className="flex justify-center mt-8">
+                        </form>
+                        <div className="flex justify-center mt-8">
                                 <button className="bg-[#27445d] border-2 border-[#1d3346] border-b-6 border-r-6 text-white py-2 px-6 rounded-3xl transition transform hover:scale-105 mb-4 sm:mb-0 cursor-pointer text-xl" onClick={applyNow}>
                                     Submit
                                 </button>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>

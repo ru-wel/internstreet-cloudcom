@@ -71,7 +71,7 @@ router.post('/', upload.fields([{ name: "resume" }, { name: "cover"}]), async (r
     
         console.log('RESUME: ', resume);
         console.log('COVER: ', cover);
-        const { email, c_name, c_location, c_position } = req.body;
+        const { email, c_name, c_location, c_position, job_id, name, } = req.body;
         console.log(req.body);
     
         const apply = await Application.create({ // TO BE ADDED - JOB ID
@@ -81,7 +81,10 @@ router.post('/', upload.fields([{ name: "resume" }, { name: "cover"}]), async (r
             c_position: c_position,
             resume: resume.originalname,
             cover_letter: cover.originalname,
-            status: "pending"
+            status: "pending",
+            job_id: job_id,
+            name: name,
+
         })
         const message = `Has successfully applied to "${c_name}" as a "${c_position}"`;
         console.log(message); // FOR TESTING PURPOSES

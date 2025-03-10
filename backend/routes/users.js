@@ -43,17 +43,21 @@ router.get('/:id', async (req, res) => {
 // EDIT PROFILE
 router.put('/profile/:id', async (req, res, next) => {
     const { id } = req.params;
-    const { name } = req.body; // ADD MORE FIELDS LATER
+    const { name, email, location, number } = req.body;
     
     try {
-        const user = await User.findOne({ where: { 'id' : id } });
+        const user = await User.findByPk(id);
         if (!user) {
           return res.status(404).json({ message: 'User not found' });
         }
-    
-        await User.update(
-          { name }, { where: { 'id' : id } } // ADD MORE FIELDS LATER
-        );
+        const editData = {
+          name: name !== undefined && name !== "" ? name : user.name,
+          email: email !== undefined && email !== "" ? email : user.email,
+          location: location !== undefined && location !== "" ? location : user.location,
+          number: number !== undefined && number !== "" ? number : user.number
+        }
+
+        await User.update(editData, { where: { 'id' : id } });
     
         const updateUser = await User.findOne({ where: { 'id' : id } });
         res.status(200).json({ message: 'Profile updated successfully!', updateUser });
@@ -63,30 +67,33 @@ router.put('/profile/:id', async (req, res, next) => {
       }
 });
 
-// FOR TESTING PURPOSE - APPLY JOB
-router.put('/applyjob/:id', async (req, res, next) => {
-  const { id } = req.params;
-  const { location, number } = req.body; // ADD MORE FIELDS LATER
-  console.log('BODY: ',req.body)
+// // FOR TESTING PURPOSE - APPLY JOB ( MOVED TO /profile/:id )
+// router.put('/applyjob/:id', async (req, res, next) => {
+//   const { id } = req.params;
+//   const { location, number } = req.body; // ADD MORE FIELDS LATER
+//   console.log('BODY: ',req.body)
   
-  try {
-      const user = await User.findOne({ where: { 'id' : id } });
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
+//   try {
+//       const user = await User.findOne({ where: { 'id' : id } });
+//       if (!user) {
+//         return res.status(404).json({ message: 'User not found' });
+//       }
   
-      await User.update(
-        { location, number }, { where: { 'id' : id } } // ADD MORE FIELDS LATER
-      );
-      console.log(location, number);
+//       await User.update(
+//         { 
+//           location,
+//           number,
+//         }, { where: { 'id' : id } } // ADD MORE FIELDS LATER
+//       );
+//       console.log(location, number);
   
-      const updateUser = await User.findOne({ where: { 'id' : id } });
-      res.status(200).json({ message: 'Profile updated successfully!', updateUser });
-    } catch (error) {
-      console.error('Error updating user:', error);
-      next(error);
-    }
-});
+//       const updateUser = await User.findOne({ where: { 'id' : id } });
+//       res.status(200).json({ message: 'Profile updated successfully!', updateUser });
+//     } catch (error) {
+//       console.error('Error updating user:', error);
+//       next(error);
+//     }
+// });
 
 // EDIT USER
 router.put('/:id', async (req, res, next) => {
