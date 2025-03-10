@@ -58,7 +58,7 @@ function Job() {
             <p className=" lg:ml-10 ml-5 lg:text-lg text-md text-gray-800 ">{job.location}</p>
 
             <div className="mt-4">
-              <button className=" lg:ml-10 ml-5 text-white lg:text-lg text-md rounded-3xl px-5 py-2 bg-[#497D74]" disabled={isApplied}>{isApplied ? "Applied" : "Apply Now"}</button>
+              <a href="/application"><button className=" lg:ml-10 ml-5 text-white lg:text-lg text-md rounded-3xl px-5 py-2 bg-[#497D74]" disabled={isApplied}>{isApplied ? "Applied" : "Apply Now"}</button></a>
             </div> 
           </div>
         </div>
