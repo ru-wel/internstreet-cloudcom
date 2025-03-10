@@ -7,6 +7,7 @@ import google from '/images/google-logo.png';
 
 function JobListing() {
     const [jobs, setJobs] = useState([]);
+    const [filteredJobs, setFiltered] = useState([]);
     const [jTitle, setJTitle] = useState("");
     const [jLocation, setJLocation] = useState("");
     const [error, setErrors] = useState("");
@@ -17,21 +18,29 @@ function JobListing() {
                 const result = await fetch(`http://localhost:3000/jobs`);
                 const fetchedJobs = await result.json();
                 setJobs(fetchedJobs);
+                filteredJobs.includes() ? null : (setFiltered(fetchedJobs));
             } catch (err) {
                 console.error('Error fetching jobs:', err);
                 setErrors(err.message || 'Failed to fetch jobs.');
             } finally {
             }
         };
-        fetchJobs();
-    },[]);
+        if (jTitle == "" && jLocation == ""){
+            fetchJobs();
+        }
+        
+    },[jTitle, jLocation]);
 
     const handleSearch = async () => {
-        const result = jobs.filter(
+        const result = filteredJobs.filter(
             (job) =>
                 job.title.toLowerCase().includes(jTitle.toLowerCase()) && job.location.toLowerCase().includes(jLocation.toLowerCase())
         );
         setJobs(result);
+    }
+    
+    if (error){
+        console.log('Error handling search: ', error);
     }
 
     return (
