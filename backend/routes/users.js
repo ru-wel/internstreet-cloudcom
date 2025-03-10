@@ -28,6 +28,8 @@ router.get('/:id', async (req, res) => {
       const filteredUser = {
         email: user.email,
         name: user.name,
+        location: user.location,
+        number: user.number,
         // ADD MORE FIELDS LATER
       }
       res.status(200).send(filteredUser);
@@ -61,6 +63,30 @@ router.put('/profile/:id', async (req, res, next) => {
       }
 });
 
+// FOR TESTING PURPOSE - APPLY JOB
+router.put('/applyjob/:id', async (req, res, next) => {
+  const { id } = req.params;
+  const { location, number } = req.body; // ADD MORE FIELDS LATER
+  console.log('BODY: ',req.body)
+  
+  try {
+      const user = await User.findOne({ where: { 'id' : id } });
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      await User.update(
+        { location, number }, { where: { 'id' : id } } // ADD MORE FIELDS LATER
+      );
+      console.log(location, number);
+  
+      const updateUser = await User.findOne({ where: { 'id' : id } });
+      res.status(200).json({ message: 'Profile updated successfully!', updateUser });
+    } catch (error) {
+      console.error('Error updating user:', error);
+      next(error);
+    }
+});
 
 // EDIT USER
 router.put('/:id', async (req, res, next) => {

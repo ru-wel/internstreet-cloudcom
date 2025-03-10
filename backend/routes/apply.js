@@ -74,7 +74,7 @@ router.post('/', upload.fields([{ name: "resume" }, { name: "cover"}]), async (r
         const { email, c_name, c_location, c_position } = req.body;
         console.log(req.body);
     
-        const apply = await Application.create({
+        const apply = await Application.create({ // TO BE ADDED - JOB ID
             email: email,
             c_name: c_name,
             c_location: c_location,
