@@ -25,12 +25,11 @@ async function getUserDetails() {
   };
 }
 
-export async function LogAction(message) {
+export async function LogAction(message, email) {
 
     const { ip_address, location, os_version, processor, browser_type } = await getUserDetails();
 
     const token = getToken();
-    let email = null;
 
     try {
       const response = await fetch('http://localhost:3000/validate-token', {
@@ -56,7 +55,7 @@ export async function LogAction(message) {
     }
 
     const newLog = await Log.create({
-        email: email,
+        email: email || 'Unknown',
         action: message,
         ip_address: ip_address,
         os_version: os_version,
