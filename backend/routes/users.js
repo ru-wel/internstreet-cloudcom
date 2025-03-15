@@ -1,5 +1,6 @@
 import express from 'express';
 import User from '../models/User.js';
+import bcrypt from 'bcryptjs';
 import { LogAction } from '../utils/logger.js';
 
 const app = express();
@@ -11,6 +12,7 @@ const router = express.Router();
 router.get('/', async (req, res) => { 
     try {
         const users = await User.findAll();
+        users.sort((a, b) => a.id - b.id); // sort by id
         res.status(200).json(users);
     } catch (error) {
         console.error('Error fetching users:', error);
@@ -122,51 +124,81 @@ router.put('/:id', async (req, res, next) => {
 
 // DELETE USER
 router.delete('/:id', async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const user = await User.findOne({ where: { "id" : id } });
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const user = await User.findOne({ where: { "id" : id } });
 
-        if (!user) return res.status(404).json({ message: 'User not found!'});
+    if (!user) return res.status(404).json({ message: 'User not found!'});
 
-        await User.destroy({ where: { "id" : id } });
-        const message = `Successfully deleted User: "${user.email}"`;
-        res.status(200).json({ message: message });
-        await LogAction(message);
-    } catch (error) {
-        console.error(error);
-        return next(error);
-    }
+    await User.destroy({ where: { id } });
+    const message = `Successfully deleted User: "${user.email}"`;
+    res.status(200).json({ message: message });
+    await LogAction(message);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
 });
 
 // ADD USER
-router.post('/add', async (req, res, next) => {
+router.post('/add', async (req, res) => {
   const { name, email, password } = req.body;
-  const user_role = "user";
+  const user_role = "admin";
 
   try {
     const newUser = await User.create({
         name: name, 
         email: email,
-        password: password, 
+        password: await hashPassword(password), 
         user_role: user_role 
     });
-    const message = `Successfully added User: "${email}"`;
-    res.status(201).json({ message: message, newUser });
+    const message = `Successfully added Admin User: "${email}"`;
+    res.status(201).json({ message: message, newUser: newUser });
     await LogAction(message);
-    } catch (error) {
-      console.error("Error registering user:", error);
+  } catch (error) {
+    console.error("Error registering admin user:", error);
 
-      if (error.email === 'SequelizeUniqueConstraintError') {
-          res.status(400).json({ message: 'Email already exists!' });
-      } 
-      else if (error.newUser === 'SequelizeValidationError') {
-          res.status(400).json({ message: 'Validation error: Check your inputs.' });
-      } 
-      else {
-          res.status(500).json({ message: 'Internal server error. Please try again later.' });
-      }
+    if (error.name === 'SequelizeUniqueConstraintError') {
+        res.status(400).json({ message: 'Email already exists!' });
+    } 
+    else if (error.name === 'SequelizeValidationError') {
+        res.status(400).json({ message: 'Validation error: Check your inputs.' });
+    } 
+    else {
+        res.status(500).json({ message: 'Internal server error. Please try again later.' });
     }
-
+  }
 })
+
+router.put('/role/:id', async (req, res, next) => {
+  const { id, } = req.params;
+  const user_role = req.body.user_role;
+
+  try {
+    const user = await User.findOne({ where: { 'id' : id } });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    await User.update({ user_role }, { where: { 'id' : id } });
+    const message = `Successfully changed user "${user.email}" to role: ${user_role}`;
+    res.status(200).json({ message: message});
+    await LogAction(message);
+  } catch (error) {
+    console.error('Error updating user:', error);
+    next(error);
+  }
+});
+
+// HASH PASSWORD FUNCTION
+async function hashPassword(password){
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    return hashedPassword;
+  } catch (error) {
+    console.error('Error hashing password: ', error);
+  }
+}
 
 export default router;

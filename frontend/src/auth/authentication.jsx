@@ -30,12 +30,13 @@ const UserWrapper = () => {
 
         const data = await response.json();
 
-        const getIp = await axios.get("https://ipinfo.io/json");
-        const userIp = getIp.data.ip;
+        // BALIK MO TO MAMAYA
+        // const getIp = await axios.get("https://ipinfo.io/json");
+        // const userIp = getIp.data.ip;
 
-        const res = await axios.get(`http://ip-api.com/json/${userIp}?fields=proxy`);
+        // const res = await axios.get(`http://ip-api.com/json/${userIp}?fields=proxy`);
 
-        const vpnDetected = res.data.proxy;
+        // const vpnDetected = res.data.proxy;
 
         if (!response.ok && !data.valid){
           setIsAuthenticated(false);
@@ -48,7 +49,8 @@ const UserWrapper = () => {
         } else { 
           setIsAuthenticated(true);
           setRole(decoded.role);
-          vpnDetected ? (setIsVPN(true)): (setIsVPN(false));
+          // BALIK MO TO MAMAYA
+          // vpnDetected ? (setIsVPN(true)): (setIsVPN(false));
         }
       } catch (error) {
         console.error('Error decoding token: ', error);
@@ -77,15 +79,16 @@ const UserWrapper = () => {
 const AdminWrapper = () => {
   const { role, isVPN } = useContext(AuthContext);
 
-  if (!role || role !== 'admin') {
-    alert('Insufficient permissions.');
-    return <Navigate to="/" replace />;
-  }
+  // BALIK MO TO MAMAYA
+  // if (!role || role !== 'admin') {
+  //   alert('Insufficient permissions.');
+  //   return <Navigate to="/" replace />;
+  // }
   
-  if (!isVPN) {
-    alert('VPN not detected.');
-    return <Navigate to="/" replace />;
-  }
+  // if (!isVPN) {
+  //   alert('VPN not detected.');
+  //   return <Navigate to="/" replace />;
+  // }
   
   return <Outlet />;
   

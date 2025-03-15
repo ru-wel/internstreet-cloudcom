@@ -5,6 +5,7 @@ import JobListing from './pages/userPages/JobListing';
 import Login from './pages/userPages/Login';
 import Logout from './pages/userPages/Logout';
 import Register from './pages/userPages/Register';
+import Dashboard from './pages/adminPages/Dashboard';
 import AdminJobs from './pages/adminPages/AdminJobs';
 import AdminUsers from './pages/adminPages/AdminUsers';
 import AdminLogs from './pages/adminPages/AdminLogs';
@@ -35,6 +36,7 @@ function App() {
           <Route path="/logout" element={<Logout/>}/>
 
           <Route element={<AdminWrapper/>}> { /* TO BE TESTED */ }
+            <Route path="/admin-dashboard" element={<Dashboard/>} />
             <Route path="/admin-jobs" element={<AdminJobs/>} />
             <Route path="/admin-users" element={<AdminUsers/>} />
             <Route path="/admin-logs" element={<AdminLogs/>} />
