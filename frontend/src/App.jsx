@@ -9,6 +9,7 @@ import Dashboard from './pages/adminPages/Dashboard';
 import AdminJobs from './pages/adminPages/AdminJobs';
 import AdminUsers from './pages/adminPages/AdminUsers';
 import AdminLogs from './pages/adminPages/AdminLogs';
+import AdminDashboard from './pages/adminPages/AdminApplications';
 import Job from './pages/userPages/Job';
 import Profile from './pages/userPages/UserProfile';
 import { UserWrapper, AdminWrapper, GuestWrapper } from './auth/authentication';
@@ -40,6 +41,7 @@ function App() {
             <Route path="/admin-jobs" element={<AdminJobs/>} />
             <Route path="/admin-users" element={<AdminUsers/>} />
             <Route path="/admin-logs" element={<AdminLogs/>} />
+            <Route path="/admin-applications" element={<AdminDashboard/>} />
           </Route>
         </Route>
 

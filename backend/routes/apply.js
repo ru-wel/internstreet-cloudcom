@@ -23,16 +23,15 @@ app.use(express.json());
 
 const router = express.Router();
 
-// router.get('/', async (req, res) => {
-//     try {
-//       const application = await Application.findAll();
-//       res.status(200).send(application);
-//     } catch (error) {
-//       console.error('Error fetching applications: ', error);
-//       res.status(500).json({message: 'Internal Server Error'});
-//     }
-
-// });
+router.get('/all', async (req, res) => {
+  try {
+    const applications = await Application.findAll();
+    res.status(200).send(applications);
+  } catch (error) {
+    console.error('Error fetching applications: ', error);
+    res.status(500).json({message: 'Internal Server Error'});
+  }
+});
 
 // TODO's
 // - APPLY JOB - PUSH TO APPLICATIONS
