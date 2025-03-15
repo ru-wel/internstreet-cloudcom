@@ -35,7 +35,7 @@ function Job() {
   }, [jId]);
 
   const handleApply = () =>{
-    navigate('/apply', { state: { title: job.title, desc: job.description, name: job.company, location: job.location }})
+    navigate('/apply', { state: { title: job.title, desc: job.description, name: job.company, location: job.location, id: job.id }})
   }
   if (error) return <p>Error: {error}</p>;
   if (!job) return <p className='flex justify-center align-middle h-screen w-screen'>Loading job details...</p>;
