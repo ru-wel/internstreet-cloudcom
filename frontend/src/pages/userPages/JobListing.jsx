@@ -50,11 +50,11 @@ function JobListing() {
             </Helmet>
             <Nav></Nav>
             <div className="">
-                <hr className="border-t-4 mx-10 border-gray-500 my-4" />
+                {/* <hr className="border-t-4 mx-10 border-gray-500 my-4" /> */}
 
-                <div className="bg-[#ADC4C0] shadow-md rounded-3xl">
-                    <div className="bg-[#497D74] text-white text-center py-4 rounded-2xl shadow-md shadow-[#909090]">
-                        <h1 className="lg:text-6xl text-4xl font-bold py-2 text-black">Find Jobs</h1>
+                <div className="bg-[#8faca6] shadow-md">
+                    <div className=" text-black-100 text-center py-12 ">
+                        <h1 className="lg:text-6xl text-4xl font-bold py-2 tracking-wide">Find Jobs</h1>
                     </div>
 
                     <div className="flex flex-col items-center justify-center p-4">
@@ -84,7 +84,7 @@ function JobListing() {
                                 </div>
                             </div>
 
-                            <button onClick={handleSearch} className="bg-[#1D3346] text-white px-6 py-4 rounded-3xl hover:opacity-90 hover:scale-105 text-center whitespace-nowrap">
+                            <button onClick={handleSearch} className="bg-[#27445D] text-white px-6 py-4 rounded-3xl hover:opacity-90 hover:scale-105 text-center whitespace-nowrap">
                                 Find Jobs
                             </button>
                         </div>
@@ -92,7 +92,7 @@ function JobListing() {
                 </div>
             </div>
 
-            <div className = "bg-[#d5e1df] rounded-3xl lg:p-10 md:p-5">
+            <div className = "bg-[#8faca6]  g:p-10 md:p-5">
               <div className="lg:grid lg:grid-cols-3 gap-4 max-w-6xl lg:mx-auto md:mx-10 mx-10 m-5 p-5">
 
               {/* INDIV CARDS */}
