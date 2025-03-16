@@ -18,21 +18,21 @@ router.post('/login', async (req, res) => {
 });
 
 // DUMMY PROTECTED ROUTE ?
-router.put('/:id', checkToken, async (req, res) => {
-  try {
-    jwt.verify(req.token, 'internstreetcloudcomputing', (err, authorizedData) => {
-      if (err || authorizedData.role != 'admin'){
-        console.log('Could not connect to the protected route: ', err);
-        res.status(403).json({message:'Access to this resource is prohibited'});
-      } else {
-        res.status(200).send('Accessed Succesfully');
-      }
-    });
-  } catch (err) {
-    console.error('Error editing job: ', err);
-    res.status(500).json({message: 'Internal Server Error'});
-  }
-});
+// router.put('/:id', checkToken, async (req, res) => {
+//   try {
+//     jwt.verify(req.token, 'internstreetcloudcomputing', (err, authorizedData) => {
+//       if (err || authorizedData.role != 'admin'){
+//         console.log('Could not connect to the protected route: ', err);
+//         res.status(403).json({message:'Access to this resource is prohibited'});
+//       } else {
+//         res.status(200).send('Accessed Succesfully');
+//       }
+//     });
+//   } catch (err) {
+//     console.error('Error editing job: ', err);
+//     res.status(500).json({message: 'Internal Server Error'});
+//   }
+// });
 
 // DUMMY CHECK TOKEN FUNCTION
 function checkToken (req, res, next) {
@@ -53,6 +53,7 @@ function checkToken (req, res, next) {
 router.get('/', async (req, res) => {
   try {
     const jobs = await Job.findAll();
+    jobs.sort((a, b) => a.id - b.id); // sort by id
     res.status(200).send(jobs);
   } catch (error) {
     console.error('Error fetching jobs: ', error);
@@ -77,27 +78,38 @@ router.get('/:id', async (req, res) => {
 // EDIT JOB
 router.put('/:id', async (req, res, next) => {
   const { id } = req.params;
-  const { title, company, location } = req.body;
-  // ADD DETAILS FIELD
+  const { title, company, location, details } = req.body;
+  const updates = {};
   
   try {
-      const job = await Job.findOne({ where: { 'id' : id } });
-      if (!job) {
-        return res.status(404).json({ message: 'Job not found' });
-      }
-  
-      await Job.update(
-        { title, company, location }, { where: { 'id' : id } }
-      ); // ADD DETAILS FIELD
-  
-      const updateJob = await Job.findOne({ where: { 'id' : id } });
-      const message = `Successfully edited Job: "${updateJob.title}" from "${updateJob.company}"`;
-      res.status(200).json({ message: message, updateJob });
-      await LogAction(message);
-    } catch (error) {
-      console.error('Error updating job:', error);
-      next(error);
+    const job = await Job.findOne({ where: { 'id' : id } });
+
+    if (!job) {
+      return res.status(404).json({ message: 'Job not found' });
     }
+
+    // check kung anong edits yung ginawa sa job tapos ipasok sa updates = {}
+    if (title && title !== job.title) updates.title = title;
+    if (company && company !== job.company) updates.company = company;
+    if (location && location !== job.location) updates.location = location;
+    if (details && JSON.stringify(details) !== JSON.stringify(job.details)) updates.details = details;
+
+    // check if may laman yung updates = {}
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({ message: 'No changes detected' });
+    }
+
+    await Job.update(updates, { where: { id } });
+
+    // kunin lahat yung fields na inedit. e.g. [title, company, location]
+    const changedFields = Object.keys(updates).join(', ');
+    const message = `Updated fields: ${changedFields} for Job "${job.title}"`;
+    res.status(200).json({ message: message });
+    await LogAction(message);
+  } catch (error) {
+    console.error('Error updating job:', error);
+    next(error);
+  }
 });
 
 // DELETE JOB
@@ -121,8 +133,6 @@ router.delete('/:id', async (req, res, next) => {
 // ADD JOB
 router.post('/add', async (req, res, next) => {
   const { title, company, location, details } = req.body;
-  // ADD DETAILS FIELD
-  console.log(details);
 
   try {
     const newJob = await Job.create({
@@ -130,7 +140,6 @@ router.post('/add', async (req, res, next) => {
       company: company, 
       location: location,
       details: details,
-      // ADD DETAILS FIELD 
     });
     const message = `Successfully added Job: "${newJob.title}" from "${newJob.company}"`;
     res.status(201).json({ message: message, newJob });

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import axios from 'axios';
 import google from '/images/google-logo.png';
 
 function AdminJobs() {
@@ -11,6 +12,31 @@ function AdminJobs() {
   
   const [currentPage, setCurrentPage] = useState(1);
   const [jobsPerPage] = useState(10);
+
+  const [addModalOpen, setAddModalOpen] = useState(false);
+  const initialJobData = {
+    company: '', 
+    location: '', 
+    title: '', 
+    details: {
+      job_description: '',
+      job_qualifications: '',
+      employer_questions: '',
+    },
+  }
+  const [jobData, setJobData] = useState(initialJobData);
+
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editJob, setEditJob] = useState({
+    company: '', 
+    location: '', 
+    title: '', 
+    details: {
+      job_description: '',
+      job_qualifications: '',
+      employer_questions: '',
+    }
+  });
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -58,8 +84,105 @@ function AdminJobs() {
   const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // DELETE USER
-  const deleteUser = async (jobId) => {
+  // ADD JOB
+  const handleAdd = () => {
+    setAddModalOpen(true);
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setJobData({ ...jobData, [name]: value, });
+  }
+
+  const handleJobDetailsChange = (event) => { 
+    const { name, value } = event.target;
+    setJobData(prev => ({
+      ...prev, details: { ...prev.details, [name]: value }
+    }));
+  }
+
+  // const validateData = () => {
+  //    const error = {};
+
+  //   if (!jobData.password || jobData.password.length < 8 || !/[A-Z]/.test(jobData.password)) {
+  //     error.password = 'Password must be at least 8 characters and include an uppercase letter.';
+  //   }
+
+  //   setErrors(error);
+  //   return Object.keys(error).length === 0;
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    // if (validateData()){
+      try {
+        const response = await axios.post('http://localhost:3000/jobs/add', jobData);
+        const newJob = response.data.newJob; 
+        setFilteredJobs([...filteredJobs, newJob]);
+        setAddModalOpen(false);
+        setJobData(initialJobData);
+      } catch (error) {
+        console.error('Error adding job posting:', error);
+        alert(error.response.data.message || 'Failed to add job posting.');
+        setJobData(initialJobData);
+        setAddModalOpen(false);
+      } finally {
+        setIsLoading(false);
+      }
+    } 
+    // else {
+    //   console.log("Error with input validation:", error);
+    //   setIsLoading(false);
+    // }
+  // }
+
+  // EDIT JOB
+  const handleEdit = (job) => {
+    setEditJob(job);
+    setEditModalOpen(true);
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditJob(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleEditDetailsChange = (e) => {
+    const { name, value } = e.target;
+    setEditJob(prev => ({
+      ...prev,
+      details: {
+        ...prev.details,
+        [name]: value
+      }
+    }));
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await axios.put(`http://localhost:3000/jobs/${editJob.id}`, editJob);
+      alert('Job details updated succesfully!');
+      setEditModalOpen(false);
+      setFilteredJobs(prevJobs => prevJobs.map(job => job.id === editJob.id ? { ...job, ...editJob } : job)
+      );
+    } catch (error) {
+      console.error('Error updating job:', error);
+      alert(error.response.data.message || 'Failed to update job details.');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  // DELETE JOB
+  const deleteJob = async (jobId) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this job? Doing so will delete selected job in the applications table.");
     if (!confirmDelete) return;
 
@@ -89,7 +212,7 @@ function AdminJobs() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-gray-900">Job Management</h1>
-          <button className="px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors" onClick={""}>
+          <button className="px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors" onClick={() => handleAdd()}>
             + Add Job
           </button>
         </div>
@@ -105,6 +228,119 @@ function AdminJobs() {
             <input type="text" placeholder="Search" className="pl-10 pr-4 py-2 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-md text-sm" value={searchTerm} onChange={handleSearch}/>
           </div>
         </div>
+
+        {/* ADD JOB MODAL */}
+        {addModalOpen && (
+          <div className="fixed inset-0 bg-[rgba(0,0,0,0.6)] flex items-center justify-center z-50">
+            <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-lg mx-4 relative">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Add Job</h2>
+
+              <form onSubmit={handleSubmit} className='flex flex-col'>
+
+                <label htmlFor="company" className='text-left text-gray-700 text-md font-semibold mb-1'>Company
+                  <input type="text" name="company" value={jobData.company} onChange={handleChange} required placeholder='Company' className='w-full mt-2 p-3 mb-4 border rounded-xl text-black bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#497D74]'
+                  />
+                </label>
+
+                <label htmlFor="location" className='text-left text-gray-700 text-md font-semibold mb-1'>Location
+                  <input type="text" name="location" value={jobData.location} onChange={handleChange} required placeholder='Location' className='w-full mt-2 p-3 mb-4 border rounded-xl text-black bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#497D74]'
+                  />
+                </label>
+
+                <label htmlFor="title" className='text-left text-gray-700 font-semibold'>Job Title
+                  <input type="text" name="title" value={jobData.title} onChange={handleChange} required placeholder='Job Title' className='w-full mt-2 p-3 mb-4 border rounded-xl text-black bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#497D74]' 
+                  />
+                </label>
+
+                <label htmlFor="job_description" className='text-left text-gray-700 font-semibold'>Job Description
+                  <textarea name="job_description" value={jobData.details.job_description} onChange={handleJobDetailsChange} required placeholder='Job Description' className="w-full mt-2 p-3 mb-4 border rounded-xl text-black bg-gray-50 placeholder-gray-500 resize-none focus:outline-none focus:ring-2 focus:ring-[#497D74] h-24"
+                  ></textarea>
+                </label>
+
+                <label htmlFor="job_qualifications" className='text-left text-gray-700 font-semibold'>Job Qualifications
+                  <textarea name="job_qualifications" value={jobData.details.job_qualifications} onChange={handleJobDetailsChange} required placeholder='Job Qualifications' className="w-full mt-2 p-3 mb-4 border rounded-xl text-black bg-gray-50 placeholder-gray-500 resize-none focus:outline-none focus:ring-2 focus:ring-[#497D74] h-24"
+                  ></textarea>
+                </label>
+
+                <label htmlFor="employer_questions" className='text-left text-gray-700 font-semibold'>Employer Questions
+                  <textarea name="employer_questions" value={jobData.details.employer_questions} onChange={handleJobDetailsChange} required placeholder='Employer Questions' className="w-full mt-2 p-3 mb-4 border rounded-xl text-black bg-gray-50 placeholder-gray-500 resize-none focus:outline-none focus:ring-2 focus:ring-[#497D74] h-24"
+                  ></textarea>
+                </label>
+
+                <div className="flex justify-end gap-4 mt-6">
+
+                  <button type='button' disabled={isLoading}  className="bg-gray-300 text-gray-700 py-3 px-6 rounded-xl font-medium transition-transform hover:scale-105 hover:bg-gray-400 focus:ring-2 focus:ring-gray-500" onClick={() => { setAddModalOpen(false); setJobData(initialJobData); }}>
+                    Cancel
+                  </button>
+
+                  <button type='submit' disabled = {isLoading} className={`py-3 px-6 rounded-xl font-medium transition-transform hover:scale-105 focus:ring-2 focus:ring-[#497D74] ${ isLoading ? "bg-[#497D74]/50 text-white cursor-not-allowed" : "bg-[#497D74] text-white hover:bg-[#3b625d]" }`} >
+                    {isLoading ? 'Adding Job...' : 'Add Job'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* EDIT USER ROLE MODAL */}
+        {editModalOpen && (
+          <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">Add Admin</h2>
+
+              <form onSubmit={handleEditSubmit} className='flex flex-col px-2'>
+
+                {/* <select value={editJob.user_role} onChange={(e) => setEditJob({ ...editJob, user_role: e.target.value })} required >
+                  <option value="admin">Admin</option>
+                  <option value="job">User</option>
+                </select> */}
+
+                <label htmlFor="company" className='text-left text-gray-700 text-md font-semibold mb-1'>Company
+                  <input type="text" name="company" value={editJob.company} onChange={handleEditChange} required placeholder='Company' className='w-full mt-2 p-3 mb-4 border rounded-xl text-black bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#497D74]'
+                  />
+                </label>
+
+                <label htmlFor="location" className='text-left text-gray-700 text-md font-semibold mb-1'>Location
+                  <input type="text" name="location" value={editJob.location} onChange={handleEditChange} required placeholder='Location' className='w-full mt-2 p-3 mb-4 border rounded-xl text-black bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#497D74]'
+                  />
+                </label>
+
+                <label htmlFor="title" className='text-left text-gray-700 font-semibold'>Job Title
+                  <input type="text" name="title" value={editJob.title} onChange={handleEditChange} required placeholder='Job Title' className='w-full mt-2 p-3 mb-4 border rounded-xl text-black bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#497D74]' 
+                  />
+                </label>
+
+                <label htmlFor="job_description" className='text-left text-gray-700 font-semibold'>Job Description
+                  <textarea name="job_description" value={editJob.details.job_description} onChange={handleEditDetailsChange} required placeholder='Job Description' className="w-full mt-2 p-3 mb-4 border rounded-xl text-black bg-gray-50 placeholder-gray-500 resize-none focus:outline-none focus:ring-2 focus:ring-[#497D74] h-24"
+                  ></textarea>
+                </label>
+
+                <label htmlFor="job_qualifications" className='text-left text-gray-700 font-semibold'>Job Qualifications
+                  <textarea name="job_qualifications" value={editJob.details.job_qualifications} onChange={handleEditDetailsChange} required placeholder='Job Qualifications' className="w-full mt-2 p-3 mb-4 border rounded-xl text-black bg-gray-50 placeholder-gray-500 resize-none focus:outline-none focus:ring-2 focus:ring-[#497D74] h-24"
+                  ></textarea>
+                </label>
+
+                <label htmlFor="employer_questions" className='text-left text-gray-700 font-semibold'>Employer Questions
+                  <textarea name="employer_questions" value={editJob.details.employer_questions} onChange={handleEditDetailsChange} required placeholder='Employer Questions' className="w-full mt-2 p-3 mb-4 border rounded-xl text-black bg-gray-50 placeholder-gray-500 resize-none focus:outline-none focus:ring-2 focus:ring-[#497D74] h-24"
+                  ></textarea>
+                </label>
+
+                <div className="flex justify-end gap-4 mt-6">
+                  <button type='button' disabled={isLoading}  className="bg-gray-300 text-gray-700 py-3 px-6 rounded-2xl font-medium transition-transform hover:scale-105 hover:bg-gray-400 focus:ring-2 focus:ring-gray-500" onClick={() => {
+                    setEditModalOpen(false); 
+                    setJobData(initialJobData)}}>
+                    Cancel
+                  </button>
+                  <button type='submit' disabled = {isLoading} className={`py-3 px-6 rounded-2xl font-medium transition-transform hover:scale-105 focus:ring-2 focus:ring-[#497D74] ${isLoading ? "bg-[#497D74]/50 text-white cursor-not-allowed" : "bg-[#497D74] text-white hover:bg-[#3b625d]"}`}>
+                    {isLoading ? 'Editing Job...' : 'Edit Job'}
+                  </button>
+                </div>
+
+              </form>
+              
+            </div>
+          </div>
+        )} 
 
         {/* JOBS TABLE */}
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
@@ -147,16 +383,16 @@ function AdminJobs() {
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job.title}</td>
-                        <td className="px-6 py-4 max-w-[400px] break-words">
-                          {job.description}
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">{job.title}</td>
+                        <td className="px-6 py-4 max-w-[400px] break-words" style={{ whiteSpace: 'pre-line' }}>
+                          {job.details.job_description}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {job.created_at ? new Date(job.created_at).toLocaleString() : "Loading..."}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <button className="text-indigo-600 hover:text-indigo-900 mr-4" onClick={""}>Edit</button>
-                          <button className="text-red-600 hover:text-red-900" onClick={() => deleteUser(job.id)} disabled={isLoading}>
+                          <button className="text-indigo-600 hover:text-indigo-900 mr-4" onClick={() => handleEdit(job)}>Edit</button>
+                          <button className="text-red-600 hover:text-red-900" onClick={() => deleteJob(job.id)} disabled={isLoading}>
                             {isLoading ? "Deleting..." : "Delete"}
                           </button>
                         </td>

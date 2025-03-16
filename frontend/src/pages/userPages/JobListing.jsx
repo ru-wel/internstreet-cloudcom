@@ -34,7 +34,7 @@ function JobListing() {
     const handleSearch = async () => {
         const result = filteredJobs.filter(
             (job) =>
-                job.title.toLowerCase().includes(jTitle.toLowerCase()) && job.location.toLowerCase().includes(jLocation.toLowerCase())
+                job.title.toLowerCase().includes(jTitle.toLowerCase()) || job.company.toLowerCase().includes(jTitle.toLowerCase()) && job.location.toLowerCase().includes(jLocation.toLowerCase())
         );
         setJobs(result);
     }
