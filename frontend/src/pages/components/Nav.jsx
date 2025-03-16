@@ -25,9 +25,9 @@ const Nav = () => {
   }, []);
 
   return (
-    <div className='mx-5 my-5'>
-      <nav className='bg-[#a4bdb9] shadow-md top-0 w-full sticky z-50 rounded-3xl'>
-        <div className='w-[95%] mx-auto px-4 py-3 flex justify-between items-center rounded-lg'>
+    <div>
+      <nav className='bg-[#a4bdb9] shadow-md top-0 w-full sticky z-50'>
+        <div className='w-full mx-auto px-8 py-3 flex justify-between items-center rounded-lg'>
           <a href="/landing">
             <img src={logo} alt="InternStreet Logo" className="h-15 w-auto" />
           </a>
@@ -43,7 +43,7 @@ const Nav = () => {
             {/* Mobile Nav */}
             {isOpen && (
               <div className="absolute right-0 mt-2 w-30 bg-[#a4bdb9] shadow-lg rounded-lg py-2 flex flex-col text-center items-center border border-[#497D74]">
-                <a href="/" className="block px-4 py-2 text-gray-700 w-full">Find Jobs</a>
+                <a href="/" className="block px-8 py-2 text-gray-700 w-full">Find Jobs</a>
                 {!role ? (
                   <>
                     <a href="/login" className="block px-4 py-2 text-gray-700 text-center mx-2">Login</a>
