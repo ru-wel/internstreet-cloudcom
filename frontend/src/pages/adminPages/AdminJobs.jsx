@@ -25,7 +25,7 @@ function AdminJobs() {
           setFilteredJobs(fetchedJobs);
         } catch (err) {
           console.error('Error fetching jobs:', err);
-          setErrors(err.response?.data?.message || 'Failed to fetch jobs.');
+          setError(err.response?.data?.message || 'Failed to fetch jobs.');
         } finally {
           setIsLoading(false);
         }
@@ -33,7 +33,7 @@ function AdminJobs() {
       fetchJobs();
   }, []);
 
-    // SEARCH FUNCTION
+  // SEARCH FUNCTION
   useEffect(() => {
     const results = jobs.filter(job => {
       return (
@@ -57,6 +57,28 @@ function AdminJobs() {
   const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
   const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // DELETE USER
+  const deleteUser = async (jobId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this job? Doing so will delete selected job in the applications table.");
+    if (!confirmDelete) return;
+
+    setIsLoading(true);
+    try {
+      const response = await fetch(`http://localhost:3000/jobs/${jobId}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete job");
+      }
+      setFilteredJobs(prevJobs => prevJobs.filter(job => job.id !== jobId));
+    } catch (error) {
+      console.error("Error deleting job:", error);
+      alert("Failed to delete job.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -104,7 +126,6 @@ function AdminJobs() {
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
                     <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                   </tr>
@@ -117,27 +138,25 @@ function AdminJobs() {
                           <div className="flex items-center">
                             <div className="h-10 w-10 flex-shrink-0 bg-gray-200 rounded-full flex items-center justify-center">
                               <span className="text-gray-500 font-medium">
-                                <img src = {google} />
+                                <img src = {google} /> {/* change image to company profile image? */}
                               </span>
                             </div>
                             <div className="ml-4">
                               <div className="text-sm font-medium text-gray-900">{job.company}</div>
+                              <div className="text-sm text-gray-500">{job.location}</div>
                             </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job.title}</td>
-                        <td className="px-6 py-4 max-w-[300px] break-words">
+                        <td className="px-6 py-4 max-w-[400px] break-words">
                           {job.description}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {job.location}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {job.created_at ? new Date(job.created_at).toLocaleString() : "Loading..."}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <button className="text-indigo-600 hover:text-indigo-900 mr-4" onClick={""}>Edit</button>
-                          <button className="text-red-600 hover:text-red-900" onClick={""}>
+                          <button className="text-red-600 hover:text-red-900" onClick={() => deleteUser(job.id)} disabled={isLoading}>
                             {isLoading ? "Deleting..." : "Delete"}
                           </button>
                         </td>

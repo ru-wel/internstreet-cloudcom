@@ -9,11 +9,13 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
+    setIsLoading(true);
 
     try {
       console.log(email, password);
@@ -26,6 +28,8 @@ function Login() {
     } catch (error) {
       console.error('Login failed: ', error.response.data || error.message);
       setError(error.response.data.message || 'Login failed! Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -61,7 +65,7 @@ function Login() {
             {error && <p className='text-red-500 text-md font-bold'>{error}</p>} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
 
             <button type='submit' className="bg-[#497D74] text-white py-3 mt-6 rounded-2xl font-medium transition transform hover:scale-105">
-              Submit
+              {isLoading ? 'Logging in...' : 'Login'}
             </button>
 
             <p className='mt-6 text-white'>

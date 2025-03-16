@@ -77,7 +77,8 @@ router.get('/:id', async (req, res) => {
 // EDIT JOB
 router.put('/:id', async (req, res, next) => {
   const { id } = req.params;
-  const { title, description, company, location } = req.body;
+  const { title, company, location } = req.body;
+  // ADD DETAILS FIELD
   
   try {
       const job = await Job.findOne({ where: { 'id' : id } });
@@ -86,8 +87,8 @@ router.put('/:id', async (req, res, next) => {
       }
   
       await Job.update(
-        { title, description, company, location }, { where: { 'id' : id } }
-      );
+        { title, company, location }, { where: { 'id' : id } }
+      ); // ADD DETAILS FIELD
   
       const updateJob = await Job.findOne({ where: { 'id' : id } });
       const message = `Successfully edited Job: "${updateJob.title}" from "${updateJob.company}"`;
@@ -119,14 +120,17 @@ router.delete('/:id', async (req, res, next) => {
 
 // ADD JOB
 router.post('/add', async (req, res, next) => {
-  const { title, description, company, location } = req.body;
+  const { title, company, location, details } = req.body;
+  // ADD DETAILS FIELD
+  console.log(details);
 
   try {
     const newJob = await Job.create({
-        title: title, 
-        description: description,
-        company: company, 
-        location: location 
+      title: title, 
+      company: company, 
+      location: location,
+      details: details,
+      // ADD DETAILS FIELD 
     });
     const message = `Successfully added Job: "${newJob.title}" from "${newJob.company}"`;
     res.status(201).json({ message: message, newJob });
