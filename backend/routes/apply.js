@@ -4,6 +4,7 @@ import Application from '../models/Application.js';
 import Job from '../models/Job.js';
 import { getEmail } from './login.js';
 import multer from 'multer';
+import { v4 as uuidv4 } from 'uuid';
 
 Application.belongsTo(Job, { foreignKey: 'job_id' });
 Job.hasMany(Application, { foreignKey: 'job_id' });
@@ -13,7 +14,8 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/');
     },
     filename: (req, file, cb) => {
-        cb(null, `${file.originalname}`);
+      const uniqueName = `${Date.now()}-${uuidv4()}${file.originalname}`;
+      cb(null, uniqueName);
     },
 });
   
@@ -78,8 +80,8 @@ router.post('/', upload.fields([{ name: "resume" }, { name: "cover"}]), async (r
             c_name: c_name,
             c_location: c_location,
             c_position: c_position,
-            resume: resume.originalname,
-            cover_letter: cover.originalname,
+            resume: resume.filename,
+            cover_letter: cover.filename,
             status: "pending",
             job_id: job_id,
             name: name,
