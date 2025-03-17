@@ -6,6 +6,7 @@ import User from '../models/User.js';
 import { jwtDecode } from "jwt-decode";
 import Application from '../models/Application.js';
 import path from 'path';
+import {Op} from 'sequelize';
 
 const app = express();
 app.use(express.json());
@@ -113,6 +114,46 @@ router.get('/download/:id/:filename', async (req, res) => {
         }
 });
 
+// FOR ANALYTICS - TO BE EDITED PA
+router.get('/analytics', async (req, res) => { 
+    try {
+        const userCounts = await getLastWeekUserCounts(User, 'created_at');
+        const applicationCounts = await getLastWeekUserCounts(Application, 'applied_at');
+        res.status(200).json({userCounts, applicationCounts});
+    } catch (error) {
+        console.error('Error fetching analytics:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+})
+
+const getLastWeekUserCounts = async (model, dbValue) => {
+  const today = new Date();
+  const lastMonday = new Date(today);
+  lastMonday.setDate(today.getDate() - today.getDay() - 6);
+  lastMonday.setHours(0, 0, 0, 0);
+
+  const date = {};
+
+  for (let i = 0; i < 7; i++) {
+    const startOfDay = new Date(lastMonday);
+    startOfDay.setDate(lastMonday.getDate() + i);
+
+    const endOfDay = new Date(startOfDay);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    const count = await model.count({
+        where: {
+            [dbValue]: { 
+              [Op.between]: [startOfDay, endOfDay] 
+            }
+        }
+    });
+
+    date[startOfDay.toLocaleDateString("en-US", { weekday: "long" })] = count;
+  }
+
+  return { date };
+};
 
 export default router;
 export const fetchedBrowser = () => browserType;
