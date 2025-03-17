@@ -156,15 +156,17 @@ const Application = () => {
                             <div className="flex space-x-4">
                                 <div className="w-1/2 flex flex-col items-center">
                                     <p className="font-semibold text-lg">Resume</p>
-                                    <button className="bg-[#497D74] text-white font-bold px-4 py-2 rounded-3xl mt-2 flex items-center gap-2 text-left">
-                                        <FaUpload /> Upload
-                                        <input onChange={handleResume} type="file" name="resume" id="resume"/></button>
+                                    <label htmlFor="resume" className="bg-[#497D74] text-white font-bold px-4 py-2 rounded-3xl mt-2 flex items-center gap-2 cursor-pointer">
+                                    <FaUpload /> {resume ? `${resume.name}` : "Choose File"}
+                                    <input onChange={handleResume} type="file" name="resume" id="resume" className="hidden" />
+                                    </label>
                                 </div>
                                 <div className="w-1/2 flex flex-col items-center">
                                     <p className="font-semibold text-lg">Cover Letter</p>
-                                    <button className="bg-[#497D74] text-white font-bold px-4 py-2 rounded-3xl mt-2 flex items-center gap-2 text-left">
-                                        <FaUpload /> Upload
-                                        <input onChange={handleCover} type="file" name="cover" id="cover"/></button>
+                                    <label htmlFor="cover" className="bg-[#497D74] text-white font-bold px-4 py-2 rounded-3xl mt-2 flex items-center gap-2 cursor-pointer">
+                                    <FaUpload /> {cover ? `${cover.name}` : "Choose File"}
+                                    <input onChange={handleCover} type="file" name="cover" id="cover" className="hidden" />
+                                    </label>
                                 </div>
                             </div>
                         </form>
