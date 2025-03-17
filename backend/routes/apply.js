@@ -28,6 +28,7 @@ const router = express.Router();
 router.get('/all', async (req, res) => {
   try {
     const applications = await Application.findAll();
+    applications.sort((a, b) => b.id - a.id); // sort by id
     res.status(200).send(applications);
   } catch (error) {
     console.error('Error fetching applications: ', error);
@@ -146,5 +147,43 @@ router.get('/', async (req, res) => {
   }
 });
 
+// EDIT APPLICATION STATUS
+router.put('/:id', async (req, res, next) => {
+  const { id } = req.params;
+  const status = req.body.status;
+
+  try {
+   const app = await Application.findOne({ where: { 'id' : id } });
+
+   if (!app) { return res.status(404).json({message:'Application not found'}); }
+
+   await Application.update({ status }, { where: { 'id' : id } });
+   const message = `Successfully changed application status of app_id: "${id}" to: "${status}"`;
+   res.status(200).json({ message: message});
+   await LogAction(message);
+  } catch (error) {
+    console.error('Error updating application:', error);
+    next(error);
+  }
+});
+
+// DELETE APPLICATION
+router.delete('/:id', async (req, res, next) => {
+  const { id } = req.params;
+  
+  try {
+    const app = await Application.findOne({ where: { "id" : id } });
+
+    if(!app){ return res.status(404).json({message:'Application not found!'}); }
+
+    await Application.destroy({ where: { id } });
+    const message = `Successfully deleted application with app_id: "${id}"`
+    res.status(200).json({ message: message });
+    await LogAction(message);
+  } catch (error) {
+    console.error('Error deleting application:', error);
+    next(error);
+  }
+});
 
 export default router;

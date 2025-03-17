@@ -12,7 +12,7 @@ const router = express.Router();
 router.get('/', async (req, res) => { 
     try {
         const users = await User.findAll();
-        users.sort((a, b) => a.id - b.id); // sort by id
+        users.sort((a, b) => b.id - a.id); // sort by id
         res.status(200).json(users);
     } catch (error) {
         console.error('Error fetching users:', error);
@@ -125,7 +125,6 @@ router.put('/:id', async (req, res, next) => {
 // DELETE USER
 router.delete('/:id', async (req, res, next) => {
   const { id } = req.params;
-  console.log(id);
   try {
     const user = await User.findOne({ where: { "id" : id } });
 

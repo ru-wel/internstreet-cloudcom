@@ -10,11 +10,12 @@ const router = express.Router();
 // FETCH LOGS
 router.get('/', async (req, res) => { 
     try {
-        const logs = await Log.findAll();
-        res.status(200).json(logs);
+      const logs = await Log.findAll();
+      logs.sort((a, b) => b.id - a.id); // sort by id
+      res.status(200).json(logs);
     } catch (error) {
-        console.error('Error fetching logs:', error);
-        res.status(500).json({ message: 'Internal server error' });
+      console.error('Error fetching logs:', error);
+      res.status(500).json({ message: 'Internal server error' });
     }
 })
 

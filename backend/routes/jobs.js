@@ -53,7 +53,7 @@ function checkToken (req, res, next) {
 router.get('/', async (req, res) => {
   try {
     const jobs = await Job.findAll();
-    jobs.sort((a, b) => a.id - b.id); // sort by id
+    jobs.sort((a, b) => b.id - a.id); // sort by id
     res.status(200).send(jobs);
   } catch (error) {
     console.error('Error fetching jobs: ', error);
