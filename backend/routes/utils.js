@@ -4,6 +4,8 @@ import { LogAction } from '../utils/logger.js';
 import { getToken } from './login.js';
 import User from '../models/User.js';
 import { jwtDecode } from "jwt-decode";
+import Application from '../models/Application.js';
+import path from 'path';
 
 const app = express();
 app.use(express.json());
@@ -82,7 +84,34 @@ router.get('/logout', (req, res) => {
     res.json({ message: "User has logged out successfuly." });
 })
 
+// DOWNLOAD RESUME/COVER
+router.get('/download/:id/:filename', async (req, res) => { 
+    try {
+        const application = await Application.findByPk(req.params.id);
+    
+        if (!application) {
+            return res.status(404).json({ message: 'Application not found' });
+        }
 
+        if (application.resume !== req.params.filename && application.cover_letter !== req.params.filename) {
+            return res.status(400).json({ message: 'Filename does not exist' });
+        }        
+
+        const filePath = path.join('uploads', req.params.filename);
+        const fileName = req.params.filename;
+
+        res.setHeader('Content-Type', 'application/octet-stream');
+        res.setHeader('Content-Disposition', `attachment; filename="${application.file_name}"`);
+        res.download(filePath, fileName, (err) => {
+            if (err) {
+                res.status(500).send({ message: 'Error downloading the file', error: err });
+            }
+        });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Error retrieving the file', error: err.message });
+        }
+});
 
 
 export default router;

@@ -49,8 +49,8 @@ const AdminApplications = () => {
                 <td>{app.c_name}</td>
                 <td>{app.c_position}</td>
                 <td>{app.c_location}</td>
-                <td>{app.resume}</td>
-                <td>{app.cover_letter}</td>
+                <td><a href={"http://localhost:3000/utils/download/"+app.id+"/"+app.resume} download>{app.resume}</a></td>
+                <td><a href={"http://localhost:3000/utils/download/"+app.id+"/"+app.cover_letter} download>{app.cover_letter}</a></td>
                 <td>{app.status}</td>
                 <td>Edit | Delete</td>
               </tr>
