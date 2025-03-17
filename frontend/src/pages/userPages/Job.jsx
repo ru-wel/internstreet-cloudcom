@@ -4,7 +4,6 @@ import axios from "axios";
 import { Helmet } from 'react-helmet';
 import Nav from '../components/Nav'
 import Footer from '../components/Footer';
-import cloudstaff from '/images/cloudstaff.png'
 
 function Job() {
   const navigate = useNavigate();
@@ -55,7 +54,7 @@ function Job() {
 
       <div className="lg:grid lg:grid-cols-2 mx-10">
         <div className="flex items-center lg:mx-10">
-          <img src = {cloudstaff} className="w-40 h-40 bg-[#EFE9D5] border rounded-4xl p-2"/>
+          <img src = {job.logo} className="w-40 bg-[#EFE9D5] border rounded-4xl p-2"/>
           <div className="">
             <h1 className="lg:ml-10 ml-5 lg:text-4xl text-2xl font-bold text-gray-800">{job.title}</h1>
             <h3 className=" lg:ml-10 ml-5 lg:text-2xl text-xl font-semibold text-gray-800 ">{job.company}</h3>
