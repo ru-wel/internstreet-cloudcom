@@ -95,7 +95,11 @@ function Dashboard() {
 
           <div className="mt-5 p-4 border-t border-[#2C4B45]">
             <div className="flex items-center">
-              <img className="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""/>
+              <div className="h-8 w-8 rounded-full flex-shrink-0 bg-gray-200 flex items-center justify-center">
+                <span className="text-gray-500 font-medium">
+                  {user.name?.charAt(0)?.toUpperCase() || '?'}
+                </span>
+              </div>
               <div className="ml-3">
                 <p className="text-sm font-medium text-white">{user.name}</p>
                 <p className="text-xs text-gray-400">{user.email}</p>
