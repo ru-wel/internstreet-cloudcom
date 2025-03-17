@@ -99,9 +99,9 @@ function JobListing() {
                 <div key={index} className="my-2 lg:m-0 md:mx-25">
                     <div className="bg-[#EFE9D5] p-6 rounded-3xl border">
                         <div className="flex items-center">
-                            <span className="text-xl">
-                                <img src = {job.logo} className='max-w-[64px] object-cover'/>
-                            </span>
+                        <div className="h-15 w-15 flex-shrink-0 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                                <img src = {job.logo} className='h-full w-full object-cover'/>
+                            </div>
                             <div className="">
                                 <h3 className=" ml-3 text-md font-bold text-gray-800 ">{job.company}</h3>
                                 <p className=" ml-3 text-sm text-gray-800 ">{job.location}</p>

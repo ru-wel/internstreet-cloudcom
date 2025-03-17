@@ -52,9 +52,11 @@ function Job() {
         <h1>{job.title}</h1>
       </div> */}
 
-      <div className="lg:grid lg:grid-cols-2 mx-10">
+      <div className="lg:grid lg:grid-cols-2 mx-10 mt-5">
         <div className="flex items-center lg:mx-10">
-          <img src = {job.logo} className="w-40 bg-[#EFE9D5] border rounded-4xl p-2"/>
+          <div className="h-40 w-40 flex-shrink-0 bg-[#EFE9D5] border rounded-4xl p-2 flex items-center justify-center overflow-hidden">
+            <img src = {job.logo} className="h-full w-full object-cover"/>
+            </div>
           <div className="">
             <h1 className="lg:ml-10 ml-5 lg:text-4xl text-2xl font-bold text-gray-800">{job.title}</h1>
             <h3 className=" lg:ml-10 ml-5 lg:text-2xl text-xl font-semibold text-gray-800 ">{job.company}</h3>

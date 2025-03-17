@@ -10,7 +10,7 @@ function AdminUsers() {
   const [searchTerm, setSearchTerm] = useState('');
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [usersPerPage] = useState(10);
+  const [usersPerPage] = useState(7);
 
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [userData, setUserData] = useState({ name: '', email: '', password: '', password2: '',});
@@ -159,7 +159,7 @@ function AdminUsers() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div>
       <Helmet>
         <title>Admin - Users | InternStreet</title>
       </Helmet>

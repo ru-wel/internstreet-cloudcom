@@ -11,7 +11,7 @@ function AdminJobs() {
   const [searchTerm, setSearchTerm] = useState('');
   
   const [currentPage, setCurrentPage] = useState(1);
-  const [jobsPerPage] = useState(10);
+  const [jobsPerPage] = useState(5);
 
   const [addModalOpen, setAddModalOpen] = useState(false);
   const initialJobData = {
@@ -372,15 +372,13 @@ function AdminJobs() {
                       <tr key={index} className="hover:bg-gray-50">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            <div className="h-10 w-10 flex-shrink-0 bg-gray-200 rounded-full flex items-center justify-center">
-                              <span className="text-gray-500 font-medium">
-                                <img src = {google} /> {/* change image to company profile image? */}
-                              </span>
-                            </div>
-                            <div className="ml-4">
-                              <div className="text-sm font-medium text-gray-900">{job.company}</div>
-                              <div className="text-sm text-gray-500">{job.location}</div>
-                            </div>
+                          <div className="h-10 w-10 flex-shrink-0 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                            <img src={job.logo} className="h-full w-full object-cover" />
+                          </div>
+                          <div className="ml-4">
+                            <div className="text-sm font-medium text-gray-900">{job.company}</div>
+                            <div className="text-sm text-gray-500">{job.location}</div>
+                          </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">{job.title}</td>
@@ -465,4 +463,4 @@ function AdminJobs() {
   )
 }
 
-export default AdminJobs
+export default AdminJobs;
