@@ -119,7 +119,26 @@ router.get('/analytics', async (req, res) => {
     try {
         const userCounts = await getLastWeekUserCounts(User, 'created_at');
         const applicationCounts = await getLastWeekUserCounts(Application, 'applied_at');
-        res.status(200).json({userCounts, applicationCounts});
+        const logResult = await fetch(`http://localhost:3000/logs`);
+
+        const fetchedLogs = await logResult.json();
+        const slicedLogs = fetchedLogs.slice(0, 4);
+
+        let usersDetails = await Promise.all(
+            slicedLogs.map(async log => {
+                const result = await User.findAll({
+                    where: { email: log.email },
+                });
+        
+                return {
+                    ...log,
+                    name: result.length > 0 ? result[0].dataValues.name : "Unknown"
+                };
+            })
+        );
+        
+        res.status(200).json({ userCounts, applicationCounts, slicedLogs: usersDetails });
+        
     } catch (error) {
         console.error('Error fetching analytics:', error);
         res.status(500).json({ message: 'Internal server error' });

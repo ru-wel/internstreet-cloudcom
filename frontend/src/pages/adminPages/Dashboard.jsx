@@ -8,7 +8,12 @@ import AdminUsers from './AdminUsers';
 import { jwtDecode } from 'jwt-decode';
 
 function Dashboard() {
-  const [changedDiv, setDiv] = useState([<AdminAnalytics/>]);
+  const handleClick = (value, div) =>{
+    setActive(value);
+    setDiv(div);
+  }
+
+  const [changedDiv, setDiv] = useState([<AdminAnalytics changeComponent={handleClick}/>]);
   const [user, setUser] = useState([]);
   const [UID, setUID] = useState(null);
   const [active, setActive] = useState("dashboard");
@@ -36,10 +41,6 @@ function Dashboard() {
     fetchUser();
   }, [UID]);
 
-  const handleClick = (value, div) =>{
-    setActive(value);
-    setDiv(div);
-  }
   return (
     <div>
       <Helmet>
@@ -55,7 +56,7 @@ function Dashboard() {
 
           <nav className="mt-5 px-2">
             <div className="space-y-4">
-              <a onClick={() => handleClick("dashboard", <AdminAnalytics/>)} className={`flex items-center cursor-pointer px-4 py-2.5 text-sm font-medium rounded-lg group transition-all duration-200 hover:bg-[#345952] ${active == "dashboard" ? "bg-[#2C4B45] text-white" : "bg-transparent text-gray-300"}`}>
+              <a onClick={() => handleClick("dashboard", <AdminAnalytics changeComponent={handleClick}/>)} className={`flex items-center cursor-pointer px-4 py-2.5 text-sm font-medium rounded-lg group transition-all duration-200 hover:bg-[#345952] ${active == "dashboard" ? "bg-[#2C4B45] text-white" : "bg-transparent text-gray-300"}`}>
                   <svg className="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                   </svg>
@@ -96,9 +97,7 @@ function Dashboard() {
           <div className="mt-5 p-4 border-t border-[#2C4B45]">
             <div className="flex items-center">
               <div className="h-8 w-8 rounded-full flex-shrink-0 bg-gray-200 flex items-center justify-center">
-                <span className="text-gray-500 font-medium">
-                  {user.name?.charAt(0)?.toUpperCase() || '?'}
-                </span>
+                <img src={`https://avatar.iran.liara.run/username?username=${user.name}`} alt="" />
               </div>
               <div className="ml-3">
                 <p className="text-sm font-medium text-white">{user.name}</p>

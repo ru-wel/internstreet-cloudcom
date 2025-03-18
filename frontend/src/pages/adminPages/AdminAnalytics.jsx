@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import { TEChart } from "tw-elements-react";
+import AdminLogs from './AdminLogs';
 
-function AdminAnalytics() {
+function AdminAnalytics({ changeComponent }) {
     const [userCounts, setUserCount] = useState([]);
     const [applicationCounts, setAppliCount] = useState([]);
+    const [logs, setLogs] = useState([]);
 
     useEffect(() => {
         const fetchAnalytics = async () =>{
             try {
                 const result = await fetch(`http://localhost:3000/utils/analytics`);
                 if (!result.ok){
-                    throw new Error('Failed to fetch analytics'); 
+                    throw new Error('Failed to fetch data'); 
                 }
                 const fetchedAnalytics = await result.json();
+                
+                setLogs(fetchedAnalytics.slicedLogs);
                 setUserCount(fetchedAnalytics.userCounts.date);
                 setAppliCount(fetchedAnalytics.applicationCounts.date);
 
             } catch (error) {
-                console.error('Error fetching users:', error);
+                console.error('Error fetching data:', error);
             }
         };
         fetchAnalytics();
@@ -89,6 +93,9 @@ function AdminAnalytics() {
                         backgroundColor: "rgba(31, 53, 49, 0.27)",
                         borderColor: "#1F3531",
                         borderWidth: 1,
+                        tension: 0.5,
+                        pointRadius: 0,
+                        fill: true,
                     },
                     ],
                 }}
@@ -112,6 +119,31 @@ function AdminAnalytics() {
                 />
             </div>
         </div>
+
+        <div className="bg-white shadow-lg rounded-2xl p-5 w-full max-w-md">
+            <h2 className="text-lg font-semibold text-blue-gray-900">User Activity</h2>
+            <div className="mt-3 space-y-4">
+                {logs.map((log) => (
+                <div key={log.id} className="flex items-center space-x-3 p-3 border-b-1 border-[#1F3531]/10">
+                    <img src={`https://avatar.iran.liara.run/username?username=${log.name}`} alt="Avatar" className="w-10 h-10 rounded-full object-cover" />
+                    <div className="flex-1">
+                        <h3 className="text-sm font-medium text-gray-900">{log.email}</h3>
+                        <p className="text-xs text-gray-600 mb-1">{log.action}</p>
+                        <p className="text-xs text-gray-400 flex items-center gap-1">
+                            <span><svg className="w-3.5 h-3.5 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3M3.22302 14C4.13247 18.008 7.71683 21 12 21c4.9706 0 9-4.0294 9-9 0-4.97056-4.0294-9-9-9-3.72916 0-6.92858 2.26806-8.29409 5.5M7 9H3V5"/>
+                            </svg>
+                            </span> {log.executed_at}
+                        </p>
+                    </div>
+                </div>
+                ))}
+            </div>
+            <div className="mt-4 text-center">
+                <a onClick={() => changeComponent("logs", <AdminLogs/>)} className="text-[#1F3531] text-sm font-medium hover:underline cursor-pointer">See More Activities</a>
+            </div>
+        </div>
+
     </div>
   )
 }
