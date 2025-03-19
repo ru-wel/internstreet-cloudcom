@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import os from 'os';
 import axios from 'axios';
 import { fetchedBrowser } from "../routes/utils.js";
+// import { fetchedOS } from "../routes/utils.js";
 
 async function getUserDetails() {
   const parser = new UAParser();
@@ -19,9 +20,11 @@ async function getUserDetails() {
   return {
     ip_address: res.data.ip || "Empty",
     location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
-    os_version: realOS || os.type + ' ' + os.release + ' ' + os.platform || "Empty",
+    // os_version: realOS || os.type + ' ' + os.release + ' ' + os.platform || "Empty",
+    // os_version: fetchedOS() || "Unknown OS",
+    os_version: fetchedBrowser()[1] || "Unknown OS",
     processor: cpu.architecture || os.cpus()[0].model || "Empty",
-    browser_type: fetchedBrowser() || "Unknown Browser"
+    browser_type: fetchedBrowser()[0] || "Unknown Browser"
   };
 }
 

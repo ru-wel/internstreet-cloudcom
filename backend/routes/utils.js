@@ -6,13 +6,15 @@ import User from '../models/User.js';
 import { jwtDecode } from "jwt-decode";
 import Application from '../models/Application.js';
 import path from 'path';
-import {Op} from 'sequelize';
+import { Op } from 'sequelize';
 
 const app = express();
 app.use(express.json());
 
 const router = express.Router();
 let browserType = null;
+let osDetails = null;
+let data = null;
 
 // ----- FETCH USER DETAILS FUNCTION ------
 
@@ -78,6 +80,8 @@ router.get('/detect-browser', (req, res) => {
 
     res.json({ message: "Successfully fetched browser type." });
     browserType = browser.name + ' ' + browser.version;
+    osDetails = browser.os.family + ' ' + browser.os.version;
+
 });
 
 router.get('/logout', (req, res) => {
@@ -174,5 +178,26 @@ const getLastWeekUserCounts = async (model, dbValue) => {
   return { date };
 };
 
+// TRY | FETCH OS + DEVICE TYPE
+// router.get('/os', (req, res) => {
+
+//   const userAgent = req.headers['user-agent'];
+
+//   if (!userAgent) {
+//       return res.status(400).json({ error: "User-Agent not found in request" });
+//   }
+
+//   const os = platform.parse(userAgent);
+//   console.log(os);
+
+//   res.json({ message: "Successfully fetched OS details." });
+//   osDetails = os.os.family + ' ' + os.os.version;
+
+//   // console.log(os.name + ' ' + os.version);
+//   // console.log(result.os.name);
+//   // console.log(result.os.version);
+//   // console.log(result.device.is('mobile'));
+// });
+
 export default router;
-export const fetchedBrowser = () => browserType;
+export const fetchedBrowser = () => [browserType, osDetails];

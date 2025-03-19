@@ -18,7 +18,7 @@ function Login() {
     setIsLoading(true);
 
     try {
-      console.log(email, password);
+      console.log(email, password); // REMOVE
       const response = await axios.post(`http://localhost:3000/login`, { email, password });
       await axios.get('http://localhost:3000/utils/detect-browser');
       const token = response.data.token;
