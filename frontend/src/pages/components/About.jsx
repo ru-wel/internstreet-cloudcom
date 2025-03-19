@@ -1,36 +1,57 @@
 import React from "react";
-import heroimg from '/images/heroimgs.png';
+import heroimg from "/images/heroimgs.png";
 
-function About (){
-    return(
+function About() {
+  return (
+    <section className="bg-[#EFE9D5] rounded-3xl shadow-xl px-6 md:px-12 lg:px-20 py-16 relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none"></div>
 
-        <section className="bg-[#EFE9D5] rounded-3xl">
+      {/* Title Section */}
+      <div className="text-center   ">
+        <h1 className="text-6xl font-extrabold text-[#333] tracking-wide">
+          About <span className="text-[#497D74]">Intern StreetPH</span>
+        </h1>
+      </div>
 
-            <h1 className="text-5xl font-bold text-center lg:pt-20 md:pt-6 pt-15">About Intern StreetPH</h1>
+      {/* About Section */}
+    <div className="flex flex-col md:flex-row items-center justify-between gap-0">
+    {/* Left: Image */}
+    <div className="w-full md:w-1/2 flex justify-center md:justify-start">
+    <img
+      src={heroimg}
+      alt="About Intern StreetPH"
+      className="rounded-lg object-cover w-full max-w-[400px] md:max-w-[600px] lg:max-w-[700px] h-auto"
+    />
+  </div>
 
-            <div className='flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-between lg:py-10 py-12 lg:px-20 px-8'>
-                <div className="w-full lg:w-[45%] mb-8 lg:mb-0 flex justify-center">
-                    <img 
-                        src={heroimg} 
-                        alt="Internship Platform" 
-                        className="lg:w-[60%] md:w-[60%] h-auto mb-10"
-                    />
-                </div>
 
-                <div className="flex flex-col items-center lg:items-start lg:w-[55%]">
-                    <div className="lg:my-30">
-                    <p className="text-xl text-black text-center lg:text-left ">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
-                    <div className="flex justify-center pt-10 pb-3">
-                        <a href="/about"><button className="bg-[#497D74] rounded-3xl px-7 p-2 text-md text-white transition transform hover:scale-105 cursor-pointer">Read More &gt;&gt;</button></a>
-                    </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </section>
-    )
+        {/* Content */}
+        <div className="w-full sm:w-4/5 md:w-3/5 lg:w-1/2 bg-white p-6 sm:p-10 md:p-16 lg:p-20 rounded-lg md:rounded-xl shadow-lg">
+          <h2 className="text-3xl font-bold text-[#497D74] mb-4">
+            About Us
+          </h2>
+          <p className="text-gray-700 leading-relaxed mb-4 text-xl">
+            Intern StreetPH ver mission is to connect students and fresh
+            graduates with valuable internship opportunities. Our platform
+            provides a seamless experience for both interns and employers,
+            helping them grow in their career development.
+          </p>
+          <p className="text-gray-700 leading-relaxed text-xl">
+            This online platform aim to helping young professionals gain the skills and
+            connections they need to succeed!
+          </p>
+
+          <div className="flex justify-center pt-10 ">
+             <a href="/about"><button className="bg-[#497D74] rounded-3xl px-7 p-2 text-md text-white transition transform hover:scale-105 cursor-pointer">Read More &gt;&gt;</button></a>
+          </div>
+
+        </div>
+   
+
+
+      </div>
+    </section>
+  );
 }
 
 export default About;
