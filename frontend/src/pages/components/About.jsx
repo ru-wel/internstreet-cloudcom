@@ -3,11 +3,11 @@ import heroimg from "/images/heroimgs.png";
 
 function About() {
   return (
-    <section className="bg-[#EFE9D5] rounded-3xl shadow-xl px-6 md:px-12 lg:px-20 py-16 relative overflow-hidden">
+    <section className="bg-[#EFE9D5]  shadow-xl px-6 md:px-12 lg:px-20 py-16 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none"></div>
 
       {/* Title Section */}
-      <div className="text-center   ">
+      <div className="text-center">
         <h1 className="text-6xl font-extrabold text-[#333] tracking-wide">
           About <span className="text-[#497D74]">Intern StreetPH</span>
         </h1>
@@ -15,23 +15,23 @@ function About() {
 
       {/* About Section */}
     <div className="flex flex-col md:flex-row items-center justify-between gap-0">
-    {/* Left: Image */}
+
     <div className="w-full md:w-1/2 flex justify-center md:justify-start">
     <img
       src={heroimg}
       alt="About Intern StreetPH"
-      className="rounded-lg object-cover w-full max-w-[400px] md:max-w-[600px] lg:max-w-[700px] h-auto"
+      className="object-cover w-full max-w-[400px] md:max-w-[600px] lg:max-w-[650px] h-auto"
     />
   </div>
 
 
         {/* Content */}
-        <div className="w-full sm:w-4/5 md:w-3/5 lg:w-1/2 bg-white p-6 sm:p-10 md:p-16 lg:p-20 rounded-lg md:rounded-xl shadow-lg">
+        <div className="w-full sm:w-4/5 md:w-3/5 lg:w-1/2  bg-white p-6 sm:p-10 md:p-16 lg:p-20 rounded-lg border md:rounded-xl shadow-lg">
           <h2 className="text-3xl font-bold text-[#497D74] mb-4">
             About Us
           </h2>
           <p className="text-gray-700 leading-relaxed mb-4 text-xl">
-            Intern StreetPH ver mission is to connect students and fresh
+            Intern StreetPH's very mission is to connect students and fresh
             graduates with valuable internship opportunities. Our platform
             provides a seamless experience for both interns and employers,
             helping them grow in their career development.

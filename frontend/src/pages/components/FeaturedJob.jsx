@@ -6,7 +6,7 @@ import microsoft from '/images/microsoft-logo.png';
 
 function FeaturedJob(){
     return(
-      <div className = "bg-[#d5e1df] rounded-3xl lg:p-10 md:p-5"> 
+      <div className = "bg-[#a4bdb9] lg:p-10 md:p-5"> 
 
             <h1 className="text-5xl font-bold text-center lg:pt-4 md:pt-6 pt-15">Featured Jobs</h1>
     

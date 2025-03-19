@@ -16,7 +16,7 @@ const companies = [
 
 const Marquee = () => {
   return (
-    <div className="overflow-hidden bg-[#a4bdb9] py-4 relative w-full">
+    <div className="overflow-hidden bg-[#80a29d] py-4 relative w-full">
       <div className="flex w-max whitespace-nowrap [animation:marquee_30s_linear_infinite] hover:[animation-play-state:paused]">
         {[...companies, ...companies].map((logo, index) => (
           <img
