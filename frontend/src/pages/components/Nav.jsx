@@ -43,7 +43,7 @@ const Nav = () => {
             {/* Mobile Nav */}
             {isOpen && (
               <div className="absolute right-0 mt-2 w-30 bg-[#a4bdb9] shadow-lg rounded-lg py-2 flex flex-col text-center items-center border border-[#497D74]">
-                <a href="/" className="block px-8 py-2 text-gray-700 w-full">Find Jobs</a>
+                <a href="/" className="block px-6  py-2 text-gray-700 w-full">Find Jobs</a>
                 {!role ? (
                   <>
                     <a href="/login" className="block px-4 py-2 text-gray-700 text-center mx-2">Login</a>

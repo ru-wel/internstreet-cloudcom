@@ -1,5 +1,5 @@
 import React from "react";
-import heroimg from '/images/heroimg.png';
+import heroimg from '/images/heroimgs.png';
 
 function About (){
     return(
@@ -13,7 +13,7 @@ function About (){
                     <img 
                         src={heroimg} 
                         alt="Internship Platform" 
-                        className="lg:w-[80%] md:w-[60%] h-auto mx-auto"
+                        className="lg:w-[60%] md:w-[60%] h-auto mb-10"
                     />
                 </div>
 
