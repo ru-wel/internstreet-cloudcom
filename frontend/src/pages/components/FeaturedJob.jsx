@@ -13,7 +13,7 @@ function FeaturedJob(){
             <div className="lg:grid lg:grid-cols-2 gap-10 max-w-6xl lg:mx-auto md:mx-10 mx-10 m-5 p-5">
                 
                 <div className="my-2 lg:m-0 md:mx-25">
-                <div className="bg-[#EFE9D5] p-8 border-2 rounded-3xl">
+                <div className="bg-[#EFE9D5] p-8 border-2 rounded-3xl shadow-xl transform transition-all hover:scale-103">
                         <div className="flex items-center">
                             <span className="text-xl">
                                 <img src = {google} />
@@ -56,7 +56,7 @@ function FeaturedJob(){
 
                 
                 <div className="my-2 lg:m-0 md:mx-25">
-                <div className="bg-[#EFE9D5] p-8 border-2 rounded-3xl">
+                <div className="bg-[#EFE9D5] p-8 border-2 rounded-3xl shadow-xl transform transition-all hover:scale-103">
                 <div className="flex items-center">
                             <span className="text-xl">
                                 <img src = {microsoft} />
@@ -98,7 +98,7 @@ function FeaturedJob(){
                 </div>
 
                 <div className="my-2 lg:m-0 md:mx-25">
-                <div className="bg-[#EFE9D5] p-8 border-2 rounded-3xl">
+                <div className="bg-[#EFE9D5] p-8 border-2 rounded-3xl shadow-xl transform transition-all hover:scale-103">
                 <div className="flex items-center">
                             <span className="text-xl">
                                 <img src = {microsoft} />
@@ -141,7 +141,7 @@ function FeaturedJob(){
 
 
                 <div className="my-2 lg:m-0 md:mx-25">
-                <div className="bg-[#EFE9D5] p-8 border-2 rounded-3xl">
+                <div className="bg-[#EFE9D5] p-8 border-2 rounded-3xl shadow-xl transform transition-all hover:scale-103">
                 <div className="flex items-center">
                             <span className="text-xl">
                                 <img src = {figma} />
