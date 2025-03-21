@@ -1,11 +1,13 @@
 import React from 'react';
-import heroimg from '/images/heroimgs.png';
+import heroimg from '/images/is-hero.png';
 
 const Hero = () => {
     return (
-        <section className="bg-white">
+        
+<section className="bg-gradient-to-r from-[#9ab8b2] to-[#bbefe5] to-90% rounded-[60px] mb-6 mx-8 p-10 text-center border">
+
             <div className='flex flex-col lg:flex-row-reverse items-center lg:items-start justify-center lg:justify-between lg:py-10 py-12 lg:px-20 '>
-            <div className="w-full lg:w-2/5 flex justify-center mt-auto mb-6 md:mb-10 lg:mb-0">
+            <div className="w-full lg:w-3/5 flex justify-center mt-auto mb-6 md:mb-10 lg:mb-0">
             <img 
                 src={heroimg} 
                 alt="Internship Platform" 
@@ -25,10 +27,10 @@ const Hero = () => {
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4">
-                        <button className="bg-[#497D74] border  text-white py-3 px-6 rounded-3xl transition transform hover:scale-105 hover:bg-opacity-90">
+                        <button className="bg-[#3f6d65] rounded-3xl text-white py-3 px-6  transition transform hover:scale-105 hover:bg-opacity-90">
                             Get Started
                         </button>
-                        <button className="border border-[#3c665f] hover:bg-[#3c665f] hover:text-white text-black py-3 px-6 rounded-3xl transition transform hover:scale-105">
+                        <button className="border border-[#3f6d65] hover:bg-[#3c665f] hover:text-white text-black py-3 px-6 rounded-3xl transition transform hover:scale-105">
                             For Employers
                         </button>
                     </div>

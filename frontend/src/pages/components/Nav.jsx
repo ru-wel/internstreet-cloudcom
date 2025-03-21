@@ -26,8 +26,8 @@ const Nav = () => {
 
   return (
     <div>
-      <nav className='bg-[#a4bdb9] shadow-md top-0 w-full sticky z-50'>
-        <div className='w-full mx-auto px-8 py-3 flex justify-between items-center rounded-lg'>
+      <nav className=" top-0 w-full sticky z-50 ">
+        <div className='w-full mx-auto px-8 py-3 flex justify-between items-center '>
           <a href="/landing">
             <img src={logo} alt="InternStreet Logo" className="h-15 w-auto" />
           </a>
