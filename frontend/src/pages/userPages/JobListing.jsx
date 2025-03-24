@@ -43,7 +43,7 @@ function JobListing() {
     }
 
     return (
-        <div>
+        <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#ace4dc] via-[#d2eae6] to-[#5b9f92] shadow-xl">
             <Helmet>
               <title>Search Jobs | InternStreet</title>
             </Helmet>
@@ -51,10 +51,9 @@ function JobListing() {
             <div className="">
                 {/* <hr className="border-t-4 mx-10 border-gray-500 my-4" /> */}
 
-                <div className="bg-[#8faca6] shadow-md">
                     <div className=" text-black-100 text-center py-12 ">
                         <h1 className="lg:text-6xl text-4xl font-bold py-2 tracking-wide">Find Jobs</h1>
-                    </div>
+                
 
                     <div className="flex flex-col items-center justify-center p-4">
                         <div className="flex w-full md:w-2/3 gap-2 items-center md:my-10 my-4 flex-col md:flex-row">
@@ -91,7 +90,7 @@ function JobListing() {
                 </div>
             </div>
 
-            <div className = "bg-[#8faca6]  g:p-10 md:p-5">
+            <div className=" mb-6 mx-8 p-10 text-center ">
               <div className="lg:grid lg:grid-cols-3 gap-4 max-w-6xl lg:mx-auto md:mx-10 mx-10 m-5 p-5">
 
               {/* INDIV CARDS */}

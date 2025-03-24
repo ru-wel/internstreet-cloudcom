@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
+import loginimg from '/images/login.jpg';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -18,7 +19,6 @@ function Login() {
     setIsLoading(true);
 
     try {
-      console.log(email, password); // REMOVE
       const response = await axios.post(`http://localhost:3000/login`, { email, password });
       await axios.get('http://localhost:3000/utils/detect-browser');
       const token = response.data.token;
@@ -26,59 +26,77 @@ function Login() {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       navigate('/');
     } catch (error) {
-      console.error('Login failed: ', error.response.data || error.message);
-      setError(error.response.data.message || 'Login failed! Please try again.');
+      setError(error.response?.data?.message || error.message || 'Login failed! Please try again.');
     } finally {
       setIsLoading(false);
     }
-  }
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  }
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  }
+  };
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#8ecfc2] via-[#e1f7f3] to-[#78b8b1] shadow-xl">
       <Helmet>
         <title>Login | InternStreet</title>
       </Helmet>
-      <Nav></Nav>
-      <h1 className='lg:text-5xl text-3xl font-bold text-center my-10'>Log in to Your Account</h1>
+      <Nav />                    
+      <div className="flex flex-col items-center justify-center flex-grow px-4 sm:px-6">
+      <h1 className="text-3xl sm:text-5xl font-bold text-[#000000] text-center mb-10 mt-6">Log in to Your Account</h1>
 
-      <div className='flex items-center justify-center mx-8 my-10'>
-        <div className='bg-[#27445D] lg:p-12 p-4 rounded-4xl shadow-lg text-center max-w-md w-full'>
-          <h2 className='text-4xl font-bold mb-6 mt-4 text-white'>Log in</h2>
+        <div className="bg-gradient-to-r from-[#93c7bd] to-[#cdf2ec] backdrop-blur-lg shadow-xl rounded-3xl p-8 sm:p-12 md:p-16 w-full max-w-4xl border-1 mb-16">
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            {/* Image - Hidden on small screens */}
+            <img src={loginimg} alt="Login Illustration" className="hidden md:block w-4/5 mx-auto rounded-2xl shadow-md" />
 
-          <form onSubmit={handleSubmit} className='flex flex-col px-2'>
-            <label htmlFor="email" className='text-left text-white text-md font-medium mb-1'>Email
-              <input type="email" name="email" value={email} placeholder='Email' onChange={handleEmailChange} className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
-            </label>
+            {/* Login Form */}
+            <div className="bg-white p-6 sm:p-10 rounded-2xl shadow-lg w-full max-w-sm mx-auto">
+              <h2 className="text-2xl sm:text-3xl font-semibold text-[#000000] text-center mb-4">Welcome Back!</h2>
 
-            <label htmlFor="password" className='text-left text-white font-medium'>Password
-              <input type="password" name="password" value={password} placeholder='Password' onChange={handlePasswordChange} className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
-            </label>
+              <form onSubmit={handleSubmit} className="flex flex-col">
+                <label htmlFor="email" className="text-gray-700 text-md font-medium mb-1">Email</label>
+                <input 
+                  type="email" 
+                  name="email" 
+                  value={email} 
+                  placeholder="Enter your email" 
+                  onChange={(e) => setEmail(e.target.value)} 
+                  className="w-full mt-1 p-3 border rounded-lg text-gray-700 bg-white placeholder-gray-500 focus:ring-2 focus:ring-[#497D74] transition"
+                  required
+                />
 
-            {error && <p className='text-red-500 text-md font-bold'>{error}</p>} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
+                <label htmlFor="password" className="text-gray-700 text-md font-medium mt-4 mb-1">Password</label>
+                <input 
+                  type="password" 
+                  name="password" 
+                  value={password} 
+                  placeholder="Enter your password" 
+                  onChange={(e) => setPassword(e.target.value)} 
+                  className="w-full mt-1 p-3 border rounded-lg text-gray-700 bg-white placeholder-gray-500 focus:ring-2 focus:ring-[#497D74] transition"
+                  required
+                />
 
-            <button type='submit' className="bg-[#497D74] text-white py-3 mt-6 rounded-2xl font-medium transition transform hover:scale-105">
-              {isLoading ? 'Logging in...' : 'Login'}
-            </button>
+                {error && <p className="text-red-500 text-md font-semibold mt-2">{error}</p>}
 
-            <p className='mt-6 text-white'>
-              Don't have an Account?{' '}
-              <a href="/register" className="font-medium hover:underline">Sign Up</a>
-            </p>
-          </form>
+                <button 
+                  type="submit" 
+                  className="bg-[#497D74] text-white py-3 mt-6 rounded-lg font-medium transition transform hover:scale-105 shadow-md"
+                >
+                  {isLoading ? 'Logging in...' : 'Login'}
+                </button>
+
+                <p className="mt-6 text-gray-700 text-center">
+                  Don't have an account?{' '}
+                  <Link to="/register" className="font-medium text-[#497D74] hover:underline">
+                    Sign Up
+                  </Link>
+                </p>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
-
-      <Footer></Footer>
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;
