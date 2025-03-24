@@ -2,17 +2,20 @@ import express from 'express';
 import platform from 'platform';
 import { LogAction } from '../utils/logger.js';
 import { getToken } from './login.js';
-import User from '../models/User.js';
 import { jwtDecode } from "jwt-decode";
 import Application from '../models/Application.js';
+import User from '../models/User.js';
+import Job from '../models/Job.js';
+import Log from '../models/Log.js';
 import path from 'path';
-import {Op} from 'sequelize';
+import { Op } from 'sequelize';
 
 const app = express();
 app.use(express.json());
 
 const router = express.Router();
 let browserType = null;
+let osDetails = null;
 
 // ----- FETCH USER DETAILS FUNCTION ------
 
@@ -78,6 +81,8 @@ router.get('/detect-browser', (req, res) => {
 
     res.json({ message: "Successfully fetched browser type." });
     browserType = browser.name + ' ' + browser.version;
+    osDetails = browser.os.family + ' ' + browser.os.version;
+
 });
 
 router.get('/logout', (req, res) => {
@@ -122,7 +127,7 @@ router.get('/analytics', async (req, res) => {
         const logResult = await fetch(`http://localhost:3000/logs`);
 
         const fetchedLogs = await logResult.json();
-        const slicedLogs = fetchedLogs.slice(0, 4);
+        const slicedLogs = fetchedLogs.slice(0, 5);
 
         let usersDetails = await Promise.all(
             slicedLogs.map(async log => {
@@ -144,6 +149,28 @@ router.get('/analytics', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 })
+
+// COUNT OBJECTS IN TABLES
+router.get('/count', async (req, res) => {
+  try {
+    const [appCount, jobCount, logCount, userCount] = await Promise.all([
+      Application.count(),
+      Job.count(),
+      Log.count(),
+      User.count()
+    ]);
+
+    res.json({
+      applications: appCount,
+      jobs: jobCount,
+      logs: logCount,
+      users: userCount
+    });
+  } catch (error) {
+    console.error('Error counting fields:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 const getLastWeekUserCounts = async (model, dbValue) => {
   const today = new Date();
@@ -174,5 +201,26 @@ const getLastWeekUserCounts = async (model, dbValue) => {
   return { date };
 };
 
+// TRY | FETCH OS + DEVICE TYPE
+// router.get('/os', (req, res) => {
+
+//   const userAgent = req.headers['user-agent'];
+
+//   if (!userAgent) {
+//       return res.status(400).json({ error: "User-Agent not found in request" });
+//   }
+
+//   const os = platform.parse(userAgent);
+//   console.log(os);
+
+//   res.json({ message: "Successfully fetched OS details." });
+//   osDetails = os.os.family + ' ' + os.os.version;
+
+//   // console.log(os.name + ' ' + os.version);
+//   // console.log(result.os.name);
+//   // console.log(result.os.version);
+//   // console.log(result.device.is('mobile'));
+// });
+
 export default router;
-export const fetchedBrowser = () => browserType;
+export const fetchedBrowser = () => [browserType, osDetails];

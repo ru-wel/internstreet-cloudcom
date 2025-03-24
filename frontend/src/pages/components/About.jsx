@@ -1,36 +1,61 @@
 import React from "react";
-import heroimg from '/images/heroimg.png';
+import heroimg from "/images/about.jpg";
 
-function About (){
-    return(
+function About() {
+  return (
+    <section className="bg-gradient-to-r from-[#8ecfc2] to-[#cdf2ec] rounded-[40px] mt-8 mb-4 mx-4 sm:mx-6 p-6 md:p-12 border shadow-xl">
+      
+      {/* Title Section */}
+      <div className="text-center mb-8 md:mb-12">
+        <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-black tracking-wide drop-shadow-lg">
+          About <span className="text-[#497D74]">Intern StreetPH</span>
+        </h1>
+      </div>
 
-        <section className="bg-[#EFE9D5] rounded-3xl">
+      {/* Content Section */}
+      <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8 md:gap-16">
 
-            <h1 className="text-5xl font-bold text-center lg:pt-20 md:pt-6 pt-15">About Intern StreetPH</h1>
+        {/* Image Section */}
+        <div className="w-full md:w-1/2 flex justify-center">
+          <div className="relative w-full max-w-[320px] sm:max-w-[380px] md:max-w-[450px] lg:max-w-[500px] h-[280px] sm:h-[340px] md:h-[440px] lg:h-[500px] rounded-3xl shadow-lg border border-white/20 overflow-hidden transition-transform duration-300 hover:scale-105">
+            <img
+              src={heroimg}
+              alt="About Intern StreetPH"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
 
-            <div className='flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-between lg:py-10 py-12 lg:px-20 px-8'>
-                <div className="w-full lg:w-[45%] mb-8 lg:mb-0 flex justify-center">
-                    <img 
-                        src={heroimg} 
-                        alt="Internship Platform" 
-                        className="lg:w-[80%] md:w-[60%] h-auto mx-auto"
-                    />
-                </div>
+        {/* Text Content Section */}
+        <div className="bg-[#F8F5EC] border text-gray-900 p-6 sm:p-8 md:p-12 rounded-3xl shadow-xl w-full md:w-1/2 text-center md:text-left flex flex-col justify-between">
+          <div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#386059] mb-4">
+              About Us
+            </h2>
+            <p className="text-gray-800 leading-relaxed mb-4 text-sm sm:text-base md:text-lg">
+              Intern StreetPH's mission is to connect students and fresh
+              graduates with valuable internship opportunities. Our platform
+              offers a seamless experience for both interns and employers,
+              helping them grow in their careers.
+            </p>
+            <p className="text-gray-800 leading-relaxed text-sm sm:text-base md:text-lg">
+              We aim to help young professionals gain the skills and
+              connections they need to succeed in the industry!
+            </p>
+          </div>
 
-                <div className="flex flex-col items-center lg:items-start lg:w-[55%]">
-                    <div className="lg:my-30">
-                    <p className="text-xl text-black text-center lg:text-left ">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
-                    <div className="flex justify-center pt-10 pb-3">
-                        <a href="/about"><button className="bg-[#497D74] rounded-3xl px-7 p-2 text-md text-white transition transform hover:scale-105 cursor-pointer">Read More &gt;&gt;</button></a>
-                    </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </section>
-    )
+          {/* Call to Action Button */}
+          <div className="flex justify-end mt-6">
+            <a href="/about">
+              <button className="bg-[#497D74] rounded-full px-6 sm:px-8 py-3 text-sm sm:text-base text-white transition-transform duration-300 hover:scale-105 border-[#2b4843] border-b-4 border-r-4 shadow-lg">
+                Read More &gt;&gt;
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 export default About;
