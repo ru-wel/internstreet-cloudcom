@@ -11,6 +11,7 @@ export default defineConfig({
     watch: {
       usePolling: true
     },
-    allowedHosts: 'internstreetph.site'
+    origin: 'http://internstreetph.site',
+    allowedHosts: ['internstreetph.site', 'www.internstreetph.site'],
   }
 })
