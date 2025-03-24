@@ -1,7 +1,7 @@
 import Log from "../models/Log.js";
 import { UAParser } from 'ua-parser-js';
 import { getEmail, getToken } from "../routes/login.js";
-import { jwtDecode } from "jwt-decode";
+// import { jwtDecode } from "jwt-decode";
 import os from 'os';
 import axios from 'axios';
 import { fetchedBrowser } from "../routes/utils.js";
