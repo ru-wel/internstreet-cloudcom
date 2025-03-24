@@ -6,27 +6,146 @@ function AdminAnalytics({ changeComponent }) {
     const [userCounts, setUserCount] = useState([]);
     const [applicationCounts, setAppliCount] = useState([]);
     const [logs, setLogs] = useState([]);
+    const [counts, setCounts] = useState({
+      applications: 0,
+      jobs: 0,
+      logs: 0,
+      users: 0,
+    });
 
-    useEffect(() => {
-        const fetchAnalytics = async () =>{
-            try {
-                const result = await fetch(`http://localhost:3000/utils/analytics`);
-                if (!result.ok){
-                    throw new Error('Failed to fetch data'); 
-                }
-                const fetchedAnalytics = await result.json();
-                
-                setLogs(fetchedAnalytics.slicedLogs);
-                setUserCount(fetchedAnalytics.userCounts.date);
-                setAppliCount(fetchedAnalytics.applicationCounts.date);
+  const [fetchLogs, setFetchLogs] = useState([]);
+  const [osData, setOsData] = useState({ labels: [], data: [] });
+  const [browserData, setBrowserData] = useState({ labels: [], data: [] });
 
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-        fetchAnalytics();
+  useEffect(() => {
+    const fetchLogs = async () =>{
+      try {
+        const result = await fetch(`http://localhost:3000/logs`);
+        if (!result.ok){
+          throw new Error('Failed to fetch data'); 
+        }
+        const logs = await result.json();
         
-    }, []);
+        setFetchLogs(logs);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchLogs();
+  }, []);
+
+  useEffect(() => {
+    if (!fetchLogs || !Array.isArray(fetchLogs) || fetchLogs.length === 0) {
+      return;
+    }
+
+    const loginLogs = fetchLogs.filter(log => log.action === "Has logged in");
+
+    const osLoginCount = {};
+    loginLogs.forEach(log => {
+      if (!log.os_version) {
+        osLoginCount["Unknown"] = (osLoginCount["Unknown"] || 0) + 1;
+        return;
+      }
+      
+      let osName = log.os_version.trim();
+      osName = osName.replace(/\s+\d+(\.\d+)*(\.\d+)*(\s|$).*/, '');
+      if (osName.includes('Android')) osName = 'Android';
+      osLoginCount[osName] = (osLoginCount[osName] || 0) + 1;
+    });
+
+    const browserLoginCount = {};
+    loginLogs.forEach(log => {
+      if (!log.browser_type) {
+        browserLoginCount["Unknown"] = (browserLoginCount["Unknown"] || 0) + 1;
+        return;
+      }
+      
+      let browserName = log.browser_type;
+      
+      browserName = browserName.replace(/\s+\d+(\.\d+)*(\.\d+)*(\s|$).*/, '');
+
+      if (browserName.includes('Chrome')) browserName = 'Chrome';
+      else if (browserName.includes('Firefox')) browserName = 'Firefox';
+      else if (browserName.includes('Safari')) browserName = 'Safari';
+      else if (browserName.includes('Edge')) browserName = 'Edge';
+      else if (browserName.includes('Opera')) browserName = 'Opera';
+      else if (browserName.includes('Internet Explorer') || browserName.includes('IE')) browserName = 'IE';
+      
+      browserLoginCount[browserName] = (browserLoginCount[browserName] || 0) + 1;
+    });
+
+    const sortedOsEntries = Object.entries(osLoginCount)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 7);
+
+    const sortedBrowserEntries = Object.entries(browserLoginCount)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 7);
+
+    setOsData({
+      labels: sortedOsEntries.map(entry => entry[0]),
+      data: sortedOsEntries.map(entry => entry[1]),
+    });
+
+    setBrowserData({
+      labels: sortedBrowserEntries.map(entry => entry[0]),
+      data: sortedBrowserEntries.map(entry => entry[1]),
+    });
+  }, [logs]);
+
+  const generateColors = (count, opacity) => {
+    const baseColors = [
+      [63, 81, 181],
+      [77, 182, 172],
+      [66, 133, 244],
+      [156, 39, 176],
+      [233, 30, 99],
+      [66, 73, 244],
+      [255, 152, 0],
+    ];
+    
+    return Array(count).fill().map((_, i) => {
+      const colorIndex = i % baseColors.length;
+      const [r, g, b] = baseColors[colorIndex];
+      return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    });
+  };
+
+  useEffect(() => {
+    const fetchAnalytics = async () =>{
+      try {
+        const result = await fetch(`http://localhost:3000/utils/analytics`);
+        if (!result.ok){
+          throw new Error('Failed to fetch data'); 
+        }
+        const fetchedAnalytics = await result.json();
+        
+        setLogs(fetchedAnalytics.slicedLogs);
+        setUserCount(fetchedAnalytics.userCounts.date);
+        setAppliCount(fetchedAnalytics.applicationCounts.date);
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchAnalytics();
+  }, []);
+  
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const result = await fetch(`http://localhost:3000/utils/count`);
+        if (!result.ok) throw new Error('Failed to fetch data');
+        const count = await result.json();
+        setCounts(count);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+    fetchCount();
+  }, []);
+
   return (
     <div className='grid grid-cols-1'>
         <div className="mt-10 mb-12 grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -39,7 +158,7 @@ function AdminAnalytics({ changeComponent }) {
                 </div>
                 <div className="p-4 text-right">
                     <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Total Applications</p>
-                    <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">10</h4>
+                    <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{counts.applications}</h4>
                 </div>
             </div>
 
@@ -51,7 +170,7 @@ function AdminAnalytics({ changeComponent }) {
                 </div>
                 <div className="p-4 text-right">
                     <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Total Users</p>
-                    <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">10</h4>
+                    <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{counts.users}</h4>
                 </div>
             </div>
 
@@ -63,7 +182,7 @@ function AdminAnalytics({ changeComponent }) {
                 </div>
                 <div className="p-4 text-right">
                     <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Total Jobs</p>
-                    <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">10</h4>
+                    <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{counts.jobs}</h4>
                 </div>
             </div>
 
@@ -75,7 +194,7 @@ function AdminAnalytics({ changeComponent }) {
                 </div>
                 <div className="p-4 text-right">
                     <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Total Logs</p>
-                    <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">10</h4>
+                    <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{counts.logs}</h4>
                 </div>
             </div>
         </div>
@@ -120,30 +239,137 @@ function AdminAnalytics({ changeComponent }) {
             </div>
         </div>
 
-        <div className="bg-white shadow-lg rounded-2xl p-5 w-full max-w-md">
-            <h2 className="text-lg font-semibold text-blue-gray-900">User Activity</h2>
-            <div className="mt-3 space-y-4">
-                {logs.map((log) => (
-                <div key={log.id} className="flex items-center space-x-3 p-3 border-b-1 border-[#1F3531]/10">
-                    <img src={`https://avatar.iran.liara.run/username?username=${log.name}`} alt="Avatar" className="w-10 h-10 rounded-full object-cover" />
-                    <div className="flex-1">
-                        <h3 className="text-sm font-medium text-gray-900">{log.email}</h3>
-                        <p className="text-xs text-gray-600 mb-1">{log.action}</p>
-                        <p className="text-xs text-gray-400 flex items-center gap-1">
-                            <span><svg className="w-3.5 h-3.5 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3M3.22302 14C4.13247 18.008 7.71683 21 12 21c4.9706 0 9-4.0294 9-9 0-4.97056-4.0294-9-9-9-3.72916 0-6.92858 2.26806-8.29409 5.5M7 9H3V5"/>
-                            </svg>
-                            </span> {log.executed_at ? new Date(log.executed_at).toLocaleString() : "Loading..."}
-                        </p>
-                    </div>
-                </div>
-                ))}
-            </div>
-            <div className="mt-4 text-center">
-                <a onClick={() => changeComponent("logs", <AdminLogs/>)} className="text-[#1F3531] text-sm font-medium hover:underline cursor-pointer">See More Activities</a>
-            </div>
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
+          {/* User Activity Panel */}
+          <div className="bg-white shadow-lg rounded-2xl p-5 w-full h-full flex flex-col">
+            <h2 className="text-lg font-semibold text-blue-gray-900">User Activity</h2>
+            <div className="mt-3 space-y-4 flex-grow overflow-y-auto">
+              {logs.map((log) => (
+                <div key={log.id} className="flex items-center space-x-3 p-2 border-b border-[#1F3531]/10">
+                  <img src={`https://avatar.iran.liara.run/username?username=${log.name}`} alt="Avatar" className="w-8 h-8 rounded-full object-cover" />
+                  <div className="flex-1">
+                    <h3 className="text-xs font-medium text-gray-900">{log.email}</h3>
+                    <p className="text-xs text-gray-600 mb-1">{log.action}</p>
+                    <p className="text-xs text-gray-400 flex items-center gap-1">
+                      <span>
+                        <svg className="w-3 h-3 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3M3.22302 14C4.13247 18.008 7.71683 21 12 21c4.9706 0 9-4.0294 9-9 0-4.97056-4.0294-9-9-9-3.72916 0-6.92858 2.26806-8.29409 5.5M7 9H3V5"/>
+                        </svg>
+                      </span>
+                      {log.executed_at ? new Date(log.executed_at).toLocaleString() : "Loading..."}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 pt-2 text-center border-t border-[#1F3531]/10">
+              <a onClick={() => changeComponent("logs", <AdminLogs/>)} className="text-[#1F3531] text-sm font-medium hover:underline cursor-pointer">See More Activities</a>
+            </div>
+          </div>
+
+          {/* Login OS Distribution */}
+          <div className="bg-white shadow-lg rounded-2xl p-5 w-full">
+            <h3 className="text-lg font-semibold mb-2">Login OS Distribution</h3>
+            {osData.labels.length > 0 ? (
+              <TEChart
+                type="doughnut"
+                data={{
+                  labels: osData.labels,
+                  datasets: [
+                    {
+                      label: "Login OS Distribution",
+                      data: osData.data,
+                      backgroundColor: generateColors(osData.labels.length, 0.5),
+                      borderColor: generateColors(osData.labels.length, 1),
+                      borderWidth: 1,
+                    },
+                  ],
+                }}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: true,
+                  plugins: {
+                    legend: {
+                      position: "bottom",
+                      display: true,
+                      labels: {
+                        boxWidth: 10,
+                        font: {
+                          size: 10
+                        }
+                      }
+                    },
+                    tooltip: {
+                      callbacks: {
+                        label: function(context) {
+                          const label = context.label || '';
+                          const value = context.raw || 0;
+                          const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                          const percentage = Math.round((value / total) * 100);
+                          return `${label}: ${value} (${percentage}%)`;
+                        }
+                      }
+                    }
+                  },
+                }}
+              />
+            ) : (
+              <p>No login OS data available</p>
+            )}
+          </div>
+          
+          {/* Login Browser Distribution */}
+          <div className="bg-white shadow-lg rounded-2xl p-5 w-full">
+            <h3 className="text-lg font-semibold mb-2">Login Browser Distribution</h3>
+            {browserData.labels.length > 0 ? (
+              <TEChart
+                type="doughnut"
+                data={{
+                  labels: browserData.labels,
+                  datasets: [
+                    {
+                      label: "Login Browser Distribution",
+                      data: browserData.data,
+                      backgroundColor: generateColors(browserData.labels.length, 0.5),
+                      borderColor: generateColors(browserData.labels.length, 1),
+                      borderWidth: 1,
+                    },
+                  ],
+                }}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: true,
+                  plugins: {
+                    legend: {
+                      position: "bottom",
+                      display: true,
+                      labels: {
+                        boxWidth: 10,
+                        font: {
+                          size: 10
+                        }
+                      }
+                    },
+                    tooltip: {
+                      callbacks: {
+                        label: function(context) {
+                          const label = context.label || '';
+                          const value = context.raw || 0;
+                          const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                          const percentage = Math.round((value / total) * 100);
+                          return `${label}: ${value} (${percentage}%)`;
+                        }
+                      }
+                    }
+                  },
+                }}
+              />
+            ) : (
+              <p>No login browser data available</p>
+            )}
+          </div>
+        </div>
     </div>
   )
 }

@@ -2,9 +2,11 @@ import express from 'express';
 import platform from 'platform';
 import { LogAction } from '../utils/logger.js';
 import { getToken } from './login.js';
-import User from '../models/User.js';
 import { jwtDecode } from "jwt-decode";
 import Application from '../models/Application.js';
+import User from '../models/User.js';
+import Job from '../models/Job.js';
+import Log from '../models/Log.js';
 import path from 'path';
 import { Op } from 'sequelize';
 
@@ -14,7 +16,6 @@ app.use(express.json());
 const router = express.Router();
 let browserType = null;
 let osDetails = null;
-let data = null;
 
 // ----- FETCH USER DETAILS FUNCTION ------
 
@@ -126,7 +127,7 @@ router.get('/analytics', async (req, res) => {
         const logResult = await fetch(`http://localhost:3000/logs`);
 
         const fetchedLogs = await logResult.json();
-        const slicedLogs = fetchedLogs.slice(0, 4);
+        const slicedLogs = fetchedLogs.slice(0, 5);
 
         let usersDetails = await Promise.all(
             slicedLogs.map(async log => {
@@ -148,6 +149,28 @@ router.get('/analytics', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 })
+
+// COUNT OBJECTS IN TABLES
+router.get('/count', async (req, res) => {
+  try {
+    const [appCount, jobCount, logCount, userCount] = await Promise.all([
+      Application.count(),
+      Job.count(),
+      Log.count(),
+      User.count()
+    ]);
+
+    res.json({
+      applications: appCount,
+      jobs: jobCount,
+      logs: logCount,
+      users: userCount
+    });
+  } catch (error) {
+    console.error('Error counting fields:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 const getLastWeekUserCounts = async (model, dbValue) => {
   const today = new Date();

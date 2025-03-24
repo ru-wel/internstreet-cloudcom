@@ -5,26 +5,19 @@ import { jwtDecode } from "jwt-decode";
 import os from 'os';
 import axios from 'axios';
 import { fetchedBrowser } from "../routes/utils.js";
-// import { fetchedOS } from "../routes/utils.js";
 
 async function getUserDetails() {
   const parser = new UAParser();
-  const fetchOs = parser.getOS();
   const cpu = parser.getCPU();
-
-  const osVersion = fetchOs.name + ' ' + fetchOs.version;
-  const realOS = osVersion.includes("undefined") ? null : osVersion;
 
   const res = await axios.get('https://ipinfo.io/json');
   
   return {
     ip_address: res.data.ip || "Empty",
     location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
-    // os_version: realOS || os.type + ' ' + os.release + ' ' + os.platform || "Empty",
-    // os_version: fetchedOS() || "Unknown OS",
-    os_version: fetchedBrowser()[1] || "Unknown OS",
+    os_version: setOS() || "Unknown OS",
     processor: cpu.architecture || os.cpus()[0].model || "Empty",
-    browser_type: fetchedBrowser()[0] || "Unknown Browser"
+    browser_type: setBrowser() || "Unknown Browser"
   };
 }
 
@@ -76,3 +69,29 @@ export async function LogAction(message, rEmail) {
     // console.log("NEW LOGS:", newLog);
 }
 
+function setOS() {
+  const os = fetchedBrowser()[1];
+
+  if (!os) return "Unknown OS";
+
+  let formattedOS = os;
+  if (os.includes('OS X')) {
+    formattedOS = os.replace('OS X', 'macOS');
+  }
+
+  return formattedOS;
+}
+
+function setBrowser() {
+  const browser = fetchedBrowser()[0];
+
+  if (!browser) return "Unknown Browser";
+
+  let formattedBrowser = browser;
+  
+  if (browser.includes('Microsoft ')) {
+    formattedBrowser = browser.replace('Microsoft ', '');
+  }
+
+  return formattedBrowser;
+}
