@@ -13,5 +13,6 @@ export default defineConfig({
     },
     origin: 'http://internstreetph.site',
     allowedHosts: ['internstreetph.site', 'www.internstreetph.site'],
+    hmr: { clientPort: 5173 }
   }
 })
