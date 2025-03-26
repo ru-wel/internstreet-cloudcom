@@ -9,9 +9,7 @@ services:
       - ./frontend:/app
       - /app/node_modules
     # environment:
-      # - VITE_API_URL=http://backend:3000
-      # - VITE_SUPABASE_URL=${SUPABASE_URL}
-      # - VITE_SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      # - VITE_API_URL=https://internstreetph.site/api
     command: ["npm", "run", "dev"]
 
   backend:
@@ -27,7 +25,6 @@ services:
       # - PORT=3000
       - NODE_ENV=development
       # - SUPABASE_URL=${SUPABASE_URL}
-      # - SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY}
     command: ["npm", "start"]
     depends_on:
       - frontend
