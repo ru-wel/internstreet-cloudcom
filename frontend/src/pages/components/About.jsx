@@ -3,7 +3,7 @@ import heroimg from "/images/about.jpg";
 
 function About() {
   return (
-    <section className="bg-gradient-to-r from-[#9ab8b2] to-[#bbefe5] rounded-[30px] mt-6 mb-6 mx-4 md:mx-6 lg:mx-8 p-6 md:p-12 lg:p-18 border shadow-lg">
+    <section className="bg-gradient-to-r from-[#8ecfc2] to-[#bbefe5] rounded-[30px] mt-6 mb-6 mx-4 md:mx-6 lg:mx-8 p-6 md:p-12 lg:p-18 border shadow-lg">
       
       {/* Title Section */}
       <div className="text-center relative z-10 mb-6 md:mb-8 lg:mb-10">
