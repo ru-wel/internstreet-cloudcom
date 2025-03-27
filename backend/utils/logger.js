@@ -12,12 +12,14 @@ async function getUserDetails() {
 
   // const res = await axios.get('https://ipinfo.io/json');
   const realIP = getUserIP();
-  const res = await axios.get('https://ipinfo.io/' + realIP + "/json");
+  console.log(realIP);
+  // const res = await axios.get('https://ipinfo.io/' + realIP + "/json");
   
   return {
     // ip_address: res.data.ip || "Empty",
     ip_address: getUserIP() || "Empty",
-    location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
+    // location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
+    location: "Empty",
     os_version: setOS() || "Unknown OS",
     processor: cpu.architecture || os.cpus()[0].model || "Empty",
     browser_type: setBrowser() || "Unknown Browser"
