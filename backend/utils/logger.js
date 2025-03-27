@@ -16,9 +16,8 @@ async function getUserDetails() {
   // const res = await axios.get('https://ipinfo.io/' + realIP + "/json");
   
   const realIP = getUserIP();
-  console.log("REAL IP IS: " + realIP);
+  console.log('https://ipinfo.io/' + realIP + "/json");
   // const res = await axios.get('https://ipinfo.io/' + realIP + "/json");
-  console.log('USER IP ON LOGGER.JS: ', getUserIP());
   
   return {
     // ip_address: res.data.ip || "Empty",

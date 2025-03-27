@@ -86,7 +86,6 @@ router.get('/detect-browser', async (req, res) => {
     browserType = browser.name + ' ' + browser.version;
     osDetails = browser.os.family + ' ' + browser.os.version;
     userIP = userIp;
-    console.log('USER IP:', userIP);
 
 });
 
