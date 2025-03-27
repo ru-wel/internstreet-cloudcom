@@ -15,14 +15,12 @@ async function getUserDetails() {
   // console.log("REAL IP is: " + realIP);
   // const res = await axios.get('https://ipinfo.io/' + realIP + "/json");
   
-  const realIP = getUserIP();
+  const realIP = await getUserIP();
   console.log(realIP, typeof(realIP));
   console.log('https://ipinfo.io/' + realIP + "/json");
-  // const res = await axios.get(`https://ipinfo.io/${realIP}/json`);
+  const res = await axios.get(`https://ipinfo.io/${realIP}/json`);
   
   return {
-    realIP: getUserIP(),
-    res: await axios.get(`https://ipinfo.io/${realIP}/json`),
     ip_address: getUserIP() || "Empty",
     location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
     os_version: setOS() || "Unknown OS",
