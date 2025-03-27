@@ -10,10 +10,12 @@ async function getUserDetails() {
   const parser = new UAParser();
   const cpu = parser.getCPU();
 
-  const res = await axios.get('https://ipinfo.io');
   const realIP = await getUserIP();
   console.log(realIP, typeof(realIP));
   console.log('https://ipinfo.io/' + realIP + "/json");
+  if (!realIP) {
+    throw new Error("Failed to get real IP address.");
+  }
   const link = `https://ipinfo.io/${realIP}/json`;
   const response = await axios.get(link);
   
