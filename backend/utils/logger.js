@@ -10,9 +10,10 @@ async function getUserDetails() {
   const parser = new UAParser();
   const cpu = parser.getCPU();
 
-  console.log("CPU ARCHI: " + cpu.architecture + "\nOS Model: " + os.cpus()[0].model);
-  console.log("CPU FROM FRONTEND: " + getCPU());
-  
+  console.log("\nOS Model: " + os.cpus()[0].model);
+  const processor = getCPU();
+  console.log("CPU FROM FRONTEND: " + processor.data);
+
   const ipuser = getUserIP();
   const res = await axios.get(`https://ipinfo.io/${ipuser}/json`);
   console.log("USER IP: " + getUserIP());
