@@ -11,12 +11,13 @@ async function getUserDetails() {
   const cpu = parser.getCPU();
 
   // const res = await axios.get('https://ipinfo.io/json');
-  const realIP = await axios.get(process.env.API_URL + '/utils/realIP');
-  const res = await axios.get('https://ipinfo.io/' + realIP.data.clientIP + "/json");
+  // const realIP = await axios.get(process.env.API_URL + '/utils/realIP');
+  const realIP = getUserIP();
+  const res = await axios.get('https://ipinfo.io/' + realIP + "/json");
   
   return {
     // ip_address: res.data.ip || "Empty",
-    ip_address: realIP.data.clientIP || "Empty",
+    ip_address: realIP || "Empty",
     location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
     location: "Empty",
     os_version: setOS() || "Unknown OS",

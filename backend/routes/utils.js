@@ -84,9 +84,6 @@ router.get('/detect-browser', async (req, res) => {
     res.json({ message: "Successfully fetched browser type." });
     browserType = browser.name + ' ' + browser.version;
     osDetails = browser.os.family + ' ' + browser.os.version;
-    const response = await fetch('https://api.ipify.org?format=json');
-    const data = await response.json();
-    userIP = data.ip;
 
 });
 
@@ -179,6 +176,7 @@ router.get('/count', async (req, res) => {
 
 router.get('/realIP', async (req, res) => {
   const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  userIP = clientIP;
   res.json({clientIP});
 });
 
