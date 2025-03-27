@@ -12,11 +12,11 @@ async function getUserDetails() {
 
   // const res = await axios.get('https://ipinfo.io/json');
   // const realIP = await axios.get(process.env.API_URL + '/utils/realIP');
-  // const realIP = getUserIP();
   // console.log("REAL IP is: " + realIP);
   // const res = await axios.get('https://ipinfo.io/' + realIP + "/json");
-
-  const res = await axios.get('https://ipinfo.io/json');
+  
+  const realIP = getUserIP();
+  const res = await axios.get('https://ipinfo.io/' + realIP + "/json");
   console.log('USER IP ON LOGGER.JS: ', getUserIP());
   
   return {
