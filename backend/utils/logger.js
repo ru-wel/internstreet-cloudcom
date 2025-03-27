@@ -12,7 +12,7 @@ async function getUserDetails() {
 
   console.log("\nOS Model: " + os.cpus()[0].model);
   const processor = getCPU();
-  console.log("CPU FROM FRONTEND: " + processor.cpu);
+  console.log("CPU FROM FRONTEND: " + JSON.stringify(processor, null, 2));
 
   const ipuser = getUserIP();
   const res = await axios.get(`https://ipinfo.io/${ipuser}/json`);
