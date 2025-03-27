@@ -6,15 +6,14 @@ import os from 'os';
 import axios from 'axios';
 import { fetchedBrowser } from "../routes/utils.js";
 
-async function getUserDetails(req) {
+async function getUserDetails() {
   const parser = new UAParser();
   const cpu = parser.getCPU();
 
   const res = await axios.get('https://ipinfo.io/json');
   
   return {
-    // ip_address: res.data.ip || "Empty",
-    ip_address: getClientIp(req) || "Empty",
+    ip_address: res.data.ip || "Empty",
     location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
     os_version: setOS() || "Unknown OS",
     processor: cpu.architecture || os.cpus()[0].model || "Empty",
@@ -22,9 +21,9 @@ async function getUserDetails(req) {
   };
 }
 
-export async function LogAction(req, message, rEmail) {
+export async function LogAction(message, rEmail) {
 
-    const { ip_address, location, os_version, processor, browser_type } = await getUserDetails(req);
+    const { ip_address, location, os_version, processor, browser_type } = await getUserDetails();
     // const fetchResult = await fetchUserDetails();
     // let result;
     
@@ -95,9 +94,4 @@ function setBrowser() {
   }
 
   return formattedBrowser;
-}
-
-function getClientIp(req) {
-  const forwarded = req.headers['x-forwarded-for'];
-  return forwarded ? forwarded.split(',')[0] : req.socket.remoteAddress;
 }
