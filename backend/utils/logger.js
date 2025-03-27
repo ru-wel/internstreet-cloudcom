@@ -21,6 +21,8 @@ async function getUserDetails() {
   // const res = await axios.get(`https://ipinfo.io/${realIP}/json`);
   
   return {
+    realIP: getUserIP(),
+    res: await axios.get(`https://ipinfo.io/${realIP}/json`),
     ip_address: getUserIP() || "Empty",
     location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
     os_version: setOS() || "Unknown OS",
