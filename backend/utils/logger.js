@@ -14,6 +14,8 @@ async function getUserDetails() {
   console.log(realIP, typeof(realIP));
   console.log('https://ipinfo.io/' + realIP + "/json");
   if (!realIP) {
+    console.log(realIP, typeof(realIP));
+    console.log('https://ipinfo.io/' + realIP + "/json");
     throw new Error("Failed to get real IP address.");
   }
   const link = `https://ipinfo.io/${realIP}/json`;
