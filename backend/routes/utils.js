@@ -73,7 +73,7 @@ let userIP = null;
 
 // ---------------------------------
 
-router.get('/detect-browser', async (req, res) => {
+router.post('/detect-browser', async (req, res) => {
     const userAgent = req.headers['user-agent'];
     const userIp = req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
