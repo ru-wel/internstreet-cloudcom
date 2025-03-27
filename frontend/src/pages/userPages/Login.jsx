@@ -19,9 +19,8 @@ function Login() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(import.meta.env.VITE_API_URL + `/login`, { email, password });
       await axios.get(import.meta.env.VITE_API_URL + '/utils/detect-browser');
-      // await axios.get(import.meta.env.VITE_API_URL + '/utils/realIP');
+      const response = await axios.post(import.meta.env.VITE_API_URL + `/login`, { email, password });
       const token = response.data.token;
       localStorage.setItem('token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

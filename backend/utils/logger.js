@@ -10,20 +10,13 @@ async function getUserDetails() {
   const parser = new UAParser();
   const cpu = parser.getCPU();
 
-  const realIP = await getUserIP();
-  console.log(realIP, typeof(realIP));
-  console.log('https://ipinfo.io/' + realIP + "/json");
-  if (!realIP) {
-    console.log(realIP, typeof(realIP));
-    console.log('https://ipinfo.io/' + realIP + "/json");
-    throw new Error("Failed to get real IP address.");
-  }
-  const link = `https://ipinfo.io/${realIP}/json`;
-  const response = await axios.get(link);
+  const ipuser = getUserIP();
+  const res = await axios.get(`https://ipinfo.io/${ipuser}/json`);
+  console.log('USER IP ON LOGGER.JS: ', getUserIP());
   
   return {
     ip_address: getUserIP() || "Empty",
-    location: `${response.data.city}, ${response.data.region}, ${response.data.country}` || "Empty",
+    location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
     os_version: setOS() || "Unknown OS",
     processor: cpu.architecture || os.cpus()[0].model || "Empty",
     browser_type: setBrowser() || "Unknown Browser"
