@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -20,7 +20,6 @@ function Login() {
 
     try {
       await axios.get(import.meta.env.VITE_API_URL + '/utils/detect-browser');
-      sendClientInfo();
       const response = await axios.post(import.meta.env.VITE_API_URL + `/login`, { email, password });
       const token = response.data.token;
       localStorage.setItem('token', token);
@@ -30,30 +29,6 @@ function Login() {
       setError(error.response?.data?.message || error.message || 'Login failed! Please try again.');
     } finally {
       setIsLoading(false);
-    }
-  };
-  
-  const getClientCPU = () => {
-    return {
-      cores: navigator.hardwareConcurrency || "Unknown",
-      model: "Unknown CPU (Browser does not expose model)",
-    };
-  };
-
-  const sendClientInfo = async () => {
-    const cpu = getClientCPU();
-    
-    try {
-      const response = await fetch(import.meta.env.VITE_API_URL + "/api/detect-browser", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cpu }),
-      });
-
-      const data = await response.json();
-      console.log("Client Info Sent:", data);
-    } catch (error) {
-      console.error("Error sending client info:", error);
     }
   };
 

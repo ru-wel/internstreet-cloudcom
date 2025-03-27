@@ -4,15 +4,11 @@ import { getEmail, getToken } from "../routes/login.js";
 // import { jwtDecode } from "jwt-decode";
 import os from 'os';
 import axios from 'axios';
-import { fetchedBrowser, getUserIP, getCPU } from "../routes/utils.js";
+import { fetchedBrowser, getUserIP } from "../routes/utils.js";
 
 async function getUserDetails() {
   const parser = new UAParser();
   const cpu = parser.getCPU();
-
-  console.log("\nOS Model: " + os.cpus()[0].model);
-  const processor = getCPU();
-  console.log("CPU FROM FRONTEND: " + JSON.stringify(processor, null, 2));
 
   const ipuser = getUserIP();
   const res = await axios.get(`https://ipinfo.io/${ipuser}/json`);
