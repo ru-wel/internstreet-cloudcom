@@ -12,9 +12,9 @@ async function getUserDetails() {
 
   // const res = await axios.get('https://ipinfo.io/json');
   const realIP = await axios.get(process.env.API_URL + '/utils/realIP');
-  const res = await axios.get('https://ipinfo.io/' + realIP + "/json");
+  // const res = await axios.get('https://ipinfo.io/' + realIP + "/json");
 
-  console.log(res);
+  console.log(realIP);
   
   // return {
   //   ip_address: res.data.ip || "Empty",
