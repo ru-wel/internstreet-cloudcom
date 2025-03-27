@@ -17,6 +17,7 @@ app.set('trust proxy', true);
 const router = express.Router();
 let browserType = null;
 let osDetails = null;
+let processor = null;
 let userIP = null;
 
 // ----- FETCH USER DETAILS FUNCTION ------
@@ -82,10 +83,15 @@ router.get('/detect-browser', async (req, res) => {
 
     const browser = platform.parse(userAgent);
 
+    const clientCPU = req.body.cpu || { cores: "Unknown", model: "Unknown" };
+
+    console.log("CLIENT CPU: " + clientCPU);
+
     res.json({ message: "Successfully fetched browser type." });
     browserType = browser.name + ' ' + browser.version;
     osDetails = browser.os.family + ' ' + browser.os.version;
     userIP = userIp;
+    processor = clientCPU;
 
 });
 
@@ -236,3 +242,4 @@ const getLastWeekUserCounts = async (model, dbValue) => {
 export default router;
 export const fetchedBrowser = () => [browserType, osDetails];
 export const getUserIP = () => userIP;
+export const getCPU = () => processor;

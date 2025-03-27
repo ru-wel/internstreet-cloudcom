@@ -4,7 +4,7 @@ import { getEmail, getToken } from "../routes/login.js";
 // import { jwtDecode } from "jwt-decode";
 import os from 'os';
 import axios from 'axios';
-import { fetchedBrowser, getUserIP } from "../routes/utils.js";
+import { fetchedBrowser, getUserIP, getCPU } from "../routes/utils.js";
 
 async function getUserDetails() {
   const parser = new UAParser();
@@ -15,6 +15,8 @@ async function getUserDetails() {
   console.log("USER IP: " + getUserIP());
 
   console.log("CPU ARCHI: " + cpu.architecture + "\nOS Model: " + os.cpus()[0].model);
+
+  console.log("CPU FROM FRONTEND: " + getCPU());
   
   return {
     ip_address: getUserIP() || "Empty",
