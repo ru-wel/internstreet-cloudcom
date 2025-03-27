@@ -74,6 +74,7 @@ let userIP = null;
 
 router.get('/detect-browser', async (req, res) => {
     const userAgent = req.headers['user-agent'];
+    const userIp = req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
     if (!userAgent) {
         return res.status(400).json({ error: "User-Agent not found in request" });
@@ -84,6 +85,8 @@ router.get('/detect-browser', async (req, res) => {
     res.json({ message: "Successfully fetched browser type." });
     browserType = browser.name + ' ' + browser.version;
     osDetails = browser.os.family + ' ' + browser.os.version;
+    userIP = userIp;
+    console.log('USER IP:', userIP);
 
 });
 
@@ -178,7 +181,7 @@ router.get('/realIP', async (req, res) => {
   const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   console.log(clientIP);
   res.json({ message: "Successfully fetched IP Address." });
-  userIP = clientIP;
+  // userIP = clientIP;
 });
 
 const getLastWeekUserCounts = async (model, dbValue) => {
