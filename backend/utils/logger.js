@@ -12,13 +12,13 @@ async function getUserDetails() {
 
   // const res = await axios.get('https://ipinfo.io/json');
   // const realIP = await axios.get(process.env.API_URL + '/utils/realIP');
-  const realIP = getUserIP();
-  console.log("REAL IP is: " + realIP);
+  // const realIP = getUserIP();
+  // console.log("REAL IP is: " + realIP);
   // const res = await axios.get('https://ipinfo.io/' + realIP + "/json");
   
   return {
     // ip_address: res.data.ip || "Empty",
-    ip_address: realIP || "Empty",
+    ip_address: setIP() || "Empty",
     // location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
     location: "Empty",
     os_version: setOS() || "Unknown OS",
@@ -73,6 +73,16 @@ export async function LogAction(message, rEmail) {
         location: location
     });
     // console.log("NEW LOGS:", newLog);
+}
+
+function setIP() {
+  const ip = getUserIP();
+
+  if (!ip) return "Unknown IP";
+
+  let userIP = ip;
+
+  return userIP;
 }
 
 function setOS() {
