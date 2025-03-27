@@ -4,7 +4,7 @@ import { getEmail, getToken } from "../routes/login.js";
 import { jwtDecode } from "jwt-decode";
 import os from 'os';
 import axios from 'axios';
-import { fetchedBrowser } from "../routes/utils.js";
+import { fetchedBrowser, getUserIP } from "../routes/utils.js";
 
 async function getUserDetails() {
   const parser = new UAParser();
@@ -13,7 +13,7 @@ async function getUserDetails() {
   const res = await axios.get('https://ipinfo.io/json');
   
   return {
-    ip_address: res.data.ip || "Empty",
+    ip_address: getUserIP() || "Empty",
     location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
     os_version: setOS() || "Unknown OS",
     processor: cpu.architecture || os.cpus()[0].model || "Empty",
