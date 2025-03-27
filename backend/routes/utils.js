@@ -71,16 +71,11 @@ let userIP = null;
 
 // ---------------------------------
 
-router.get('/detect-browser', (req, res) => {
+router.get('/detect-browser', async (req, res) => {
     const userAgent = req.headers['user-agent'];
-    const userIp = req.headers['x-real-ip'] || req.headers['x-forwarded-for'];
 
     if (!userAgent) {
         return res.status(400).json({ error: "User-Agent not found in request" });
-    }
-
-    if (!userIp) {
-        return res.status(400).json({ error: "User-IP not found in request" });
     }
 
     const browser = platform.parse(userAgent);
@@ -88,7 +83,9 @@ router.get('/detect-browser', (req, res) => {
     res.json({ message: "Successfully fetched browser type." });
     browserType = browser.name + ' ' + browser.version;
     osDetails = browser.os.family + ' ' + browser.os.version;
-    userIP = userIp;
+    const response = await fetch('https://api.ipify.org?format=json');
+    const data = await response.json();
+    userIP = data.ip;
 
 });
 
