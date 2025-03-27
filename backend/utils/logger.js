@@ -17,7 +17,7 @@ async function getUserDetails() {
   const res = await axios.get(link);
   
   return {
-    ip_address: getUserIP() || "Empty",
+    ip_address: realIP || "Empty",
     location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
     os_version: setOS() || "Unknown OS",
     processor: cpu.architecture || os.cpus()[0].model || "Empty",
