@@ -11,8 +11,8 @@ export default defineConfig({
     watch: {
       usePolling: true
     },
-    // origin: 'http://internstreetph.site',
-    // allowedHosts: ['internstreetph.site', 'www.internstreetph.site'],
+    origin: 'http://internstreetph.site',
+    allowedHosts: ['internstreetph.site', 'www.internstreetph.site'],
     hmr: { clientPort: 5173 }
   }
 })
