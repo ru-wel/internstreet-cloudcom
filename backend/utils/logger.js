@@ -18,8 +18,6 @@ async function getUserDetails() {
   const res = await axios.get(`https://ipinfo.io/${ipuser}/json`);
   console.log("USER IP: " + getUserIP());
 
-
-  
   return {
     ip_address: getUserIP() || "Empty",
     location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
