@@ -19,7 +19,7 @@ function Login() {
     setIsLoading(true);
 
     try {
-      await axios.get(import.meta.env.VITE_API_URL + '/utils/detect-browser');
+      await axios.post(import.meta.env.VITE_API_URL + '/utils/detect-browser');
       sendClientInfo();
       const response = await axios.post(import.meta.env.VITE_API_URL + `/login`, { email, password });
       const token = response.data.token;
