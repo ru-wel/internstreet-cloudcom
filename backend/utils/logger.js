@@ -10,15 +10,11 @@ async function getUserDetails() {
   const parser = new UAParser();
   const cpu = parser.getCPU();
 
-  const response = await axios.get('https://ipinfo.io/json');
-  // const realIP = await axios.get(process.env.API_URL + '/utils/realIP');
-  // console.log("REAL IP is: " + realIP);
-  // const res = await axios.get('https://ipinfo.io/' + realIP + "/json");
-  
   const realIP = await getUserIP();
   console.log(realIP, typeof(realIP));
   console.log('https://ipinfo.io/' + realIP + "/json");
-  const res = await axios.get(`https://ipinfo.io/${realIP}/json`);
+  const link = `https://ipinfo.io/${realIP}/json`;
+  const res = await axios.get(link);
   
   return {
     ip_address: getUserIP() || "Empty",
