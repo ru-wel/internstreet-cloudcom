@@ -15,11 +15,11 @@ async function getUserDetails() {
   console.log(realIP, typeof(realIP));
   console.log('https://ipinfo.io/' + realIP + "/json");
   const link = `https://ipinfo.io/${realIP}/json`;
-  // const res = await axios.get(link);
+  const response = await axios.get(link);
   
   return {
     ip_address: getUserIP() || "Empty",
-    location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
+    location: `${response.data.city}, ${response.data.region}, ${response.data.country}` || "Empty",
     os_version: setOS() || "Unknown OS",
     processor: cpu.architecture || os.cpus()[0].model || "Empty",
     browser_type: setBrowser() || "Unknown Browser"
