@@ -18,7 +18,7 @@ function AdminLogs() {
     const fetchLogs = async () => {
       setIsLoading(true);
       try {
-        const result = await fetch(`http://localhost:3000/logs`);
+        const result = await fetch(import.meta.env.VITE_API_URL + `/logs`);
         const fetchedLogs = await result.json();
         setLogs(fetchedLogs);
         setFilteredLogs(fetchedLogs);
@@ -73,7 +73,7 @@ function AdminLogs() {
     setIsLoading(true);
 
     try {
-      const response = await axios.delete(`http://localhost:3000/logs/${log.id}`);
+      const response = await axios.delete(import.meta.env.VITE_API_URL + `/logs/${log.id}`);
 
       if (response.status === 200 || response.status === 204) {
         setLogs((prevLogs) => prevLogs.filter((l) => l.id !== log.id));

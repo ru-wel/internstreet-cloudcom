@@ -47,7 +47,7 @@ const Application = () => {
         applyData.append('name', user.name);
         
         try{
-            const result = await axios.post("http://localhost:3000/apply-job", applyData,
+            const result = await axios.post(import.meta.env.VITE_API_URL + "/apply-job", applyData,
             {
                 headers: {"Content-Type": "multipart/form-data" },
             });
@@ -65,7 +65,7 @@ const Application = () => {
     
         if (Object.keys(error).length === 0){
           try {
-            const response = await axios.put(`http://localhost:3000/users/profile/${UID}`, editDetails);
+            const response = await axios.put(import.meta.env.VITE_API_URL + `/users/profile/${UID}`, editDetails);
             alert('Successfully updated user details');
           } catch (error) {
             console.error('Error updating user:', error);
@@ -91,7 +91,7 @@ const Application = () => {
         const fetchUser = async () => {
         try {
             if (!UID) return;
-            const response = await fetch(`http://localhost:3000/users/${UID}`);
+            const response = await fetch(import.meta.env.VITE_API_URL + `/users/${UID}`);
             const result = await response.json();
             setUser(result);
         } catch (err) {

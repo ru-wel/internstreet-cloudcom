@@ -20,7 +20,7 @@ const UserWrapper = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:3000/validate-token', {
+        const response = await fetch(import.meta.env.VITE_API_URL + "/validate-token", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ const GuestWrapper = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:3000/validate-token', {
+        const response = await fetch(import.meta.env.VITE_API_URL + "validate-token", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

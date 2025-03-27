@@ -22,7 +22,7 @@ const AdminApplications = () => {
     const fetchApplications = async () => {
       setIsLoading(true);
       try {
-        const result = await fetch(`http://localhost:3000/apply-job/all`);
+        const result = await fetch(import.meta.env.VITE_API_URL + `/apply-job/all`);
         if (!result.ok) {
           throw new Error('Failed to fetch applications');
         }
@@ -79,7 +79,7 @@ const AdminApplications = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.put(`http://localhost:3000/apply-job/${editApplication.id}`, editApplication);
+      const response = await axios.put(import.meta.env.VITE_API_URL + `/apply-job/${editApplication.id}`, editApplication);
       alert('Application status updated succesfully!');
       setEditModalOpen(false);
       setFilteredApplications(prevApplications => prevApplications.map(app => app.id === editApplication.id ? { ...app, ...editApplication } : app)
@@ -99,7 +99,7 @@ const AdminApplications = () => {
 
     setIsLoading(true);
     try {
-      const response = await fetch(`http://localhost:3000/apply-job/${appId}`, {
+      const response = await fetch(import.meta.env.VITE_API_URL + `/apply-job/${appId}`, {
         method: "DELETE",
       });
       if (!response.ok) {
@@ -224,13 +224,13 @@ const AdminApplications = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{app.c_position}</td> 
 
                         <td className="px-2 py-4 max-w-[150px] truncate text-sm">
-                          <a href={"http://localhost:3000/utils/download/"+app.id+"/"+app.resume} download className='text-purple-600 underline hover:text-purple-800'>
+                          <a href={import.meta.env.VITE_API_URL + "/utils/download/"+app.id+"/"+app.resume} download className='text-purple-600 underline hover:text-purple-800'>
                             {app.resume}
                           </a>
                         </td>
 
                         <td className="px-2 py-4 max-w-[150px] truncate text-sm">
-                          <a href={"http://localhost:3000/utils/download/"+app.id+"/"+app.cover_letter} download className='text-purple-600 underline hover:text-purple-800'>
+                          <a href={import.meta.env.VITE_API_URL + "/utils/download/"+app.id+"/"+app.cover_letter} download className='text-purple-600 underline hover:text-purple-800'>
                             {app.cover_letter}
                           </a>
                         </td>

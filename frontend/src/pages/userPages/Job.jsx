@@ -13,7 +13,7 @@ function Job() {
   const [isApplied, setApplied] = useState(false);
 
   const fetchApplication = async (company, title) =>{
-    const application = await axios.get(`http://localhost:3000/apply-job/${company}/${title}`);
+    const application = await axios.get(import.meta.env.VITE_API_URL + `/apply-job/${company}/${title}`);
     console.log(application.data);
     application.data ? (setApplied(true)) : (setApplied(false));
   }
@@ -21,7 +21,7 @@ function Job() {
 
     const fetchJobDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/jobs/${jId}`);
+        const response = await axios.get(import.meta.env.VITE_API_URL + `/jobs/${jId}`);
         setJob(response.data);
         fetchApplication(response.data.company, response.data.title);
 

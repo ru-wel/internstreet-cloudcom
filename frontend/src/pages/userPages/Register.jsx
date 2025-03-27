@@ -42,7 +42,7 @@ function Register() {
 
     if (validateData()){
       try {
-        const response = await axios.post('http://localhost:3000/register', userData);
+        const response = await axios.post(import.meta.env.VITE_API_URL + '/register', userData);
         setUserData({ name: '', email: '', password: '', password2: '', });
         alert('Registration successful! You can now log in.');
         navigate('/login');
