@@ -178,7 +178,7 @@ router.get('/count', async (req, res) => {
 });
 
 router.get('/realIP', async (req, res) => {
-  console.log(req.headers['x-real-ip']);
+  console.log(req.headers);
   console.log(req.ip || req.ips);
   // const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   // const clientIP = req.socket.remoteAddress;
