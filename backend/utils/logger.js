@@ -10,7 +10,9 @@ async function getUserDetails() {
   const parser = new UAParser();
   const cpu = parser.getCPU();
 
-  const res = await axios.get('https://ipinfo.io/json');
+  const ipuser = getUserIP();
+  const res = await axios.get(`https://ipinfo.io/${ipuser}/json`);
+  console.log('USER IP ON LOGGER.JS: ', getUserIP());
   
   return {
     ip_address: getUserIP() || "Empty",
