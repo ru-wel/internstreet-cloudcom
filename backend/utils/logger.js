@@ -13,14 +13,16 @@ async function getUserDetails() {
   // const res = await axios.get('https://ipinfo.io/json');
   const realIP = await axios.get(process.env.API_URL + '/utils/realIP');
   const res = await axios.get('https://ipinfo.io/' + realIP + "/json");
+
+  console.log(res);
   
-  return {
-    ip_address: res.data.ip || "Empty",
-    location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
-    os_version: setOS() || "Unknown OS",
-    processor: cpu.architecture || os.cpus()[0].model || "Empty",
-    browser_type: setBrowser() || "Unknown Browser"
-  };
+  // return {
+  //   ip_address: res.data.ip || "Empty",
+  //   location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
+  //   os_version: setOS() || "Unknown OS",
+  //   processor: cpu.architecture || os.cpus()[0].model || "Empty",
+  //   browser_type: setBrowser() || "Unknown Browser"
+  // };
 }
 
 export async function LogAction(message, rEmail) {

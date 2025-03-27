@@ -174,7 +174,7 @@ router.get('/count', async (req, res) => {
 
 router.get('/realIP', async (req, res) => {
   const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-  res.json(clientIP);
+  res.json({clientIP});
 });
 
 const getLastWeekUserCounts = async (model, dbValue) => {
