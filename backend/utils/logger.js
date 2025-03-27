@@ -16,7 +16,7 @@ async function getUserDetails() {
   
   return {
     // ip_address: res.data.ip || "Empty",
-    ip_address: realIP || "Empty",
+    ip_address: realIP.data.clientIP || "Empty",
     location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
     location: "Empty",
     os_version: setOS() || "Unknown OS",
