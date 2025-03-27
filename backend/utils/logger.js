@@ -11,9 +11,11 @@ async function getUserDetails() {
   const cpu = parser.getCPU();
 
   const res = await axios.get('https://ipinfo.io/json');
+  const forwarded = req.headers['x-forwarded-for'];
   
   return {
-    ip_address: res.data.ip || "Empty",
+    // ip_address: res.data.ip || "Empty",
+    ip_address: forwarded.split(',')[0] || "Empty",
     location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
     os_version: setOS() || "Unknown OS",
     processor: cpu.architecture || os.cpus()[0].model || "Empty",
