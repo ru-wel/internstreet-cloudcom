@@ -12,7 +12,8 @@ async function getUserDetails() {
 
   const ipuser = getUserIP();
   const res = await axios.get(`https://ipinfo.io/${ipuser}/json`);
-  console.log('USER IP ON LOGGER.JS: ', getUserIP());
+
+  console.log("CPU ARCHI: " + cpu.architecture + "\nOS Model: " + os.cpus()[0].model);
   
   return {
     ip_address: getUserIP() || "Empty",
