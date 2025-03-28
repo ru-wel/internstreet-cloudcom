@@ -38,7 +38,7 @@ function UserProfile() {
 
     if (Object.keys(error).length === 0){
       try {
-        const response = await axios.put(`http://localhost:3000/users/profile/${UID}`, editUser);
+        const response = await axios.put(import.meta.env.VITE_API_URL + `/users/profile/${UID}`, editUser);
         alert('User details updated succesfully!');
         setEditModalOpen(false);
         setUser(editUser);
@@ -54,7 +54,7 @@ function UserProfile() {
     const fetchUser = async () => {
       try {
         if (!UID) return;
-        const response = await fetch(`http://localhost:3000/users/${UID}`);
+        const response = await fetch(import.meta.env.VITE_API_URL + `/users/${UID}`);
         const result = await response.json();
         setUser(result);
       } catch (err) {
@@ -70,7 +70,7 @@ function UserProfile() {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const response = await fetch('http://localhost:3000/apply-job');
+        const response = await fetch(import.meta.env.VITE_API_URL + '/apply-job');
         const result = await response.json();
         setApplications(result);
       } catch (error) {

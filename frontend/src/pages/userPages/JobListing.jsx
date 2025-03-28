@@ -14,7 +14,7 @@ function JobListing() {
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const result = await fetch(`http://localhost:3000/jobs`);
+                const result = await fetch(import.meta.env.VITE_API_URL + `/jobs`);
                 const fetchedJobs = await result.json();
                 setJobs(fetchedJobs);
                 filteredJobs.includes() ? null : (setFiltered(fetchedJobs));

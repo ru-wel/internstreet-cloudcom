@@ -23,7 +23,7 @@ function AdminUsers() {
     const fetchUsers = async () => {
       setIsLoading(true);
       try {
-        const result = await fetch(`http://localhost:3000/users`);
+        const result = await fetch(import.meta.env.VITE_API_URL + `/users`);
         if (!result.ok) {
           throw new Error('Failed to fetch users');
         }
@@ -91,7 +91,7 @@ function AdminUsers() {
 
     if (validateData()){
       try {
-        const response = await axios.post('http://localhost:3000/users/add', userData);
+        const response = await axios.post(import.meta.env.VITE_API_URL + '/users/add', userData);
         const newUser = response.data.newUser; 
         setFilteredUsers([...filteredUsers, newUser]);
         setAddModalOpen(false);
@@ -123,7 +123,7 @@ function AdminUsers() {
     setIsLoading(true);
 
     try {
-      const response = await axios.put(`http://localhost:3000/users/role/${editUser.id}`, editUser);
+      const response = await axios.put(import.meta.env.VITE_API_URL + `/users/role/${editUser.id}`, editUser);
       alert('User details updated succesfully!');
       setEditModalOpen(false);
       setFilteredUsers(prevUsers => prevUsers.map(user => user.id === editUser.id ? { ...user, ...editUser } : user)
@@ -143,7 +143,7 @@ function AdminUsers() {
 
     setIsLoading(true);
     try {
-      const response = await fetch(`http://localhost:3000/users/${userId}`, {
+      const response = await fetch(import.meta.env.VITE_API_URL + `/users/${userId}`, {
         method: "DELETE",
       });
       if (!response.ok) {

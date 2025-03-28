@@ -20,7 +20,7 @@ function AdminAnalytics({ changeComponent }) {
   useEffect(() => {
     const fetchLogs = async () =>{
       try {
-        const result = await fetch(`http://localhost:3000/logs`);
+        const result = await fetch(import.meta.env.VITE_API_URL + `/logs`);
         if (!result.ok){
           throw new Error('Failed to fetch data'); 
         }
@@ -115,7 +115,7 @@ function AdminAnalytics({ changeComponent }) {
   useEffect(() => {
     const fetchAnalytics = async () =>{
       try {
-        const result = await fetch(`http://localhost:3000/utils/analytics`);
+        const result = await fetch(import.meta.env.VITE_API_URL + `/utils/analytics`);
         if (!result.ok){
           throw new Error('Failed to fetch data'); 
         }
@@ -135,7 +135,7 @@ function AdminAnalytics({ changeComponent }) {
   useEffect(() => {
     const fetchCount = async () => {
       try {
-        const result = await fetch(`http://localhost:3000/utils/count`);
+        const result = await fetch(import.meta.env.VITE_API_URL + `/utils/count`);
         if (!result.ok) throw new Error('Failed to fetch data');
         const count = await result.json();
         setCounts(count);

@@ -42,7 +42,7 @@ function AdminJobs() {
     const fetchJobs = async () => {
       setIsLoading(true);
       try {
-          const result = await fetch(`http://localhost:3000/jobs`);
+          const result = await fetch(import.meta.env.VITE_API_URL + `/jobs`);
           if (!result.ok) {
             throw new Error('Failed to fetch jobs');
           }
@@ -118,7 +118,7 @@ function AdminJobs() {
 
     // if (validateData()){
       try {
-        const response = await axios.post('http://localhost:3000/jobs/add', jobData);
+        const response = await axios.post(import.meta.env.VITE_API_URL + '/jobs/add', jobData);
         const newJob = response.data.newJob; 
         setFilteredJobs([...filteredJobs, newJob]);
         setAddModalOpen(false);
@@ -168,7 +168,7 @@ function AdminJobs() {
     setIsLoading(true);
 
     try {
-      const response = await axios.put(`http://localhost:3000/jobs/${editJob.id}`, editJob);
+      const response = await axios.put(import.meta.env.VITE_API_URL + `/jobs/${editJob.id}`, editJob);
       alert('Job details updated succesfully!');
       setEditModalOpen(false);
       setFilteredJobs(prevJobs => prevJobs.map(job => job.id === editJob.id ? { ...job, ...editJob } : job)
@@ -188,7 +188,7 @@ function AdminJobs() {
 
     setIsLoading(true);
     try {
-      const response = await fetch(`http://localhost:3000/jobs/${jobId}`, {
+      const response = await fetch(import.meta.env.VITE_API_URL + `/jobs/${jobId}`, {
         method: "DELETE",
       });
       if (!response.ok) {
