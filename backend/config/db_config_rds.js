@@ -4,11 +4,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const rds_sequelize = new Sequelize(
- "postgres", // Database name
-  "postgres", // Username
-  "internstreetcloudcomputing", // Password
+  process.env.DB_NAME, // Database name
+  process.env.DB_NAME, // Username
+  process.env.DB_PASS, // Password
   {
-    host: "internstreet-logs.c9gogia02y98.ap-southeast-1.rds.amazonaws.com", // RDS Endpoint
+    host: process.env.RDS_DB_HOST, // RDS Endpoint
     port: process.env.DB_PORT || 5432,
     dialect: 'postgres',
     dialectOptions: {

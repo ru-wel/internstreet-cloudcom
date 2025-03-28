@@ -9,7 +9,8 @@ services:
       - ./frontend:/app
       - /app/node_modules
     environment:
-      - VITE_API_URL=https://internstreetph.site/api
+      # - VITE_API_URL=https://internstreetph.site/api
+      - VITE_API_URL=http://localhost:3000
     command: ["npm", "run", "dev"]
 
   backend:
@@ -23,8 +24,9 @@ services:
       - /app/node_modules
     environment:
       # - PORT=3000
-      - NODE_ENV=development
-      - API_URL=https://internstreetph.site/api
+      #- NODE_ENV=development
+      #- API_URL=https://internstreetph.site/api
+      - API_URL=http://localhost:3000
       # - SUPABASE_URL=${SUPABASE_URL}
     command: ["npm", "start"]
     depends_on:
