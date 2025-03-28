@@ -11,7 +11,7 @@ function Footer (){
         <footer className="bg-[#5f8d85]">
             <div className="w-full  mx-auto p-4 md:py-8">
                 <div className="flex justify-start">
-                    <a href="/landing" className="flex items-start mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse bg-gradient-to-r from-[#baece1] to-[#7bb4ad] p-4 rounded-xl ">
+                    <a href="/landing" className="flex items-start mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse bg-gradient-to-r from-[#baece1] to-[#7bb4ad] p-2 rounded-xl ">
                     <img src={logo} alt="InternStreet Logo" className="h-12 w-auto" />
                     </a>
                 </div>

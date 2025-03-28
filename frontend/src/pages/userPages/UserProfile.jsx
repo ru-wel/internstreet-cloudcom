@@ -122,25 +122,25 @@ function UserProfile() {
               </div>
 
               <div className="mt-8">
-                <button className="bg-[#2d4e6c] text-[#ffffff] px-2 sm:px-4 py-4 sm:py-3 sm:text-sm rounded-full shadow-md hover:bg-[#1d3346] transition-all border-[#1d3346] border-b-4 border-r-4 cursor-pointer" onClick={() => handleEdit(user)}>
+                <button className="bg-[#7ca29a] text-[#ffffff] px-2 sm:px-4 py-4 sm:py-3 sm:text-sm rounded-full shadow-md hover:bg-[#88b5ad] transition-all border-[#62847d] border-b-4 border-r-4 cursor-pointer" onClick={() => handleEdit(user)}>
                   Edit Profile
                 </button>
               </div>
             </div>
 
-            <div className="md:w-2/3 bg-gradient-to-r from-[#f0ebd6] to-[#d8d2b4]  border-zinc-600 backdrop-blur-lg rounded-2xl p-8 mt-4 md:mt-8 shadow-md border">
-              <h3 className="text-2xl font-bold mb-6 text-[#497D74] border-b border-[#497D74] pb-2 ">About Me</h3>
+            <div className="md:w-2/3 bg-gradient-to-r from-[#93c7bd] to-[#70b1aa]  border-zinc-600 backdrop-blur-lg rounded-2xl p-8 mt-4 md:mt-8 shadow-md border">
+              <h3 className="text-2xl font-bold mb-6 text-[#fbfbfb] border-b border-[#497D74] pb-2 ">About Me</h3>
               
               <div className="space-y-5">
                 <div>
-                  <h4 className="text-sm uppercase text-gray-500 font-medium mb-1">Bio</h4>
-                  <p className="text-gray-800">{user.bio}</p>
+                  <h4 className="text-sm uppercase text-white font-medium mb-1">Bio</h4>
+                  <p className="text-white">{user.bio}</p>
                 </div>
                 
                 <div>
-                  <h4 className="text-sm uppercase text-gray-500 font-medium mb-1">Contact</h4>
-                  <div className="flex items-center gap-2 text-gray-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#497D74]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <h4 className="text-sm uppercase text-white font-medium mb-1">Contact</h4>
+                  <div className="flex items-center gap-2 text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#ffffff]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
                     <span>{user.number}</span>
