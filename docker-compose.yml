@@ -9,8 +9,8 @@ services:
       - ./frontend:/app
       - /app/node_modules
     environment:
-      # - VITE_API_URL=https://internstreetph.site/api
-      - VITE_API_URL=http://localhost:3000
+      - VITE_API_URL=https://internstreetph.site/api
+      # - VITE_API_URL=http://localhost:3000
     command: ["npm", "run", "dev"]
 
   backend:
@@ -24,10 +24,13 @@ services:
       - /app/node_modules
     environment:
       # - PORT=3000
-      #- NODE_ENV=development
-      #- API_URL=https://internstreetph.site/api
-      - API_URL=http://localhost:3000
-      # - SUPABASE_URL=${SUPABASE_URL}
+      - NODE_ENV=development
+      - API_URL=https://internstreetph.site/api
+      # - API_URL=http://localhost:3000
+      - DB_NAME=postgres
+      - DB_PASS=internstreetcloudcomputing
+      - RDS_DB_HOST=internstreet-logs.c9gogia02y98.ap-southeast-1.rds.amazonaws.com
+      - DB_PORT=5432
     command: ["npm", "start"]
     depends_on:
       - frontend
