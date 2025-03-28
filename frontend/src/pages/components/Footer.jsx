@@ -1,4 +1,6 @@
 import React from "react";
+import logo from '/images/internstreet-logo.png';
+
 //import logo from '../assets/internstreet-logo.png';
 
 function Footer (){
@@ -6,15 +8,15 @@ function Footer (){
     return(
         
 
-        <footer className="bg-[#497D74]">
-            <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-                <div className="flex justify-center">
-                    <a href="/landing" className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-                        <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">Intern Street Logo?</span>
+        <footer className="bg-[#5f8d85]">
+            <div className="w-full  mx-auto p-4 md:py-8">
+                <div className="flex justify-start">
+                    <a href="/landing" className="flex items-start mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse bg-gradient-to-r from-[#baece1] to-[#7bb4ad] p-4 rounded-xl ">
+                    <img src={logo} alt="InternStreet Logo" className="h-12 w-auto" />
                     </a>
                 </div>
-                <hr className="my-6 border-white sm:mx-auto lg:my-6 " />
-                <span className="block text-sm text-center text-white py-3">© 2025 Intern Street. All Rights Reserved.</span>
+                <hr className="block my-5 border-white sm:mx-auto lg:my-5s " />
+                <span className=" text-m text-center text-white py-3">© 2025 Intern Street. All Rights Reserved.</span>
             </div>
         </footer>
 

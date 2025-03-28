@@ -61,7 +61,7 @@ function Register() {
   const match = userData.password === userData.password2;
 
   return (
-    <div>
+    <div className='bg-gradient-to-br from-[#8ecfc2] via-[#e1f7f3] to-[#78b8b1] shadow-xl'>
       <Helmet>
         <title>Register | InternStreet</title>
       </Helmet>
@@ -69,7 +69,7 @@ function Register() {
       <h1 className='lg:text-5xl text-3xl font-bold text-center my-10'>Create Your Account</h1>
 
       <div className='flex items-center justify-center mx-8 my-10'>
-        <div className='bg-[#27445D] lg:p-12 p-4 rounded-4xl shadow-lg text-center max-w-md w-full'>
+        <div className='bg-gradient-to-r from-[#87b7ad] to-[#b1d3cd] backdrop-blur-lg shadow-xl rounded-3xl p-8 sm:p-12 md:p-16 w-full max-w-xl border-1 mb-16'>
           <h2 className='text-4xl font-bold mb-6 mt-4 text-white'>Sign Up</h2>
 
           <form onSubmit={handleSubmit} className='flex flex-col px-2'>
@@ -104,7 +104,7 @@ function Register() {
               <p className='text-green-500 text-md font-bold'>Passwords match!</p>
             )} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
 
-            <button type='submit' disabled = {loading} className="bg-[#497D74] text-white py-3 mt-6 rounded-2xl font-medium transition transform hover:scale-105">
+            <button type='submit' disabled = {loading} className="bg-[#497D74] text-white p-3 mt-6 rounded-xl font-medium transition transform hover:scale-105">
             {loading ? 'Registering...' : 'Register'}
             </button>
 

@@ -82,7 +82,7 @@ function JobListing() {
                                 </div>
                             </div>
 
-                            <button onClick={handleSearch} className="bg-[#27445D] text-white px-6 py-4 rounded-3xl hover:opacity-90 hover:scale-105 text-center whitespace-nowrap">
+                            <button onClick={handleSearch} className="bg-[#2d4e6c] border-[#1d3346] border-b-4 border-r-4  text-white px-8 py-3 rounded-3xl hover:opacity-90 hover:scale-105 text-center whitespace-nowrap">
                                 Find Jobs
                             </button>
                         </div>

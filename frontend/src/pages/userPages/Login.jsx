@@ -78,7 +78,7 @@ function Login() {
 
                 <button 
                   type="submit" 
-                  className="bg-[#497D74] text-white py-3 mt-6 rounded-lg font-medium transition transform hover:scale-105 shadow-md"
+                  className="bg-[#497D74] text-white py-3 mt-6 rounded-xl font-medium transition transform hover:scale-105 shadow-md"
                 >
                   {isLoading ? 'Logging in...' : 'Login'}
                 </button>
