@@ -8,8 +8,10 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
+    env_file:
+      - .env
     environment:
-      - VITE_API_URL=https://internstreetph.site/api
+      - VITE_API_URL=${VITE_API_URL}
       # - VITE_API_URL=http://localhost:3000
     command: ["npm", "run", "dev"]
 
@@ -22,15 +24,16 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
+    env_file:
+      - .env
     environment:
-      # - PORT=3000
       - NODE_ENV=development
-      - API_URL=https://internstreetph.site/api
+      - API_URL=${API_URL}
       # - API_URL=http://localhost:3000
-      - DB_NAME=postgres
-      - DB_PASS=internstreetcloudcomputing
-      - RDS_DB_HOST=internstreet-logs.c9gogia02y98.ap-southeast-1.rds.amazonaws.com
-      - DB_PORT=5432
+      - DB_NAME=${DB_NAME}
+      - DB_PASS=${DB_PASS}
+      - RDS_DB_HOST=${RDS_DB_HOST}
+      - DB_PORT=${DB_PORT}
     command: ["npm", "start"]
     depends_on:
       - frontend
