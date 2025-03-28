@@ -14,10 +14,10 @@ const Application = sequelize.define('try_application', {
   status: { type: DataTypes.STRING, allowNull: false },
   job_id: { type: DataTypes.INTEGER, allowNull: false, 
     references: {
-      model: 'try_jobs', // TO BE CHANGED,
+      model: 'try_jobs',
       key: 'id',
     } },
-}, { timestamps: false }
+  }, { createdAt: false, updatedAt: true, }
 );
 
 export default Application;

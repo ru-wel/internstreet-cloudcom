@@ -118,7 +118,6 @@ const Application = () => {
                         <h3 className="text-gray-500 text-lg mb-2 font-semibold uppercase">Applying for</h3>
                         <h2 className="text-3xl lg:text-4xl font-bold text-black mt-2">{company.title}</h2>
                         <p className="text-black mt-1 text-lg">{company.name}</p>
-                        <a href="#" className="mt-4 text-black underline">View Job Description</a>
                     </div>
                 </div>
 
@@ -131,8 +130,8 @@ const Application = () => {
                         <form onSubmit={handleEdit} className="space-y-4 max-w-4xl mx-auto mt-8">
                             <div className="flex flex-col sm:flex-row sm:space-x-20">
                                 <div className="w-full lg:w-1/2 mb-4 md:mb-0">
-                                    <label className="block text-black font-semibold text-md mb-2">Full Name</label>
-                                    <input type="text" className="p-3 border border-gray-400 w-full rounded-3xl text-center bg-white placeholder-gray-500 text-black focus:outline-none" placeholder='Full Name' value={user.name} disabled/>
+                                  <p className="text-black font-semibold text-md">Full Name</p>
+                                  <p className="px-0 lg:px-10 py-2 text-lg">{user.name}</p>
                                 </div>
                             </div>
 
@@ -148,10 +147,11 @@ const Application = () => {
 
                             <div>
                                 <p className="text-black font-semibold text-md">Email Address</p>
-                                <p className="px-0 lg:px-10 py-2 text-lg">internstreetph@gmail.com</p>
+                                <p className="px-0 lg:px-10 py-2 text-lg">{user.email}</p>
                             </div>
 
                             <button type="submit" className="bg-[#497D74] text-white px-8 py-2 text-lg rounded-3xl cursor-pointer" >Save</button>
+                            <p>*this only updates your personal info above</p>
 
                             <div className="flex space-x-4">
                                 <div className="w-1/2 flex flex-col items-center">
