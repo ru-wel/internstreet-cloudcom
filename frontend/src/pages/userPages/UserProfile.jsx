@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Nav from '../components/Nav';
-import { FaLinkedin, FaGithub, FaEnvelope, FaBookmark } from 'react-icons/fa';
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 import person from '/images/person-placeholder.png';
@@ -11,14 +10,11 @@ function UserProfile() {
   const [user, setUser] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [editUser, setEditUser] = useState({ name: '', }); // ADD MORE FIELDS LATUR
+  const [editUser, setEditUser] = useState({ name: '', location: '', number: '', bio: '', });
+  const maxChars = 300;
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [UID, setUID] = useState(null);
   const [applications, setApplications] = useState([]);
-
-  // const toggleModal = () => {
-  //   setModalOpen(!isModalOpen);
-  // }
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -112,7 +108,7 @@ function UserProfile() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                  <span className="text-sm">Angeles City, Philippines | TO BE ADDED</span>
+                  <span className="text-sm">{user.location}</span>
                 </div>
                 
                 <div className="flex items-center gap-1 text-[#EFE9D5]">
@@ -136,7 +132,7 @@ function UserProfile() {
               <div className="space-y-5">
                 <div>
                   <h4 className="text-sm uppercase text-gray-500 font-medium mb-1">Bio</h4>
-                  <p className="text-gray-800">I am Levina. A Full-Stack Web Developer. I break down complex user experience problems to create integrity focused solutions that connect billions of people. | TO BE ADDED</p>
+                  <p className="text-gray-800">{user.bio}</p>
                 </div>
                 
                 <div>
@@ -145,7 +141,7 @@ function UserProfile() {
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#497D74]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
-                    <span>0912 345 6789 | TO BE ADDED</span>
+                    <span>{user.number}</span>
                   </div>
                 </div>
               </div>
@@ -161,7 +157,27 @@ function UserProfile() {
           //         {errors.password && <p className="text-red-500 mb-3">{errors.password}</p>} */}
 
                   <form onSubmit={handleEditSubmit}>
-                    <input type="text" placeholder="name" value={editUser.name} onChange={(e) => setEditUser({ ...editUser, name: e.target.value })} required className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"/> { /* ADD MORE FIELDS LATER */ }
+
+                    <input type="text" placeholder="name" value={editUser.name} onChange={(e) => setEditUser({ ...editUser, name: e.target.value })} required className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"/>
+
+                    <input type="text" placeholder="location" value={editUser.location} onChange={(e) => setEditUser({ ...editUser, location: e.target.value })} required className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"/>
+
+                    <input type="text" placeholder="number (09**)" value={editUser.number} onChange={(e) => setEditUser({ ...editUser, number: e.target.value })} required className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"/>
+
+                    <textarea placeholder='personal bio' value={editUser.bio} onChange={(e) => {
+                      if (e.target.value.length <= maxChars){
+                        setEditUser({ ...editUser, bio: e.target.value })
+                      }
+                      }} 
+                      required className="w-full min-h-24 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </textarea>
+
+                    <div className="text-right text-sm mt-1">
+                      <span className={editUser.bio.length >= maxChars - 10 ? "text-red-500" : "text-gray-500"}>
+                        {editUser.bio.length}/{maxChars}
+                      </span>
+                    </div>
+
                     <div className="flex justify-end space-x-3 mt-2">
                       <button type="button" onClick={() => setEditModalOpen(false)} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors">
                         Cancel

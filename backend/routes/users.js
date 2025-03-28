@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
         name: user.name,
         location: user.location,
         number: user.number,
-        // ADD MORE FIELDS LATER
+        bio: user.bio,
       }
       res.status(200).send(filteredUser);
     } catch (error) {
@@ -45,7 +45,7 @@ router.get('/:id', async (req, res) => {
 // EDIT PROFILE
 router.put('/profile/:id', async (req, res, next) => {
     const { id } = req.params;
-    const { name, email, location, number } = req.body;
+    const { name, email, location, number, bio } = req.body;
     
     try {
         const user = await User.findByPk(id);
@@ -56,7 +56,8 @@ router.put('/profile/:id', async (req, res, next) => {
           name: name !== undefined && name !== "" ? name : user.name,
           email: email !== undefined && email !== "" ? email : user.email,
           location: location !== undefined && location !== "" ? location : user.location,
-          number: number !== undefined && number !== "" ? number : user.number
+          number: number !== undefined && number !== "" ? number : user.number,
+          bio: bio !== undefined && bio !== "" ? bio : user.bio
         }
 
         await User.update(editData, { where: { 'id' : id } });
@@ -68,34 +69,6 @@ router.put('/profile/:id', async (req, res, next) => {
         next(error);
       }
 });
-
-// // FOR TESTING PURPOSE - APPLY JOB ( MOVED TO /profile/:id )
-// router.put('/applyjob/:id', async (req, res, next) => {
-//   const { id } = req.params;
-//   const { location, number } = req.body; // ADD MORE FIELDS LATER
-//   console.log('BODY: ',req.body)
-  
-//   try {
-//       const user = await User.findOne({ where: { 'id' : id } });
-//       if (!user) {
-//         return res.status(404).json({ message: 'User not found' });
-//       }
-  
-//       await User.update(
-//         { 
-//           location,
-//           number,
-//         }, { where: { 'id' : id } } // ADD MORE FIELDS LATER
-//       );
-//       console.log(location, number);
-  
-//       const updateUser = await User.findOne({ where: { 'id' : id } });
-//       res.status(200).json({ message: 'Profile updated successfully!', updateUser });
-//     } catch (error) {
-//       console.error('Error updating user:', error);
-//       next(error);
-//     }
-// });
 
 // EDIT USER
 router.put('/:id', async (req, res, next) => {

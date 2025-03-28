@@ -10,7 +10,7 @@ const Job = sequelize.define('try_jobs', {
   location: { type: DataTypes.STRING, allowNull: false },
   details: { type: DataTypes.JSONB, allowNull: false },
   logo: { type: DataTypes.STRING, allowNull: true },
-}, { createdAt: false, updatedAt: false, } // ----- TO BE EDITED LATUR
+  }, { createdAt: false, updatedAt: true, }
 );
 
 export default Job;
