@@ -154,7 +154,7 @@ router.get('/analytics', async (req, res) => {
     }
 })
 
-// COUNT APPLICATION, JOBS, LOGS, USERS OBJECTS IN TABLES
+// COUNT OBJECTS IN TABLES
 router.get('/count', async (req, res) => {
   try {
     const [appCount, jobCount, logCount, userCount] = await Promise.all([
@@ -192,10 +192,10 @@ const getLastWeekUserCounts = async (model, dbValue) => {
   const date = {};
 
   for (let i = 0; i < 7; i++) {
-    const startOfDay = new Date(lastMonday.getTime());
+    const startOfDay = new Date(lastMonday);
     startOfDay.setDate(lastMonday.getDate() + i);
 
-    const endOfDay = new Date(startOfDay.getTime());
+    const endOfDay = new Date(startOfDay);
     endOfDay.setHours(23, 59, 59, 999);
 
     const count = await model.count({
