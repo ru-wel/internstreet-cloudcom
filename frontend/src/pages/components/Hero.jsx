@@ -4,7 +4,7 @@ import heroimg from '/images/is-hero.png';
 const Hero = () => {
     return (
         
-<section className="bg-gradient-to-r from-[#baece1] to-[#9eddd4] to-90% rounded-[60px] mb-6 mx-8 p-10 text-center border">
+<section className="bg-gradient-to-r from-[#baece1] to-[#7fcdc1] to-70% rounded-[60px] mb-6 mx-8 p-10 text-center border">
 
             <div className='flex flex-col lg:flex-row-reverse items-center lg:items-start justify-center lg:justify-between lg:py-10 py-12 lg:px-20 '>
             <div className="w-full lg:w-3/5 flex justify-center mt-auto mb-6 md:mb-10 lg:mb-0">
@@ -29,7 +29,7 @@ const Hero = () => {
                     <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 w-full">
                     <button className="bg-[#497D74] rounded-4xl px-8 sm:px-7 py-3 text-base sm:text-lg text-white transition transform hover:scale-105 border-[#2b4843] border-b-4 border-r-4">Get Started</button>
                     <button className="bg-[#2d4e6c] rounded-4xl px-8 sm:px-6 py-3 text-base sm:text-lg text-white transition transform hover:scale-105 border-[#1d3346] border-b-4 border-r-4"> For Employers </button>
-
+                    
                     </div>
                 </div>
             </div>

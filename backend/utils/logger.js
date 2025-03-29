@@ -2,14 +2,16 @@ import Log from "../models/Log.js";
 import { getEmail, getToken } from "../routes/login.js";
 // import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
-import { fetchedBrowser } from "../routes/utils.js";
+import { fetchedBrowser, getUserIP } from "../routes/utils.js";
 
 async function getUserDetails() {
 
-  const res = await axios.get('https://ipinfo.io/json');
-  
+  const ipuser = getUserIP();
+  const res = await axios.get(`https://ipinfo.io/${ipuser}/json`);
+  console.log("USER IP: " + getUserIP());
+
   return {
-    ip_address: res.data.ip || "Empty",
+    ip_address: getUserIP() || "Empty",
     location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
     os_version: setOS() || "Unknown OS",
     browser_type: setBrowser() || "Unknown Browser"

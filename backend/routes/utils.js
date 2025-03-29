@@ -12,10 +12,12 @@ import { Op } from 'sequelize';
 
 const app = express();
 app.use(express.json());
+app.set('trust proxy', true);
 
 const router = express.Router();
 let browserType = null;
 let osDetails = null;
+let userIP = null;
 
 // ----- FETCH USER DETAILS FUNCTION ------
 
@@ -70,8 +72,9 @@ let osDetails = null;
 
 // ---------------------------------
 
-router.get('/detect-browser', (req, res) => {
+router.get('/detect-browser', async (req, res) => {
     const userAgent = req.headers['user-agent'];
+    const userIp = req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
     if (!userAgent) {
         return res.status(400).json({ error: "User-Agent not found in request" });
@@ -82,6 +85,7 @@ router.get('/detect-browser', (req, res) => {
     res.json({ message: "Successfully fetched browser type." });
     browserType = browser.name + ' ' + browser.version;
     osDetails = browser.os.family + ' ' + browser.os.version;
+    userIP = userIp;
 
 });
 
@@ -124,7 +128,7 @@ router.get('/analytics', async (req, res) => {
     try {
         const userCounts = await getLastWeekUserCounts(User, 'created_at');
         const applicationCounts = await getLastWeekUserCounts(Application, 'applied_at');
-        const logResult = await fetch(`http://localhost:3000/logs`);
+        const logResult = await fetch(process.env.API_URL + `/logs`);
 
         const fetchedLogs = await logResult.json();
         const slicedLogs = fetchedLogs.slice(0, 5);
@@ -170,6 +174,13 @@ router.get('/count', async (req, res) => {
     console.error('Error counting fields:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
+});
+
+router.get('/realIP', async (req, res) => {
+  const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  console.log(clientIP);
+  res.json({ message: "Successfully fetched IP Address." });
+  // userIP = clientIP;
 });
 
 const getLastWeekUserCounts = async (model, dbValue) => {
@@ -224,3 +235,4 @@ const getLastWeekUserCounts = async (model, dbValue) => {
 
 export default router;
 export const fetchedBrowser = () => [browserType, osDetails];
+export const getUserIP = () => userIP;
