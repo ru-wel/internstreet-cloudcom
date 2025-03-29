@@ -61,6 +61,8 @@ router.put('/profile/:id', async (req, res, next) => {
         }
 
         await User.update(editData, { where: { 'id' : id } });
+        const message = `Successfully edited User: "${editData.email}"`;
+        await LogAction(message);
     
         const updateUser = await User.findOne({ where: { 'id' : id } });
         res.status(200).json({ message: 'Profile updated successfully!', updateUser });

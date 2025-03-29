@@ -1,14 +1,10 @@
 import Log from "../models/Log.js";
-import { UAParser } from 'ua-parser-js';
 import { getEmail, getToken } from "../routes/login.js";
 // import { jwtDecode } from "jwt-decode";
-import os from 'os';
 import axios from 'axios';
 import { fetchedBrowser, getUserIP } from "../routes/utils.js";
 
 async function getUserDetails() {
-  const parser = new UAParser();
-  const cpu = parser.getCPU();
 
   const ipuser = getUserIP();
   const res = await axios.get(`https://ipinfo.io/${ipuser}/json`);
@@ -18,14 +14,13 @@ async function getUserDetails() {
     ip_address: getUserIP() || "Empty",
     location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
     os_version: setOS() || "Unknown OS",
-    processor: cpu.architecture || os.cpus()[0].model || "Empty",
     browser_type: setBrowser() || "Unknown Browser"
   };
 }
 
 export async function LogAction(message, rEmail) {
 
-    const { ip_address, location, os_version, processor, browser_type } = await getUserDetails();
+    const { ip_address, location, os_version, browser_type } = await getUserDetails();
     // const fetchResult = await fetchUserDetails();
     // let result;
     
@@ -64,7 +59,6 @@ export async function LogAction(message, rEmail) {
         action: message,
         ip_address: ip_address,
         os_version: os_version,
-        processor: processor,
         browser_type: browser_type,
         location: location
     });
