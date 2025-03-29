@@ -73,7 +73,7 @@ router.post('/', upload.fields([{ name: "resume" }, { name: "cover"}]), async (r
     
         console.log('RESUME: ', resume);
         console.log('COVER: ', cover);
-        const { email, c_name, c_location, c_position, job_id, name, } = req.body;
+        const { email, c_name, c_location, c_position, job_id, name, c_logo } = req.body;
         console.log(req.body);
     
         const apply = await Application.create({ // TO BE ADDED - JOB ID
@@ -81,6 +81,7 @@ router.post('/', upload.fields([{ name: "resume" }, { name: "cover"}]), async (r
             c_name: c_name,
             c_location: c_location,
             c_position: c_position,
+            c_logo: c_logo,
             resume: resume.filename,
             cover_letter: cover.filename,
             status: "pending",
