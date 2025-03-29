@@ -9,8 +9,9 @@ const User = sequelize.define('try_users', {
   password: { type: DataTypes.STRING, allowNull: false },
   user_role: { type: DataTypes.STRING, allowNull: false, defaultValue: "user"},
   location: { type: DataTypes.STRING, allowNull: true },
-  number: { type: DataTypes.STRING, allowNull: true },
-}, { createdAt: false, updatedAt: false, } // ----- EDIT MO NALANG WEL
+  number: { type: DataTypes.STRING(11), allowNull: true },
+  bio: { type:DataTypes.STRING(300), allowNull: true },
+  }, { createdAt: false, updatedAt: true, }
 );
 
 export default User;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -19,7 +19,8 @@ function Login() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(`http://localhost:3000/login`, { email, password });
+      await axios.get(import.meta.env.VITE_API_URL + '/utils/detect-browser');
+      const response = await axios.post(import.meta.env.VITE_API_URL + `/login`, { email, password });
       const token = response.data.token;
       localStorage.setItem('token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -77,7 +78,7 @@ function Login() {
 
                 <button 
                   type="submit" 
-                  className="bg-[#497D74] text-white py-3 mt-6 rounded-lg font-medium transition transform hover:scale-105 shadow-md"
+                  className="bg-[#497D74] text-white py-3 mt-6 rounded-xl font-medium transition transform hover:scale-105 shadow-md"
                 >
                   {isLoading ? 'Logging in...' : 'Login'}
                 </button>

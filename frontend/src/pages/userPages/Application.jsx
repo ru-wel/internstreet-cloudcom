@@ -47,7 +47,7 @@ const Application = () => {
         applyData.append('name', user.name);
         
         try{
-            const result = await axios.post("http://localhost:3000/apply-job", applyData,
+            const result = await axios.post(import.meta.env.VITE_API_URL + "/apply-job", applyData,
             {
                 headers: {"Content-Type": "multipart/form-data" },
             });
@@ -65,7 +65,7 @@ const Application = () => {
     
         if (Object.keys(error).length === 0){
           try {
-            const response = await axios.put(`http://localhost:3000/users/profile/${UID}`, editDetails);
+            const response = await axios.put(import.meta.env.VITE_API_URL + `/users/profile/${UID}`, editDetails);
             alert('Successfully updated user details');
           } catch (error) {
             console.error('Error updating user:', error);
@@ -91,7 +91,7 @@ const Application = () => {
         const fetchUser = async () => {
         try {
             if (!UID) return;
-            const response = await fetch(`http://localhost:3000/users/${UID}`);
+            const response = await fetch(import.meta.env.VITE_API_URL + `/users/${UID}`);
             const result = await response.json();
             setUser(result);
         } catch (err) {
@@ -106,11 +106,11 @@ const Application = () => {
     }, [UID]);
 
     return (
-        <div>
+        <div className='bg-gradient-to-r from-[#b4d5ce] to-[#c6f5ed] to-90%'>
             <Nav></Nav>
-            <div className="items-start bg-[#cfdbd8] px-10 py-7 rounded-t-3xl">
+            <div className="items-start px-10 py-7 rounded-t-3xl">
                 <div className="flex flex-col lg:flex-row lg:ml-30 ml-0 mt-10 overflow-hidden max-w-2xl md:max-w-4xl w-full items-center justify-center">
-                    <div className="bg-[#EFE9D5] p-2 rounded-3xl border-1 max-w-xs sm:max-w-md">
+                    <div className="bg-[#d1eae6] p-2 rounded-3xl border-1 max-w-xs sm:max-w-md">
                         <img src={google} alt="Job Image" className="w-24 p-4 h-auto object-cover rounded-2xl" />
                     </div>
 
@@ -118,21 +118,20 @@ const Application = () => {
                         <h3 className="text-gray-500 text-lg mb-2 font-semibold uppercase">Applying for</h3>
                         <h2 className="text-3xl lg:text-4xl font-bold text-black mt-2">{company.title}</h2>
                         <p className="text-black mt-1 text-lg">{company.name}</p>
-                        <a href="#" className="mt-4 text-black underline">View Job Description</a>
                     </div>
                 </div>
 
 
                 <hr className="my-8 border-t-2 border-gray-400 w-full max-w-7xl mx-auto" />
 
-                <div className="bg-[#b1c7c3] p-6 max-w-7xl mx-auto rounded-3xl my-10">
+                <div className="bg-gradient-to-r from-[#94c6bc] to-[#c6eee8] to-90% p-8 mt-9 max-w-7xl mx-auto rounded-3xl my-20 border">
                     <div className='max-w-5xl mx-auto'>
-                        <h2 className="text-4xl font-bold text-center lg:text-left my-4">Personal Details</h2>
+                        <h2 className="text-4xl font-bold text-center lg:text-left my-8">Personal Details</h2>
                         <form onSubmit={handleEdit} className="space-y-4 max-w-4xl mx-auto mt-8">
                             <div className="flex flex-col sm:flex-row sm:space-x-20">
                                 <div className="w-full lg:w-1/2 mb-4 md:mb-0">
-                                    <label className="block text-black font-semibold text-md mb-2">Full Name</label>
-                                    <input type="text" className="p-3 border border-gray-400 w-full rounded-3xl text-center bg-white placeholder-gray-500 text-black focus:outline-none" placeholder='Full Name' value={user.name} disabled/>
+                                  <p className="text-black font-semibold text-md">Full Name</p>
+                                  <p className="px-0 lg:px-10 py-2 text-lg">{user.name}</p>
                                 </div>
                             </div>
 
@@ -148,10 +147,11 @@ const Application = () => {
 
                             <div>
                                 <p className="text-black font-semibold text-md">Email Address</p>
-                                <p className="px-0 lg:px-10 py-2 text-lg">internstreetph@gmail.com</p>
+                                <p className="px-0 lg:px-10 py-2 text-lg">{user.email}</p>
                             </div>
 
                             <button type="submit" className="bg-[#497D74] text-white px-8 py-2 text-lg rounded-3xl cursor-pointer" >Save</button>
+                            <p>*this only updates your personal info above</p>
 
                             <div className="flex space-x-4">
                                 <div className="w-1/2 flex flex-col items-center">

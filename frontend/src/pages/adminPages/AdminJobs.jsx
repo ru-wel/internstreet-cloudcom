@@ -42,7 +42,7 @@ function AdminJobs() {
     const fetchJobs = async () => {
       setIsLoading(true);
       try {
-          const result = await fetch(`http://localhost:3000/jobs`);
+          const result = await fetch(import.meta.env.VITE_API_URL + `/jobs`);
           if (!result.ok) {
             throw new Error('Failed to fetch jobs');
           }
@@ -118,7 +118,7 @@ function AdminJobs() {
 
     // if (validateData()){
       try {
-        const response = await axios.post('http://localhost:3000/jobs/add', jobData);
+        const response = await axios.post(import.meta.env.VITE_API_URL + '/jobs/add', jobData);
         const newJob = response.data.newJob; 
         setFilteredJobs([...filteredJobs, newJob]);
         setAddModalOpen(false);
@@ -168,7 +168,7 @@ function AdminJobs() {
     setIsLoading(true);
 
     try {
-      const response = await axios.put(`http://localhost:3000/jobs/${editJob.id}`, editJob);
+      const response = await axios.put(import.meta.env.VITE_API_URL + `/jobs/${editJob.id}`, editJob);
       alert('Job details updated succesfully!');
       setEditModalOpen(false);
       setFilteredJobs(prevJobs => prevJobs.map(job => job.id === editJob.id ? { ...job, ...editJob } : job)
@@ -188,7 +188,7 @@ function AdminJobs() {
 
     setIsLoading(true);
     try {
-      const response = await fetch(`http://localhost:3000/jobs/${jobId}`, {
+      const response = await fetch(import.meta.env.VITE_API_URL + `/jobs/${jobId}`, {
         method: "DELETE",
       });
       if (!response.ok) {
@@ -363,6 +363,7 @@ function AdminJobs() {
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Updated At</th>
                     <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
@@ -387,6 +388,9 @@ function AdminJobs() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {job.created_at ? new Date(job.created_at).toLocaleString() : "Loading..."}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {job.updatedAt ? new Date(job.updatedAt).toLocaleString() : "NULL"}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <button className="text-indigo-600 hover:text-indigo-900 mr-4" onClick={() => handleEdit(job)}>Edit</button>

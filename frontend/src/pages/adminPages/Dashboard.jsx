@@ -30,7 +30,7 @@ function Dashboard() {
     const fetchUser = async () => {
       try {
         if (!UID) return;
-        const response = await fetch(`http://localhost:3000/users/${UID}`);
+        const response = await fetch(import.meta.env.VITE_API_URL + `/users/${UID}`);
         const result = await response.json();
         setUser(result);
       } catch (err) {
