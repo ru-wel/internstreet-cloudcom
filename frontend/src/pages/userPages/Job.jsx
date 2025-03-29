@@ -34,7 +34,7 @@ function Job() {
   }, [jId]);
 
   const handleApply = () =>{
-    navigate('/apply', { state: { title: job.title, desc: job.description, name: job.company, location: job.location, id: job.id }})
+    navigate('/apply', { state: { title: job.title, desc: job.description, name: job.company, location: job.location, logo: job.logo, id: job.id }})
   }
   if (error) return <p>Error: {error}</p>;
   if (!job) return <p className='flex justify-center align-middle h-screen w-screen'>Loading job details...</p>;
@@ -56,7 +56,7 @@ function Job() {
         <div className="flex items-center lg:mx-10">
           <div className="h-40 w-40 flex-shrink-0 bg-[#edfcf9] border rounded-4xl p-2 flex items-center justify-center overflow-hidden">
             <img src = {job.logo} className="h-full w-full object-cover"/>
-            </div>
+          </div>
           <div className="">
             <h1 className="lg:ml-10 ml-5 lg:text-4xl text-2xl font-bold text-gray-800">{job.title}</h1>
             <h3 className=" lg:ml-10 ml-5 lg:text-2xl text-xl font-semibold text-gray-800 ">{job.company}</h3>

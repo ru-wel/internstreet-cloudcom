@@ -4,7 +4,6 @@ import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 import person from '/images/person-placeholder.png';
 import Footer from '../components/Footer';
-import google from '/images/google-logo.png';
 
 function UserProfile() {
   const [user, setUser] = useState([]);
@@ -235,7 +234,7 @@ function UserProfile() {
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="flex items-center">
                                 <div className="h-10 w-10 flex-shrink-0">
-                                  <img className="h-10 w-10 rounded-full object-cover" src={google} alt="" /> { /* TO BE CHANGED */ }
+                                  <img className="h-10 w-10 rounded-full object-cover" src={application.c_logo} alt="" /> { /* TO BE CHANGED */ }
                                 </div>
                                 <div className="ml-4">
                                   <div className="text-sm font-medium text-gray-900">{application.c_name}</div>

@@ -3,8 +3,10 @@ import { FaSearch, FaMapMarkerAlt } from "react-icons/fa";
 import { Helmet } from 'react-helmet';
 import Nav from '../components/Nav'
 import Footer from '../components/Footer';
+import { useNavigate } from "react-router-dom";
 
 function JobListing() {
+    const navigate = useNavigate();
     const [jobs, setJobs] = useState([]);
     const [filteredJobs, setFiltered] = useState([]);
     const [jTitle, setJTitle] = useState("");
@@ -37,7 +39,9 @@ function JobListing() {
         );
         setJobs(result);
     }
-    
+    const handleApply = (job) =>{
+        navigate('/apply', { state: { title: job.title, desc: job.description, name: job.company, location: job.location, logo: job.logo, id: job.id }})
+    }
     if (error){
         console.log('Error handling search: ', error);
     }
@@ -109,8 +113,8 @@ function JobListing() {
 
                         <div className="mt-9">
                             <h2 className = "text-xl text-left">{job.title}</h2>
-                            <div className="">
-                                <button className="bg-[#497D74] rounded-2xl px-3 text-sm text-white">Intern</button>
+                            <div className="flex items-left">
+                            <button className="bg-[#497D74] rounded-2xl px-3 text-sm text-white mt-2">Intern</button>
                             </div>
                             
                         </div>
@@ -131,7 +135,7 @@ function JobListing() {
                         </div>
 
                         <div className="flex justify-center gap-10 pt-8">
-                            <button className="bg-[#497D74] lg:rounded-4xl rounded-2xl lg:px-7 px-5 p-1 text-md text-white transition transform hover:scale-105">Apply</button>
+                            <button onClick={() => handleApply(job)} className="bg-[#497D74] lg:rounded-4xl rounded-2xl lg:px-7 px-5 p-1 text-md text-white transition transform hover:scale-105">Apply</button>
                             <button className="bg-[#27445D] lg:rounded-3xl rounded-2xl lg:px-7 px-4 p-1 text-md text-white transition transform hover:scale-105 border-[#1d3346] border-b-4 border-r-5"><a href={`/job/${job.id}`}>View Details</a></button>
                         </div>
                     </div> 
