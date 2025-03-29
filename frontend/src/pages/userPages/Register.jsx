@@ -15,7 +15,7 @@ function Register() {
   const validateData = () => {
     const error = {};
 
-    if (!userData.password || userData.password.length < 8 || !!/[A-Z]/.test(userData.password)){
+    if (!userData.password || userData.password.length < 8 || !/[A-Z]/.test(userData.password)){
       error.password = 'Password must be at least 8 characters and must include an uppercase letter.';
     }
 

@@ -41,7 +41,6 @@ function AdminLogs() {
         log.action?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         log.ip_address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         log.os_version?.toLowerCase().includes(searchTerm.toLowerCase()) || 
-        log.processor?.toLowerCase().includes(searchTerm.toLowerCase()) || 
         log.browser_type?.toLowerCase().includes(searchTerm.toLowerCase()) || 
         log.location?.toLowerCase().includes(searchTerm.toLowerCase())
       );
@@ -135,7 +134,6 @@ function AdminLogs() {
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IP Address</th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">OS Version</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Processor</th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Browser</th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
                     <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Delete</th>
@@ -159,9 +157,6 @@ function AdminLogs() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {log.os_version}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {log.processor}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {log.browser_type}

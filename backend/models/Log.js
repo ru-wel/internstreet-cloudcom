@@ -8,7 +8,6 @@ const Log = sequelize.define('try_logs', {
   action: { type: DataTypes.STRING, allowNull: false },
   ip_address: { type: DataTypes.STRING, allowNull: false },
   os_version: { type: DataTypes.STRING, allowNull: false },
-  processor: { type: DataTypes.STRING, allowNull: false },
   browser_type: { type: DataTypes.STRING, allowNull: false },
   location: { type: DataTypes.STRING, allowNull: false },
 }, { timestamps: false }
