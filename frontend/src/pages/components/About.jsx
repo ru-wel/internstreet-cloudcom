@@ -1,5 +1,5 @@
 import React from "react";
-import heroimg from "/images/about.jpg";
+import heroimg from "/images/about-min.jpg";
 
 function About() {
   return (
@@ -22,6 +22,7 @@ function About() {
               src={heroimg}
               alt="About Intern StreetPH"
               className="w-full h-full object-cover border-2"
+              loading="lazy"
             />
           </div>
         </div>

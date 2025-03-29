@@ -115,7 +115,7 @@ router.delete('/:id', async (req, res, next) => {
   }
 });
 
-// ADD USER
+// ADD ADMIN USER
 router.post('/add', async (req, res) => {
   const { name, email, password } = req.body;
   const user_role = "admin";
@@ -145,6 +145,7 @@ router.post('/add', async (req, res) => {
   }
 })
 
+// EDIT USER ROLE
 router.put('/role/:id', async (req, res, next) => {
   const { id, } = req.params;
   const user_role = req.body.user_role;
@@ -156,8 +157,8 @@ router.put('/role/:id', async (req, res, next) => {
     }
     await User.update({ user_role }, { where: { 'id' : id } });
     const message = `Successfully changed user "${user.email}" to role: ${user_role}`;
-    res.status(200).json({ message: message});
     await LogAction(message);
+    res.status(200).json({ message: message});
   } catch (error) {
     console.error('Error updating user:', error);
     next(error);

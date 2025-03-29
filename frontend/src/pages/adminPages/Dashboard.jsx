@@ -95,15 +95,17 @@ function Dashboard() {
           </nav>
 
           <div className="mt-5 p-4 border-t border-[#2C4B45]">
-            <div className="flex items-center">
-              <div className="h-8 w-8 rounded-full flex-shrink-0 bg-gray-200 flex items-center justify-center">
-                <img src={`https://avatar.iran.liara.run/username?username=${user.name}`} alt="" />
+            <a href="/profile">
+              <div className="flex items-center px-4 py-2.5 rounded-lg group transition-all duration-200 hover:bg-[#345952]">
+                <div className="h-8 w-8 rounded-full flex-shrink-0 bg-gray-200 flex items-center justify-center">
+                  <img src={`https://avatar.iran.liara.run/username?username=${user.name}`} alt="" />
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-white">{user.name}</p>
+                  <p className="text-xs text-gray-400">{user.email}</p>
+                </div>
               </div>
-              <div className="ml-3">
-                <p className="text-sm font-medium text-white">{user.name}</p>
-                <p className="text-xs text-gray-400">{user.email}</p>
-              </div>
-            </div>
+            </a>
           </div>
 
           <div className="px-2">
