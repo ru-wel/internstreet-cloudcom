@@ -28,7 +28,7 @@ router.delete('/:id', async (req, res, next) => {
         if (!log) return res.status(404).json({ message: 'Log not found!'});
 
         await Log.destroy({ where: { "id" : id } });
-        const message = `Successfully deleted Log`;
+        const message = `Successfully deleted Log: user: ${log.email} | action: ${log.action}`;
         res.status(200).json({ message: message });
         await LogAction(message);
     } catch (error) {
