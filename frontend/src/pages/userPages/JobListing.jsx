@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import Nav from '../components/Nav'
 import Footer from '../components/Footer';
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 function JobListing() {
     const navigate = useNavigate();
@@ -12,6 +13,7 @@ function JobListing() {
     const [jTitle, setJTitle] = useState("");
     const [jLocation, setJLocation] = useState("");
     const [error, setErrors] = useState("");
+    const [applyData, setApplyData] = useState([]);
 
     useEffect(() => {
         const fetchJobs = async () => {
@@ -20,6 +22,17 @@ function JobListing() {
                 const fetchedJobs = await result.json();
                 setJobs(fetchedJobs);
                 filteredJobs.includes() ? null : (setFiltered(fetchedJobs));
+
+                const jobApplications = await Promise.all(
+                    fetchedJobs.map(async (job) => {
+                      const application = await axios.get(
+                        import.meta.env.VITE_API_URL + `/apply-job/${job.company}/${job.title}`
+                      );
+                      return { ...job, applicationData: application.data };
+                    })
+                );
+            
+                setApplyData(jobApplications);
             } catch (err) {
                 console.error('Error fetching jobs:', err);
                 setErrors(err.message || 'Failed to fetch jobs.');
@@ -38,6 +51,16 @@ function JobListing() {
                 job.title.toLowerCase().includes(jTitle.toLowerCase()) || job.company.toLowerCase().includes(jTitle.toLowerCase()) && job.location.toLowerCase().includes(jLocation.toLowerCase())
         );
         setJobs(result);
+        const jobApplications = await Promise.all(
+            result.map(async (job) => {
+              const application = await axios.get(
+                import.meta.env.VITE_API_URL + `/apply-job/${job.company}/${job.title}`
+              );
+              return { ...job, applicationData: application.data };
+            })
+        );
+    
+        setApplyData(jobApplications);
     }
     const handleApply = (job) =>{
         navigate('/apply', { state: { title: job.title, desc: job.description, name: job.company, location: job.location, logo: job.logo, id: job.id }})
@@ -135,7 +158,9 @@ function JobListing() {
                         </div>
 
                         <div className="flex justify-center gap-10 pt-8">
-                            <button onClick={() => handleApply(job)} className="bg-[#497D74] lg:rounded-4xl rounded-2xl lg:px-7 px-5 p-1 text-md text-white transition transform hover:scale-105">Apply</button>
+                            <button onClick={() => handleApply(job)} className={`bg-[#497D74] lg:rounded-4xl rounded-2xl lg:px-7 px-5 p-1 text-md text-white transition transform ${applyData[index]?.applicationData ? "" : "hover:scale-105 cursor-pointer"}`} disabled={applyData[index]?.applicationData}>
+                            {applyData[index]?.applicationData ? "Applied" : "Apply"}
+                            </button>
                             <button className="bg-[#27445D] lg:rounded-3xl rounded-2xl lg:px-7 px-4 p-1 text-md text-white transition transform hover:scale-105 border-[#1d3346] border-b-4 border-r-5"><a href={`/job/${job.id}`}>View Details</a></button>
                         </div>
                     </div> 
