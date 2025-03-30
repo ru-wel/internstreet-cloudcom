@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FaUpload } from "react-icons/fa";
 import { useLocation, useNavigate } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode';
+import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
@@ -31,7 +32,6 @@ const Application = () => {
 
         if(!resume || !cover){
             alert('Please upload both requirements!');
-            console.log('Hi')
             return;
         }
 
@@ -52,7 +52,6 @@ const Application = () => {
                 headers: {"Content-Type": "multipart/form-data" },
             });
             alert('Successfully applied');
-            console.log(result.data);
             navigate(`/job/${company.id}`);
         }catch(error){
             console.log(error);
@@ -107,6 +106,9 @@ const Application = () => {
 
     return (
         <div className='bg-gradient-to-r from-[#b4d5ce] to-[#c6f5ed] to-90%'>
+            <Helmet>
+              <title>{company.title} for {company.name} | InternStreet</title>
+            </Helmet>
             <Nav></Nav>
             <div className="items-start px-10 py-7 rounded-t-3xl">
                 <div className="flex flex-col lg:flex-row lg:ml-30 ml-0 mt-10 overflow-hidden max-w-2xl md:max-w-4xl w-full items-center justify-center">

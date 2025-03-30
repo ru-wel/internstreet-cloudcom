@@ -45,8 +45,8 @@ function About() {
 
           {/* Call to Action Button */}
           <div className="flex justify-center md:justify-start pt-6">
-            <a href="/about">
-              <button className="bg-[#5c938a] text-[#ffffff] px-4 sm:px-7 py-2 sm:py-3 text-base sm:text-lg rounded-full shadow-md hover:bg-[#538376] transition-all border-[#2b4843] border-b-4 border-r-4 ">
+            <a href="/about" className="cursor-pointer">
+              <button className="bg-[#5c938a] text-[#ffffff] px-4 sm:px-7 py-2 sm:py-3 text-base sm:text-lg rounded-full shadow-md hover:bg-[#538376] transition-all border-[#2b4843] border-b-4 border-r-4 cursor-pointer">
                 Read More &gt;&gt;
               </button>
             </a>

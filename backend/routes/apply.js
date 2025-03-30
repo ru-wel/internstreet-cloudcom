@@ -70,13 +70,9 @@ router.post('/', upload.fields([{ name: "resume" }, { name: "cover"}]), async (r
         const resume = req.files["resume"] ? req.files["resume"][0] : null;
         const cover = req.files["cover"] ? req.files["cover"][0] : null;
     
-    
-        console.log('RESUME: ', resume);
-        console.log('COVER: ', cover);
         const { email, c_name, c_location, c_position, job_id, name, c_logo } = req.body;
-        console.log(req.body);
     
-        const apply = await Application.create({ // TO BE ADDED - JOB ID
+        const apply = await Application.create({
             email: email,
             c_name: c_name,
             c_location: c_location,
@@ -87,22 +83,18 @@ router.post('/', upload.fields([{ name: "resume" }, { name: "cover"}]), async (r
             status: "pending",
             job_id: job_id,
             name: name,
-
         })
         const message = `Has successfully applied to "${c_name}" as a "${c_position}"`;
-        console.log(message); // FOR TESTING PURPOSES
 
         res.status(201).json({ message: message, apply});
         await LogAction(message);
     } catch(error){
         console.error("Error applying job:", error);
         res.status(500).json({ message: 'Error while applying'});
-
     }
 });
 
 // CHECK IF CLIENT HAS ALREADY APPLIED FOR THAT JOB
-
 router.get('/:company/:position', async (req, res) => {
     try {
         const application = await Application.findOne({
@@ -114,10 +106,8 @@ router.get('/:company/:position', async (req, res) => {
         });
         if(application){
             res.status(200).send(true);
-            console.log('YOU DID THE RIGHT CHOICE!'); // FOR TESTING PURPOSES
         }else{
             res.status(200).send(false);
-            console.log('APPLY NOW!'); // FOR TESTING PURPOSES
         }
     } catch(error){
         console.error('Error fetching application: ', error);
@@ -126,7 +116,6 @@ router.get('/:company/:position', async (req, res) => {
 });
 
 // FETCH APPLICATIONS OF A USER
-
 router.get('/', async (req, res) => {
 
   try {

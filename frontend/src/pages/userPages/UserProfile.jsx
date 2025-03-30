@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Nav from '../components/Nav';
 import { jwtDecode } from "jwt-decode";
+import { Helmet } from 'react-helmet';
 import axios from 'axios';
+import Nav from '../components/Nav';
 import person from '/images/person-placeholder.png';
 import Footer from '../components/Footer';
 
@@ -78,13 +79,16 @@ function UserProfile() {
 
   return (
     <div className='bg-gradient-to-br from-[#8ecfc2] via-[#e1f7f3] to-[#78b8b1]'>
+      <Helmet>
+        <title>My Profile | InternStreet</title>
+      </Helmet>
       <Nav></Nav>
 
       {/* MAS MADAGUL RIGHT CONTAINER */}
 
       {loading ? (
         <div className="text-center py-12 ">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#ADC4C0] mx-auto "></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#1F3531] mx-auto "></div>
           <p className="mt-4 text-gray-500">Loading data...</p>
         </div>
       ) : error ? (

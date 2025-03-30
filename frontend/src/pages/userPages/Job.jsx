@@ -14,7 +14,6 @@ function Job() {
 
   const fetchApplication = async (company, title) =>{
     const application = await axios.get(import.meta.env.VITE_API_URL + `/apply-job/${company}/${title}`);
-    console.log(application.data);
     application.data ? (setApplied(true)) : (setApplied(false));
   }
   useEffect(() => {
@@ -37,20 +36,17 @@ function Job() {
     navigate('/apply', { state: { title: job.title, desc: job.description, name: job.company, location: job.location, logo: job.logo, id: job.id }})
   }
   if (error) return <p>Error: {error}</p>;
-  if (!job) return <p className='flex justify-center align-middle h-screen w-screen'>Loading job details...</p>;
+  if (!job) return 
+    <div className="flex justify-center items-center h-64">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-[#1F3531] border-solid"></div>
+    </div>
 
   return (
     <div className="bg-gradient-to-r from-[#94c6bc] to-[#c6eee7] to-90% ">
       <Helmet>
-        <title>Job | InternStreet</title>
+        <title>{job.title} for {job.company} | InternStreet</title>
       </Helmet>
       <Nav></Nav>
-
-      {/* TO BE DISCUSSED */}
-
-      {/* <div className="bg-[#497D74] rounded-3xl px-6 py-3 text-3xl font-bold text-center mb-10">
-        <h1>{job.title}</h1>
-      </div> */}
 
       <div className="lg:grid lg:grid-cols-2 mx-10 mt-5">
         <div className="flex items-center lg:mx-10">
@@ -63,7 +59,7 @@ function Job() {
             <p className=" lg:ml-10 ml-5 lg:text-lg text-md text-gray-800 ">{job.location}</p>
 
             <div className="mt-4">
-              <button onClick={handleApply} className=" lg:ml-10 ml-5 text-white lg:text-lg text-md rounded-3xl px-5 py-2 bg-[#497D74]" disabled={isApplied}><a className="cursor-pointer">{isApplied ? "Applied" : "Apply Now"}</a></button> {/* TO BE FIXED */}
+              <button onClick={handleApply} className=" lg:ml-10 ml-5 text-white lg:text-lg text-md rounded-3xl px-5 py-2 bg-[#497D74]" disabled={isApplied}><a className="cursor-pointer">{isApplied ? "Applied" : "Apply Now"}</a></button>
             </div> 
           </div>
         </div>

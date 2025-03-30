@@ -39,7 +39,6 @@ const AppContent = () => {
       <Route path="/about" element={<AboutPage />} />
       <Route path="/" element={<JobListing />} />
       <Route path='/job/:jId' element={<Job />} />
-      <Route path='/apply' element={<Application />} />
 
       <Route element={<GuestWrapper />}>
         <Route path="/login" element={<Login />} />
@@ -47,6 +46,7 @@ const AppContent = () => {
       </Route>
 
       <Route element={<UserWrapper />}>
+        <Route path='/apply' element={<Application />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/logout" element={<Logout />} />
 

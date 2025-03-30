@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import figma from '/images/figma-logo.png';
-import google from '/images/google-logo.png';
-import microsoft from '/images/microsoft-logo.png';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -55,7 +52,7 @@ const FeaturedJob = () => {
                             </span>
                             <div className="ml-3">
                                 <h3 className="text-md font-bold text-gray-800">{job.company}</h3>
-                                <p className="text-sm text-gray-800">Angeles City</p>
+                                <p className="text-sm text-gray-800">{job.location}</p>
                             </div>
                         </div>
 
