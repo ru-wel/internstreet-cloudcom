@@ -42,7 +42,7 @@ const Benefits = () => {
 
       {/* Call to Action */}
       <div className="mt-10 sm:mt-14">
-      <a href="/apply" className="bg-[#5c938a] text-[#ffffff] px-4 sm:px-7 py-2 sm:py-3 text-lg sm:text-lg rounded-full shadow-md hover:bg-[#538376] transition-all border-[#2b4843] border-b-4 border-r-4">
+      <a href="/login" className="bg-[#5c938a] text-[#ffffff] px-4 sm:px-7 py-2 sm:py-3 text-lg sm:text-lg rounded-full shadow-md hover:bg-[#538376] transition-all border-[#2b4843] border-b-4 border-r-4">
         Get Started Now
       </a>
 

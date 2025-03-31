@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
-import google from '/images/google-logo.png';
 
 function AdminJobs() {
   const [jobs, setJobs] = useState([]);
@@ -23,6 +22,7 @@ function AdminJobs() {
       job_qualifications: '',
       employer_questions: '',
     },
+    logo: ''
   }
   const [jobData, setJobData] = useState(initialJobData);
 
@@ -35,7 +35,8 @@ function AdminJobs() {
       job_description: '',
       job_qualifications: '',
       employer_questions: '',
-    }
+    },
+    logo: ''
   });
 
   useEffect(() => {
@@ -232,11 +233,14 @@ function AdminJobs() {
         {/* ADD JOB MODAL */}
         {addModalOpen && (
           <div className="fixed inset-0 bg-[rgba(0,0,0,0.6)] flex items-center justify-center z-50">
-            <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-lg mx-4 relative">
+            <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-lg mx-4 relative max-h-full overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:transparent">
               <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Add Job</h2>
 
               <form onSubmit={handleSubmit} className='flex flex-col'>
-
+                <label htmlFor="logo" className='text-left text-gray-700 text-md font-semibold mb-1'>Logo
+                  <input type="text" name="logo" value={jobData.logo} onChange={handleChange} required placeholder='Logo URL' className='w-full mt-2 p-3 mb-4 border rounded-xl text-black bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#497D74]'
+                  />
+                </label>
                 <label htmlFor="company" className='text-left text-gray-700 text-md font-semibold mb-1'>Company
                   <input type="text" name="company" value={jobData.company} onChange={handleChange} required placeholder='Company' className='w-full mt-2 p-3 mb-4 border rounded-xl text-black bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#497D74]'
                   />
@@ -285,8 +289,8 @@ function AdminJobs() {
         {/* EDIT USER ROLE MODAL */}
         {editModalOpen && (
           <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">Add Admin</h2>
+            <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4 max-h-full overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:transparent">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">Edit Job</h2>
 
               <form onSubmit={handleEditSubmit} className='flex flex-col px-2'>
 
@@ -295,6 +299,10 @@ function AdminJobs() {
                   <option value="job">User</option>
                 </select> */}
 
+                <label htmlFor="logo" className='text-left text-gray-700 text-md font-semibold mb-1'>Logo
+                  <input type="text" name="logo" value={editJob.logo} onChange={handleEditChange} required placeholder='Logo URL' className='w-full mt-2 p-3 mb-4 border rounded-xl text-black bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#497D74]'
+                  />
+                </label>
                 <label htmlFor="company" className='text-left text-gray-700 text-md font-semibold mb-1'>Company
                   <input type="text" name="company" value={editJob.company} onChange={handleEditChange} required placeholder='Company' className='w-full mt-2 p-3 mb-4 border rounded-xl text-black bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#497D74]'
                   />

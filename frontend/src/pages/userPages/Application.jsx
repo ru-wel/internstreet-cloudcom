@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { FaUpload } from "react-icons/fa";
 import { useLocation, useNavigate } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode';
+import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import Nav from '../components/Nav'
-import google from '/images/google.png'
 import Footer from '../components/Footer'
 
 const Application = () => {
@@ -32,7 +32,6 @@ const Application = () => {
 
         if(!resume || !cover){
             alert('Please upload both requirements!');
-            console.log('Hi')
             return;
         }
 
@@ -43,6 +42,7 @@ const Application = () => {
         applyData.append('resume', resume);
         applyData.append('cover', cover);
         applyData.append('c_location', company.location);
+        applyData.append('c_logo', company.logo);
         applyData.append('job_id', company.id);
         applyData.append('name', user.name);
         
@@ -52,7 +52,6 @@ const Application = () => {
                 headers: {"Content-Type": "multipart/form-data" },
             });
             alert('Successfully applied');
-            console.log(result.data);
             navigate(`/job/${company.id}`);
         }catch(error){
             console.log(error);
@@ -106,12 +105,15 @@ const Application = () => {
     }, [UID]);
 
     return (
-        <div>
+        <div className='bg-gradient-to-r from-[#b4d5ce] to-[#c6f5ed] to-90%'>
+            <Helmet>
+              <title>{company.title} for {company.name} | InternStreet</title>
+            </Helmet>
             <Nav></Nav>
-            <div className="items-start bg-[#cfdbd8] px-10 py-7 rounded-t-3xl">
+            <div className="items-start px-10 py-7 rounded-t-3xl">
                 <div className="flex flex-col lg:flex-row lg:ml-30 ml-0 mt-10 overflow-hidden max-w-2xl md:max-w-4xl w-full items-center justify-center">
-                    <div className="bg-[#EFE9D5] p-2 rounded-3xl border-1 max-w-xs sm:max-w-md">
-                        <img src={google} alt="Job Image" className="w-24 p-4 h-auto object-cover rounded-2xl" />
+                    <div className="bg-[#d1eae6] p-2 rounded-3xl border-1 max-w-xs sm:max-w-md">
+                        <img src={company.logo} alt="Job Image" className="w-24 p-4 h-auto object-cover rounded-2xl" />
                     </div>
 
                     <div className="w-full lg:w-2/3 lg:ml-12 flex flex-col items-center lg:items-start justify-center mt-4 lg:mt-0">
@@ -124,9 +126,9 @@ const Application = () => {
 
                 <hr className="my-8 border-t-2 border-gray-400 w-full max-w-7xl mx-auto" />
 
-                <div className="bg-[#b1c7c3] p-6 max-w-7xl mx-auto rounded-3xl my-10">
+                <div className="bg-gradient-to-r from-[#94c6bc] to-[#c6eee8] to-90% p-8 mt-9 max-w-7xl mx-auto rounded-3xl my-20 border">
                     <div className='max-w-5xl mx-auto'>
-                        <h2 className="text-4xl font-bold text-center lg:text-left my-4">Personal Details</h2>
+                        <h2 className="text-4xl font-bold text-center lg:text-left my-8">Personal Details</h2>
                         <form onSubmit={handleEdit} className="space-y-4 max-w-4xl mx-auto mt-8">
                             <div className="flex flex-col sm:flex-row sm:space-x-20">
                                 <div className="w-full lg:w-1/2 mb-4 md:mb-0">

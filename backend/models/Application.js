@@ -9,6 +9,7 @@ const Application = sequelize.define('try_application', {
   c_name: { type: DataTypes.STRING, allowNull: false },
   c_location: { type: DataTypes.STRING, allowNull: false },
   c_position: { type: DataTypes.STRING, allowNull: false },
+  c_logo: { type: DataTypes.STRING, allowNull: false },
   resume: { type: DataTypes.STRING, allowNull: false },
   cover_letter: { type: DataTypes.STRING, allowNull: false },
   status: { type: DataTypes.STRING, allowNull: false },

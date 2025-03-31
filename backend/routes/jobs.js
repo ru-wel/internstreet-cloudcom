@@ -78,7 +78,7 @@ router.get('/:id', async (req, res) => {
 // EDIT JOB
 router.put('/:id', async (req, res, next) => {
   const { id } = req.params;
-  const { title, company, location, details } = req.body;
+  const { title, company, location, details, logo } = req.body;
   const updates = {};
   
   try {
@@ -93,6 +93,7 @@ router.put('/:id', async (req, res, next) => {
     if (company && company !== job.company) updates.company = company;
     if (location && location !== job.location) updates.location = location;
     if (details && JSON.stringify(details) !== JSON.stringify(job.details)) updates.details = details;
+    if (logo && logo !== job.logo) updates.logo = logo;
 
     // check if may laman yung updates = {}
     if (Object.keys(updates).length === 0) {
@@ -132,7 +133,7 @@ router.delete('/:id', async (req, res, next) => {
 
 // ADD JOB
 router.post('/add', async (req, res, next) => {
-  const { title, company, location, details } = req.body;
+  const { title, company, location, details, logo } = req.body;
 
   try {
     const newJob = await Job.create({
@@ -140,6 +141,7 @@ router.post('/add', async (req, res, next) => {
       company: company, 
       location: location,
       details: details,
+      logo: logo
     });
     const message = `Successfully added Job: "${newJob.title}" from "${newJob.company}"`;
     res.status(201).json({ message: message, newJob });
