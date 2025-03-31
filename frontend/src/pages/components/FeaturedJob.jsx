@@ -45,7 +45,7 @@ const FeaturedJob = () => {
     
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-6xl mx-auto p-5">
                 {fetchedJobs.map((job, jobIndex) => (
-        <div key={jobIndex} className="bg-[#EFE9D5] p-4 sm:p-6 md:p-8 border-2 rounded-3xl shadow-xl transform transition-all">
+        <div key={jobIndex} className="bg-[#f5f0e1] p-4 sm:p-6 md:p-8 border-2 rounded-3xl shadow-xl transform transition-all">
          <div className="flex items-center">
                             <span className="w-12 h-12 flex-shrink-0">
                                 <img src={job.logo} alt={job.company} className="w-full" />

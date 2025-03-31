@@ -96,19 +96,19 @@ function UserProfile() {
       ) : (
 
         <div className='flex flex-col items-center '>
-        <h1 className="lg:text-6xl text-4xl font-bold py-2 tracking-wide mt-20 mb-20">My Profile</h1>
+        <h1 className="lg:text-6xl text-4xl font-bold py-2 tracking-wide mt-20 mb-10">My Profile</h1>
 
           <div className='bg-gradient-to-br from-[#8ecfc2] via-[#e1f7f3] to-[#78b8b1] rounded-3xl flex flex-col items-center mx-auto my-5 max-w-6xl shadow-lg w-[95%] p-12  border'>
             <div className="flex flex-col md:flex-row w-full p-6 lg:p-10 gap-6">
             
-            <div className="bg-gradient-to-r from-[#93c7bd] to-[#68a49c] border backdrop-blur-lg rounded-2xl p-8 mt-8 md:mt-8 md:w-1/3 relative shadow-md">
+            <div className="bg-gradient-to-r from-[#79b9ab] to-[#88d2c9] border backdrop-blur-lg rounded-2xl p-8 mt-8 md:mt-8 md:w-1/3 relative shadow-md">
               <div className="w-30 h-30 rounded-full bg-stone-100 p-1 shadow-lg absolute top-[-46px] left-6">
                 <img src={person} alt="Profile" className="w-full h-full rounded-full object-cover" />
               </div>
 
               <div className="mt-16 text-white">
                 <h1 className="text-3xl font-bold tracking-tight">{user.name}</h1>
-                <div className="flex items-center gap-1 my-3 text-[#ffffff]">
+                <div className="flex items-center gap-1 my-3 text-white">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -116,7 +116,7 @@ function UserProfile() {
                   <span className="text-m">{user.location ? user.location : "ADD YOUR LOCATION"}</span>
                 </div>
                 
-                <div className="flex items-center gap-1 text-[#ffffff]">
+                <div className="flex items-center gap-1 text-white">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
@@ -125,13 +125,13 @@ function UserProfile() {
               </div>
 
               <div className="mt-8">
-                <button className="bg-[#7ca29a] text-[#ffffff] px-2 sm:px-4 py-4 sm:py-3 sm:text-sm rounded-full shadow-md hover:bg-[#88b5ad] transition-all border-[#62847d] border-b-4 border-r-4 cursor-pointer" onClick={() => handleEdit(user)}>
+                <button  className="bg-[#5c938a] border-[#2b4843] border-r-4 border-b-4 text-white py-2 px-4 rounded-2xl transition transform hover:scale-105 mb-4 sm:mb-0 cursor-pointer" onClick={() => handleEdit(user)}>
                   Edit Profile
                 </button>
               </div>
             </div>
 
-            <div className="md:w-2/3 bg-gradient-to-r from-[#93c7bd] to-[#70b1aa]  border-zinc-600 backdrop-blur-lg rounded-2xl p-8 mt-4 md:mt-8 shadow-md border">
+            <div className="md:w-2/3 bg-gradient-to-r from-[#79b9ab] to-[#88d2c9] border-zinc-600 backdrop-blur-lg rounded-2xl p-8 mt-4 md:mt-8 shadow-md border">
               <h3 className="text-2xl font-bold mb-6 text-[#fbfbfb] border-b border-[#497D74] pb-2 ">About Me</h3>
               
               <div className="space-y-5">
@@ -187,7 +187,7 @@ function UserProfile() {
                       <button type="button" onClick={() => setEditModalOpen(false)} className="px-4 py-2 bg-gray-200 text-gray-800  rounded-2xl hover:bg-gray-300 transition-colors">
                         Cancel
                       </button>
-                      <button type="submit" className="bg-[#5c938a] border-2 border-[#2b4843] border-b-6 border-r-6 text-white py-2 px-4 rounded-2xl transition transform hover:scale-105 mb-4 sm:mb-0 cursor-pointer">
+                      <button type="submit" className="bg-[#5c938a] border-[#2b4843] border-r-4 border-b-4 text-white py-2 px-4 rounded-2xl transition transform hover:scale-105 mb-4 sm:mb-0 cursor-pointer">
                         Save
                       </button>
                     </div>
@@ -204,7 +204,7 @@ function UserProfile() {
           <div className='bg-gradient-to-br from-[#8ecfc2] via-[#e1f7f3] to-[#78b8b1] border rounded-3xl flex flex-col items-center mx-auto my-5 max-w-6xl shadow-lg w-[95%] mb-30'>
             <div className="w-full flex items-center justify-center min-h-full p-6 lg:p-10">
               <div className="container max-w-6xl">
-                <div className="bg-white rounded-xl shadow-md overflow-hidden">
+                <div className="bg-gradient-to-br from-[#f5f0e1] via-[#f5f0e1] to-[#ddd8c9] rounded-xl shadow-md overflow-hidden">
                   <div className="p-6 border-b border-gray-200">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                       <div>
@@ -216,25 +216,25 @@ function UserProfile() {
                 
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
+                      <thead className="bg-gradient-to-br from-[#f5f0e1] via-[#f5f0e1] to-[#ddd8c9] ">
                         <tr>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
                             Company
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
                             Position
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-black  uppercase tracking-wider">
                             Status
                           </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
                             Application Date
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
+                      <tbody className="bg-gradient-to-br from-[#f5f0e1] via-[#f5f0e1] to-[#ddd8c9] divide-y divide-gray-200">
                         {applications.map((application, index) => (
-                          <tr key={index} className="hover:bg-gray-50 transition-colors duration-150">
+                          <tr key={index} className="hover:bg-yellow-50 transition-colors duration-150">
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="flex items-center">
                                 <div className="h-10 w-10 flex-shrink-0">

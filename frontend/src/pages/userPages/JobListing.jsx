@@ -127,7 +127,7 @@ function JobListing() {
                 <div className="lg:grid lg:grid-cols-3 gap-4 max-w-6xl lg:mx-auto md:mx-10 mx-10 m-5 p-5">
                   {jobs.map((job, index) => (
                     <div key={index} className="my-2 lg:m-0 md:mx-25">
-                      <div className="bg-[#EFE9D5] p-6 rounded-3xl border">
+                      <div className="bg-[#f5f0e1] p-6 rounded-3xl border">
                         <div className="flex items-center">
                           <div className="h-15 w-15 flex-shrink-0 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
                             <img src={job.logo} className="h-full w-full object-cover" />

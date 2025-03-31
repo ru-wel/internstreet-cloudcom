@@ -28,7 +28,7 @@ function About() {
         </div>
 
         {/* Text Content Section */}
-        <div className="bg-[#F8F5EC] text-gray-900 p-6 md:p-10 lg:pl-20 lg:pr-30 lg:py-20 border rounded-3xl shadow-xl transition duration-300 text-center md:text-left w-full md:w-1/2">
+        <div className="bg-[#f5f0e1] text-gray-900 p-6 md:p-10 lg:pl-20 lg:pr-30 lg:py-20 border rounded-3xl shadow-xl transition duration-300 text-center md:text-left w-full md:w-1/2">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#386059] mb-4 ">
             About Us
           </h2>

@@ -42,7 +42,7 @@ function Job() {
     </div>
 
   return (
-    <div className="bg-gradient-to-r from-[#94c6bc] to-[#c6eee7] to-90% ">
+    <div className="bg-gradient-to-r from-[#c0e5de] to-[#b7e2db] to-90% ">
       <Helmet>
         <title>{job.title} for {job.company} | InternStreet</title>
       </Helmet>
@@ -50,7 +50,7 @@ function Job() {
 
       <div className="lg:grid lg:grid-cols-2 mx-10 mt-5">
         <div className="flex items-center lg:mx-10">
-          <div className="h-40 w-40 flex-shrink-0 bg-[#edfcf9] border rounded-4xl p-2 flex items-center justify-center overflow-hidden">
+          <div className="h-40 w-40 flex-shrink-0 bg-[#add1ca] border rounded-4xl p-2 flex items-center justify-center overflow-hidden">
             <img src = {job.logo} className="h-full w-full object-cover"/>
           </div>
           <div className="">
@@ -80,8 +80,9 @@ function Job() {
         </div>
       </div>
       
-      <div className="rounded-3xl bg-gradient-to-r from-[#a7dbd1] to-[#cdf2ec] backdrop-blur-lg border lg:mt-10 lg:mx-20 lg:px-15 lg:py-10 md:mt-10 md:mx-20 md:px-15 md:py-10 mx-5 mt-10 px-8 py-10">
-        <h2 className="text-xl font-bold">Job Description:</h2>
+      
+      <div className="rounded-3xl bg-gradient-to-r from-[#a7dbd1] to-[#cdf2ec] backdrop-blur-lg  border lg:mt-10 lg:mx-20 lg:px-15 lg:py-10 md:mt-10 md:mx-20 md:px-15 md:py-10 mx-5 mt-10 px-8 py-10">
+        <h2 className="text-xl font-bold text-">Job Description:</h2>
         <div className="text-lg lg:px-40 md:px-5  px-6 mt-5">
           <p style={{ whiteSpace: 'pre-line' }}> {/* converts \n to actual line breaks */ }
             {job.details.job_description}
@@ -91,16 +92,16 @@ function Job() {
 
       <div className="lg:grid lg:grid-cols-2 md:grid md:grid-cols-2 gap-4 lg:mx-20 md:mx-20 mx-5 lg:mt-5 md:mt-2 mb-4">
 
-        <div className="rounded-3xl bg-gradient-to-r from-[#a7dbd1] to-[#cdf2ec] backdrop-blur-lg border lg:px-15 lg:py-10 md:px-10 md:py-10 mt-5 px-8 py-10 lg:mt-0 md:mt-0">
+        <div className="rounded-3xl bg-gradient-to-r from-[#a7dbd1] to-[#cdf2ec] backdrop-blur-lg border lg:px-15 lg:py-10 md:px-10 md:py-10 mt-5 px-8 py-10 lg:mt-0 md:mt-0 mb-5">
           <h2 className="text-xl font-bold">Job Qualification:</h2>
-          <div className="text-lg lg:px-5 md:px-5 mt-5 px-6">
+          <div className="text-lg lg:px-5 md:px-5 mt-5 px-6 ">
             <p style={{ whiteSpace: 'pre-line' }}> {/* converts \n to actual line breaks */ }
               {job.details.job_qualifications}
             </p>
           </div>
         </div>
         
-        <div className="rounded-3xl bg-gradient-to-r from-[#a7dbd1] to-[#cdf2ec] backdrop-blur-lg border lg:px-15 lg:py-10 md:px-10 md:py-10 mt-5 lg:mt-0 md:mt-0 px-8 py-10">
+        <div className="rounded-3xl bg-gradient-to-r from-[#a7dbd1] to-[#cdf2ec] backdrop-blur-lg border lg:px-15 lg:py-10 md:px-10 md:py-10 mt-5 lg:mt-0 md:mt-0 px-8 py-10 mb-5">
           <h2 className="text-xl font-bold">Employer Questions:</h2>
           <div className="text-lg lg:px-5 md:px-5 mt-5 px-6">
             <p style={{ whiteSpace: 'pre-line' }}> {/* converts \n to actual line breaks */ }

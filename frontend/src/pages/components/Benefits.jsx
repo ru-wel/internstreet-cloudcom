@@ -15,7 +15,7 @@ const Benefits = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-4xl w-full">
         
         {/* Student Benefits */}
-        <div className="bg-[#F8F5EC] text-gray-900 p-10 sm:p-16 md:p-20 border rounded-3xl shadow-xl transform transition-all hover:scale-105">
+        <div className="bg-[#f5f0e1] text-gray-900 p-10 sm:p-16 md:p-20 border rounded-3xl shadow-xl transform transition-all hover:scale-105">
           <h3 className="text-2xl sm:text-3xl font-semibold mb-4 sm:mb-6 text-[#497D74]">
             For Student Interns
           </h3>
@@ -27,7 +27,7 @@ const Benefits = () => {
         </div>
         
         {/* Company Benefits */}
-        <div className="bg-[#F8F5EC] text-gray-900 p-10 sm:p-16 md:p-20 border rounded-3xl shadow-xl transform transition-all hover:scale-105">
+        <div className="bg-[#f5f0e1] text-gray-900 p-10 sm:p-16 md:p-20 border rounded-3xl shadow-xl transform transition-all hover:scale-105">
           <h3 className="text-2xl sm:text-3xl font-semibold mb-4 sm:mb-6 text-[#497D74]">
             For Companies
           </h3>

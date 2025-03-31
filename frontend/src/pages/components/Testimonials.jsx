@@ -34,7 +34,7 @@ const Testimonials = () => {
         {testimonials.map((testimonial, index) => (
           <div
             key={index}
-            className="p-6 sm:p-8 bg-[#F8F5EC] border rounded-2xl shadow-xl flex flex-col items-center transition transform hover:scale-105 hover:shadow-2xl max-w-xs sm:max-w-sm mx-auto"
+            className="p-6 sm:p-8 bg-[#f5f0e1] border rounded-2xl shadow-xl flex flex-col items-center transition transform hover:scale-105 hover:shadow-2xl max-w-xs sm:max-w-sm mx-auto"
           >
             <img
               src={testimonial.image}

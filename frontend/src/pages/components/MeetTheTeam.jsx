@@ -20,7 +20,7 @@ function MeetTheTeam() {
             <img 
               src={member.imgSrc} 
               alt={member.name} 
-              className="w-full mx-auto object-cover rounded-3xl mb-4"
+              className="w-md  mx-auto object-cover rounded-3xl mb-4"
             />
             <p className="text-xl font-semibold text-[#27445D]">{member.name}</p>
             <p className="text-md text-gray-500">{member.role}</p>
