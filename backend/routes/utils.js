@@ -9,6 +9,7 @@ import Job from '../models/Job.js';
 import Log from '../models/Log.js';
 import path from 'path';
 import { Op } from 'sequelize';
+import { Axios } from 'axios';
 
 const app = express();
 app.use(express.json());
