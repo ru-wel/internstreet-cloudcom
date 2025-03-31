@@ -30,7 +30,8 @@ const UserWrapper = () => {
 
         const data = await response.json();
 
-        const vpnDetected = await axios.get(import.meta.env.VITE_API_URL + "/utils/realIP");
+        const res = await axios.get(import.meta.env.VITE_API_URL + "/utils/realIP");
+        const vpnDetected = res.data.proxy;
 
         if (!response.ok && !data.valid){
           setIsAuthenticated(false);

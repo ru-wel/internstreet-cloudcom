@@ -182,8 +182,8 @@ router.get('/realIP', async (req, res) => {
 
   const resp = await axios.get(`http://ip-api.com/json/${clientIP}?fields=proxy`);
 
-  const vpnDetected = resp.data.proxy;
-  res.json(vpnDetected);
+  const proxy = resp.data.proxy;
+  res.json({ proxy });
 });
 
 const getLastWeekUserCounts = async (model, dbValue) => {
