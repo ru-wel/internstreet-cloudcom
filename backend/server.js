@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3000;
 // ------ TO BE ADDED WITH FRONTEND INIT ------ //
 
 app.use(cors({
-  origin: ['https://internstreetph.site', 'https://www.internstreetph.site'],
+  origin: ['https://internstreetph.site', 'https://www.internstreetph.site', 'http://ip-api.com'],
   methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
   exposedHeaders: ['Content-Disposition'],
 }));
