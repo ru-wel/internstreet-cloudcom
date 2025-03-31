@@ -7,7 +7,8 @@ import Footer from '../components/Footer';
 
 const AboutPage = () => {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#e2f3ef] via-[#d2eae6] to-[#d5f8f1] shadow-xl">
+
         <Helmet>
           <title>About Us | InternStreet</title>
         </Helmet>

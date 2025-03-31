@@ -96,62 +96,62 @@ router.get('/logout', (req, res) => {
 
 // DOWNLOAD RESUME/COVER
 router.get('/download/:id/:filename', async (req, res) => { 
-    try {
-        const application = await Application.findByPk(req.params.id);
-    
-        if (!application) {
-            return res.status(404).json({ message: 'Application not found' });
+  try {
+    const application = await Application.findByPk(req.params.id);
+
+    if (!application) {
+        return res.status(404).json({ message: 'Application not found' });
+    }
+
+    if (application.resume !== req.params.filename && application.cover_letter !== req.params.filename) {
+        return res.status(400).json({ message: 'Filename does not exist' });
+    }        
+
+    const filePath = path.join('uploads', req.params.filename);
+    const fileName = req.params.filename;
+
+    res.setHeader('Content-Type', 'application/octet-stream');
+    res.setHeader('Content-Disposition', `attachment; filename="${application.file_name}"`);
+    res.download(filePath, fileName, (err) => {
+        if (err) {
+            res.status(500).send({ message: 'Error downloading the file', error: err });
         }
-
-        if (application.resume !== req.params.filename && application.cover_letter !== req.params.filename) {
-            return res.status(400).json({ message: 'Filename does not exist' });
-        }        
-
-        const filePath = path.join('uploads', req.params.filename);
-        const fileName = req.params.filename;
-
-        res.setHeader('Content-Type', 'application/octet-stream');
-        res.setHeader('Content-Disposition', `attachment; filename="${application.file_name}"`);
-        res.download(filePath, fileName, (err) => {
-            if (err) {
-                res.status(500).send({ message: 'Error downloading the file', error: err });
-            }
-        });
-        } catch (err) {
-            console.error(err);
-            res.status(500).json({ message: 'Error retrieving the file', error: err.message });
-        }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error retrieving the file', error: err.message });
+  }
 });
 
 // FOR ANALYTICS - TO BE EDITED PA
 router.get('/analytics', async (req, res) => { 
-    try {
-        const userCounts = await getLastWeekUserCounts(User, 'created_at');
-        const applicationCounts = await getLastWeekUserCounts(Application, 'applied_at');
-        const logResult = await fetch(process.env.API_URL + `/logs`);
+  try {
+      const userCounts = await getLastWeekUserCounts(User, 'created_at');
+      const applicationCounts = await getLastWeekUserCounts(Application, 'applied_at');
+      const logResult = await fetch(process.env.API_URL + `/logs`);
 
-        const fetchedLogs = await logResult.json();
-        const slicedLogs = fetchedLogs.slice(0, 5);
+      const fetchedLogs = await logResult.json();
+      const slicedLogs = fetchedLogs.slice(0, 5);
 
-        let usersDetails = await Promise.all(
-            slicedLogs.map(async log => {
-                const result = await User.findAll({
-                    where: { email: log.email },
-                });
-        
-                return {
-                    ...log,
-                    name: result.length > 0 ? result[0].dataValues.name : "Unknown"
-                };
-            })
-        );
-        
-        res.status(200).json({ userCounts, applicationCounts, slicedLogs: usersDetails });
-        
-    } catch (error) {
-        console.error('Error fetching analytics:', error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
+      let usersDetails = await Promise.all(
+          slicedLogs.map(async log => {
+              const result = await User.findAll({
+                  where: { email: log.email },
+              });
+      
+              return {
+                  ...log,
+                  name: result.length > 0 ? result[0].dataValues.name : "Unknown"
+              };
+          })
+      );
+      
+      res.status(200).json({ userCounts, applicationCounts, slicedLogs: usersDetails });
+      
+  } catch (error) {
+      console.error('Error fetching analytics:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
 })
 
 // COUNT APPLICATION, JOBS, LOGS, USERS OBJECTS IN TABLES
@@ -178,9 +178,7 @@ router.get('/count', async (req, res) => {
 
 router.get('/realIP', async (req, res) => {
   const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-  console.log(clientIP);
-  res.json({ message: "Successfully fetched IP Address." });
-  // userIP = clientIP;
+  res.send(clientIP);
 });
 
 const getLastWeekUserCounts = async (model, dbValue) => {

@@ -73,6 +73,8 @@ function setOS() {
   let formattedOS = os;
   if (os.includes('OS X')) {
     formattedOS = os.replace('OS X', 'macOS');
+  } else if (os.includes('Linux ')) {
+    formattedOS = os.replace('Linux ', '');
   }
 
   return formattedOS;

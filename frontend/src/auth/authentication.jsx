@@ -30,13 +30,10 @@ const UserWrapper = () => {
 
         const data = await response.json();
 
-        // BALIK MO TO MAMAYA
-        // const getIp = await axios.get("https://ipinfo.io/json");
-        // const userIp = getIp.data.ip;
+        const userIp = await axios.get(import.meta.env.VITE_API_URL + "/utils/realIP");
+        const res = await axios.get(`http://ip-api.com/json/${userIp}?fields=proxy`);
 
-        // const res = await axios.get(`http://ip-api.com/json/${userIp}?fields=proxy`);
-
-        // const vpnDetected = res.data.proxy;
+        const vpnDetected = res.data.proxy;
 
         if (!response.ok && !data.valid){
           setIsAuthenticated(false);
@@ -49,8 +46,7 @@ const UserWrapper = () => {
         } else { 
           setIsAuthenticated(true);
           setRole(decoded.role);
-          // BALIK MO TO MAMAYA
-          // vpnDetected ? (setIsVPN(true)): (setIsVPN(false));
+          vpnDetected ? (setIsVPN(true)): (setIsVPN(false));
         }
       } catch (error) {
         console.error('Error decoding token: ', error);
@@ -79,16 +75,15 @@ const UserWrapper = () => {
 const AdminWrapper = () => {
   const { role, isVPN } = useContext(AuthContext);
 
-  // BALIK MO TO MAMAYA
-  // if (!role || role !== 'admin') {
-  //   alert('Insufficient permissions.');
-  //   return <Navigate to="/" replace />;
-  // }
+  if (!role || role !== 'admin') {
+    alert('Insufficient permissions.');
+    return <Navigate to="/" replace />;
+  }
   
-  // if (!isVPN) {
-  //   alert('VPN not detected.');
-  //   return <Navigate to="/" replace />;
-  // }
+  if (!isVPN) {
+    alert('VPN not detected.');
+    return <Navigate to="/" replace />;
+  }
   
   return <Outlet />;
   
@@ -121,11 +116,11 @@ const GuestWrapper = () => {
         const decoded = jwtDecode(token);
         if (decoded.exp * 1000 < Date.now()){
           localStorage.removeItem('token');
-          // setRole(null);
+          setRole(null);
           setIsValidToken(false);
         } else { 
           setIsValidToken(true);
-          // setRole(decoded.role); 
+          setRole(decoded.role); 
         }
       } catch (error) {
         console.error('Error decoding token: ', error);

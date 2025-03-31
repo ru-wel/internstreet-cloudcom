@@ -42,20 +42,20 @@ const Nav = () => {
             
             {/* Mobile Nav */}
             {isOpen && (
-              <div className="absolute right-0 mt-2 w-30 bg-[#a4bdb9] shadow-lg rounded-lg py-2 flex flex-col text-center items-center border border-[#497D74]">
-                <a href="/" className="block px-4 py-2 text-gray-700 w-full">Find Jobs</a>
+              <div className="absolute right-0 mt-2 w-30 bg-[#8bbcb4] shadow-lg rounded-lg py-2 flex flex-col text-center items-center border border-[#497D74]">
+                <a href="/" className="block px-4 py-2 text-white w-full">Find Jobs</a>
                 {!role ? (
                   <>
-                    <a href="/login" className="block px-4 py-2 text-gray-700 text-center mx-2">Login</a>
-                    <a href="/register" className="block px-4 py-2 text-gray-700 text-center mx-2">Sign Up</a>
+                    <a href="/login" className="block px-4 py-2 text-white  text-center mx-2">Login</a>
+                    <a href="/register" className="block px-4 py-2 text-white  text-center mx-2">Sign Up</a>
                   </>
                 ) : (
                   <>
                     {role === 'admin' && (
-                      <a href="/admin-dashboard" className="block px-4 py-2 text-gray-700 w-full">Admin Dashboard</a>
+                      <a href="/admin-dashboard" className="block px-4 py-2 text-white  w-full">Admin Dashboard</a>
                     )}
-                    <a href="/profile" className="block px-4 py-2 text-gray-700 w-full">Profile</a>
-                    <a href="/logout" className="block px-4 py-2 text-gray-700 w-full">Logout</a>
+                    <a href="/profile" className="block px-4 py-2 text-white  w-full">Profile</a>
+                    <a href="/logout" className="block px-4 py-2 text-white  w-full">Logout</a>
                   </>
                 )}
               </div>

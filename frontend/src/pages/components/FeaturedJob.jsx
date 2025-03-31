@@ -40,12 +40,12 @@ const FeaturedJob = () => {
         navigate('/apply', { state: { title: job.title, desc: job.description, name: job.company, location: job.location, logo: job.logo, id: job.id }})
     }
     return(
-        <div className="bg-gradient-to-r from-[#8ecfc2] to-[#c6eee7] to-90% rounded-[50px] mt-8 mb-2 mx-4 sm:mx-6 md:mx-8 py-8 border shadow-xl">
+        <div className="bg-gradient-to-r from-[#90d4cc] to-[#a1ded7]to-70%  rounded-[50px] mt-8 mb-2 mx-4 sm:mx-6 md:mx-8 py-8 border shadow-xl">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-center pt-6 text-black">Featured Jobs</h1>
     
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-6xl mx-auto p-5">
                 {fetchedJobs.map((job, jobIndex) => (
-        <div key={jobIndex} className="bg-[#EFE9D5] p-4 sm:p-6 md:p-8 border-2 rounded-3xl shadow-xl transform transition-all">
+        <div key={jobIndex} className="bg-[#f5f0e1] p-4 sm:p-6 md:p-8 border-2 rounded-3xl shadow-xl transform transition-all">
          <div className="flex items-center">
                             <span className="w-12 h-12 flex-shrink-0">
                                 <img src={job.logo} alt={job.company} className="w-full" />
@@ -72,10 +72,10 @@ const FeaturedJob = () => {
                         </div>
 
                         <div className="flex flex-wrap justify-center gap-3 sm:gap-6 pt-4 w-full sm:w-auto">
-                            <button onClick={() => handleApply(job)} className={`bg-[#497D74] rounded-3xl px-4 sm:px-7 py-2 text-sm sm:text-md text-white transition transform ${applyData[jobIndex]?.applicationData ? "" : "hover:scale-105 cursor-pointer"} border-[#2b4843] border-b-5 border-r-5`} disabled={applyData[jobIndex]?.applicationData}>
+                            <button onClick={() => handleApply(job)} className={`bg-[#497D74] rounded-3xl px-4 sm:px-7 py-2 text-sm sm:text-md text-white transition transform ${applyData[jobIndex]?.applicationData ? "" : "hover:scale-105 cursor-pointer"} border-[#2b4843] border-b-4 border-r-4`} disabled={applyData[jobIndex]?.applicationData}>
                             {applyData[jobIndex]?.applicationData ? "Applied" : "Apply"}
                             </button>
-                            <a href={`/job/${job.id}`} className="bg-[#2d4e6c] rounded-3xl px-4 sm:px-6 py-2 text-sm sm:text-md text-white transition transform hover:scale-105 border-[#1d3346] border-b-5 border-r-5">
+                            <a href={`/job/${job.id}`} className="bg-[#2d4e6c] rounded-3xl px-4 sm:px-6 py-2 text-sm sm:text-md text-white transition transform hover:scale-105 border-[#1d3346] border-b-4 border-r-4">
                                 View Details
                             </a>
                         </div>
