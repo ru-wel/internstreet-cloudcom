@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
 
     const token = jwt.sign(
       payload,
-      process.env.JWT_SECRET || 'internstreetcloudcomputing',
+      process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
 

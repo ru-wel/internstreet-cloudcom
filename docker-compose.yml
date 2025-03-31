@@ -34,6 +34,7 @@ services:
       - DB_PASS=${DB_PASS}
       - RDS_DB_HOST=${RDS_DB_HOST}
       - DB_PORT=${DB_PORT}
+      - JWT_SECRET=${JWT_SECRET}
     command: ["npm", "start"]
     depends_on:
       - frontend

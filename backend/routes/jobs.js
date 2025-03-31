@@ -13,14 +13,14 @@ router.post('/login', async (req, res) => {
   const username = req.body.username;
   const user = { name: username, role: 'admin' };
   // const user = { name: username, role: 'user' };
-  const accessToken = jwt.sign(user, 'internstreetcloudcomputing', { expiresIn: '1h' } );
+  const accessToken = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1h' } );
   res.json({ accessToken: accessToken });
 });
 
 // DUMMY PROTECTED ROUTE ?
 // router.put('/:id', checkToken, async (req, res) => {
 //   try {
-//     jwt.verify(req.token, 'internstreetcloudcomputing', (err, authorizedData) => {
+//     jwt.verify(req.token, process.env.JWT_SECRET, (err, authorizedData) => {
 //       if (err || authorizedData.role != 'admin'){
 //         console.log('Could not connect to the protected route: ', err);
 //         res.status(403).json({message:'Access to this resource is prohibited'});
