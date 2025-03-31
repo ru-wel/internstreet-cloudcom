@@ -72,10 +72,10 @@ const FeaturedJob = () => {
                         </div>
 
                         <div className="flex flex-wrap justify-center gap-3 sm:gap-6 pt-4 w-full sm:w-auto">
-                            <button onClick={() => handleApply(job)} className={`bg-[#497D74] rounded-3xl px-4 sm:px-7 py-2 text-sm sm:text-md text-white transition transform ${applyData[jobIndex]?.applicationData ? "" : "hover:scale-105 cursor-pointer"} border-[#2b4843] border-b-5 border-r-5`} disabled={applyData[jobIndex]?.applicationData}>
+                            <button onClick={() => handleApply(job)} className={`bg-[#497D74] rounded-3xl px-4 sm:px-7 py-2 text-sm sm:text-md text-white transition transform ${applyData[jobIndex]?.applicationData ? "" : "hover:scale-105 cursor-pointer"} border-[#2b4843] border-b-4 border-r-4`} disabled={applyData[jobIndex]?.applicationData}>
                             {applyData[jobIndex]?.applicationData ? "Applied" : "Apply"}
                             </button>
-                            <a href={`/job/${job.id}`} className="bg-[#2d4e6c] rounded-3xl px-4 sm:px-6 py-2 text-sm sm:text-md text-white transition transform hover:scale-105 border-[#1d3346] border-b-5 border-r-5">
+                            <a href={`/job/${job.id}`} className="bg-[#2d4e6c] rounded-3xl px-4 sm:px-6 py-2 text-sm sm:text-md text-white transition transform hover:scale-105 border-[#1d3346] border-b-4 border-r-4">
                                 View Details
                             </a>
                         </div>
