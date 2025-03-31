@@ -4,7 +4,7 @@ import heroimg from "/images/about-min.jpg";
 
 function MoreAbout() {
   return (
-    <div className="bg-gradient-to-r from-[#b8dad3] to-[#7fd2c7] p-6 md:p-10 lg:p-15 border mx-4 md:mx-10 lg:mx-15 mb-6 md:mb-10 rounded-[30px]">
+    <div className="bg-gradient-to-br from-[#8ecfc2] via-[#e1f7f3] to-[#78b8b1] p-6 md:p-10 lg:p-15 border mx-4 md:mx-10 lg:mx-15 mb-6 md:mb-10 rounded-[30px]">
       {/* Header */}
       <h1 className="text-3xl md:text-4xl lg:text-6xl text-center font-extrabold text-black tracking-wide drop-shadow-lg mb-6 md:mb-10">
         About <span className="text-[#497D74]">Intern StreetPH</span>

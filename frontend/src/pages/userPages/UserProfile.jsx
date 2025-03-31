@@ -102,7 +102,7 @@ function UserProfile() {
           <div className="flex flex-col md:flex-row w-full gap-6">
             
             {/* Profile Card */}
-            <div className="bg-gradient-to-r from-[#8ac4be] via-[#a2d5cb] to-[#80c7bf] border backdrop-blur-lg rounded-2xl p-6 sm:p-8 mt-10 md:mt-8 md:w-1/3 relative shadow-md text-center">
+            <div className="bg-gradient-to-r from-[#8ac4be] via-[#a6dbd0] to-[#80c7bf] border backdrop-blur-lg rounded-2xl p-6 sm:p-8 mt-10 md:mt-8 md:w-1/3 relative shadow-md text-center">
               <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-stone-100 p-1 shadow-lg absolute -top-12 left-1/2 transform -translate-x-1/2">
                 <img src={person} alt="Profile" className="w-full h-full rounded-full object-cover" />
               </div>
@@ -134,7 +134,7 @@ function UserProfile() {
             </div>
       
             {/* About Me Section */}
-            <div className="md:w-2/3 bg-gradient-to-r from-[#8ecfc2] via-[#a2d5cb] to-[#80c7bf]  border-zinc-600 backdrop-blur-lg rounded-2xl p-6 sm:p-8 mt-6 md:mt-8 shadow-md border">
+            <div className="md:w-2/3 bg-gradient-to-r from-[#8ecfc2] via-[#a9dbd1] to-[#80c7bf]  border-zinc-600 backdrop-blur-lg rounded-2xl p-6 sm:p-8 mt-6 md:mt-8 shadow-md border">
               <h3 className="text-xl sm:text-xl font-bold mb-4 sm:mb-6 text-white border-b border-[#497D74] pb-2">
                 About Me
               </h3>
