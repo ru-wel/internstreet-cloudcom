@@ -4,7 +4,7 @@ import heroimg from '/images/is-hero.webp';
 const Hero = () => {
     return (
         
-        <section className="bg-gradient-to-r from-[#baece1] to-[#7fcdc1] to-70% rounded-[60px] mb-6 mx-8 p-10 text-center border">
+        <section className="bg-gradient-to-r from-[#90d4cc] to-[#a1ded7]to-70% rounded-[60px] mb-6 mx-8 p-10 text-center border">
 
             <div className='flex flex-col lg:flex-row-reverse items-center lg:items-start justify-center lg:justify-between lg:py-10 py-12 lg:px-20 '>
             <div className="w-full lg:w-3/5 flex justify-center mt-auto mb-6 md:mb-10 lg:mb-0">

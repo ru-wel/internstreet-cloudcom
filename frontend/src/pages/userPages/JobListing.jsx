@@ -86,7 +86,7 @@ function JobListing() {
                     <div className="flex flex-col items-center justify-center p-4">
                         <div className="flex w-full md:w-2/3 gap-2 items-center md:my-10 my-4 flex-col md:flex-row">
                     
-                            <div className="flex w-full items-center border bg-white border-gray-300 rounded-3xl p-2 mb-4 md:mb-0">
+                            <div className="flex w-full items-center border bg-white border-black rounded-3xl p-2 mb-4 md:mb-0">
                                 <div className="flex items-center w-1/2">
                                     <FaSearch className="text-gray-700 ms-3 text-xl" />
                                     <input
@@ -127,7 +127,7 @@ function JobListing() {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto p-5 text-left">
       {jobs.map((job, index) => (
         <div key={index} className="my-2">
-          <div className="bg-[#f5f0e1] p-6 rounded-3xl border shadow-lg">
+          <div className="bg-[#f5f0e1] p-6 rounded-3xl border-2 shadow-lg">
             <div className="flex items-center">
               <div className="h-12 w-12 flex-shrink-0 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
                 <img src={job.logo} className="h-full w-full object-cover" />

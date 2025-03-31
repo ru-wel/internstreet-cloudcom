@@ -2,7 +2,7 @@ import React from "react";
 
 const Benefits = () => {
   return (
-    <section className="bg-gradient-to-r from-[#8ecfc2] to-[#cdf2ec] to-90% flex flex-col items-center text-center rounded-[50px] mt-8 mb-4 mx-4 sm:mx-8 p-6 sm:p-12 md:p-18 border shadow-xl">
+    <section className="bg-gradient-to-r from-[#90d4cc] to-[#a1ded7]to-70% flex flex-col items-center text-center rounded-[50px] mt-8 mb-4 mx-4 sm:mx-8 p-6 sm:p-12 md:p-18 border shadow-xl">
       <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold mb-6 sm:mb-10 tracking-wide text-black">
         Why Choose Intern Street?
       </h2>

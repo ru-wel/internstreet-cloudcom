@@ -40,7 +40,7 @@ const FeaturedJob = () => {
         navigate('/apply', { state: { title: job.title, desc: job.description, name: job.company, location: job.location, logo: job.logo, id: job.id }})
     }
     return(
-        <div className="bg-gradient-to-r from-[#8ecfc2] to-[#c6eee7] to-90% rounded-[50px] mt-8 mb-2 mx-4 sm:mx-6 md:mx-8 py-8 border shadow-xl">
+        <div className="bg-gradient-to-r from-[#90d4cc] to-[#a1ded7]to-70%  rounded-[50px] mt-8 mb-2 mx-4 sm:mx-6 md:mx-8 py-8 border shadow-xl">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-center pt-6 text-black">Featured Jobs</h1>
     
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-6xl mx-auto p-5">

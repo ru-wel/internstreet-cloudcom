@@ -3,7 +3,7 @@ import heroimg from "/images/about-min.jpg";
 
 function About() {
   return (
-    <section className="bg-gradient-to-r from-[#8ecfc2] to-[#bbefe5] rounded-[30px] mt-6 mb-6 mx-4 md:mx-6 lg:mx-8 p-6 md:p-12 lg:p-18 border shadow-lg">
+    <section className="bg-gradient-to-r from-[#90d4cc] to-[#a1ded7]to-70% rounded-[30px] mt-6 mb-6 mx-4 md:mx-6 lg:mx-8 p-6 md:p-12 lg:p-18 border shadow-lg">
       
       {/* Title Section */}
       <div className="text-center relative z-10 mb-6 md:mb-8 lg:mb-10">
@@ -47,7 +47,7 @@ function About() {
           <div className="flex justify-center md:justify-start pt-6">
             <a href="/about" className="cursor-pointer">
               <button className="bg-[#5c938a] text-[#ffffff] px-4 sm:px-7 py-2 sm:py-3 text-base sm:text-lg rounded-full shadow-md hover:bg-[#538376] transition-all border-[#2b4843] border-b-4 border-r-4 cursor-pointer">
-                Read More &gt;&gt;
+                Learn More &gt;&gt;
               </button>
             </a>
           </div>

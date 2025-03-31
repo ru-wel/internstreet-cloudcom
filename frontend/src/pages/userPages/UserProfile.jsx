@@ -84,8 +84,6 @@ function UserProfile() {
       </Helmet>
       <Nav></Nav>
 
-      {/* MAS MADAGUL RIGHT CONTAINER */}
-
       {loading ? (
         <div className="text-center py-12 ">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#1F3531] mx-auto "></div>
@@ -95,63 +93,70 @@ function UserProfile() {
         <div className="error">{error}</div>
       ) : (
 
-        <div className='flex flex-col items-center '>
-        <h1 className="lg:text-6xl text-4xl font-bold py-2 tracking-wide mt-20 mb-10">My Profile</h1>
-
-          <div className='bg-gradient-to-br from-[#8ecfc2] via-[#e1f7f3] to-[#78b8b1] rounded-3xl flex flex-col items-center mx-auto my-5 max-w-6xl shadow-lg w-[95%] p-12  border'>
-            <div className="flex flex-col md:flex-row w-full p-6 lg:p-10 gap-6">
+        <div className="flex flex-col items-center w-full px-4 sm:px-6">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold py-2 tracking-wide mt-16 sm:mt-20 mb-8 sm:mb-10 text-center">
+          My Profile
+        </h1>
+      
+        <div className="bg-gradient-to-br from-[#8ecfc2] via-[#e1f7f3] to-[#78b8b1] rounded-3xl flex flex-col items-center mx-auto my-5 w-full max-w-6xl shadow-lg p-6 sm:p-10 border">
+          <div className="flex flex-col md:flex-row w-full gap-6">
             
-            <div className="bg-gradient-to-r from-[#79b9ab] to-[#88d2c9] border backdrop-blur-lg rounded-2xl p-8 mt-8 md:mt-8 md:w-1/3 relative shadow-md">
-              <div className="w-30 h-30 rounded-full bg-stone-100 p-1 shadow-lg absolute top-[-46px] left-6">
+            {/* Profile Card */}
+            <div className="bg-gradient-to-r from-[#8ac4be] via-[#a2d5cb] to-[#80c7bf] border backdrop-blur-lg rounded-2xl p-6 sm:p-8 mt-10 md:mt-8 md:w-1/3 relative shadow-md text-center">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-stone-100 p-1 shadow-lg absolute -top-12 left-1/2 transform -translate-x-1/2">
                 <img src={person} alt="Profile" className="w-full h-full rounded-full object-cover" />
               </div>
-
-              <div className="mt-16 text-white">
-                <h1 className="text-3xl font-bold tracking-tight">{user.name}</h1>
-                <div className="flex items-center gap-1 my-3 text-white">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      
+              <div className="mt-14 sm:mt-16 text-white">
+                <h1 className="text-2xl sm:text-4xl font-bold tracking-tight">{user.name}</h1>
+      
+                <div className="flex items-center justify-center gap-1 my-3 text-white text-lg sm:text-base">
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                  <span className="text-m">{user.location ? user.location : "ADD YOUR LOCATION"}</span>
+                  <span>{user.location || "ADD YOUR LOCATION"}</span>
                 </div>
-                
-                <div className="flex items-center gap-1 text-white">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      
+                <div className="flex items-center justify-center gap-1 text-white text-sm sm:text-base">
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  <span className="text-m">{user.email}</span>
+                  <span>{user.email}</span>
                 </div>
               </div>
-
-              <div className="mt-8">
-                <button  className="bg-[#5c938a] border-[#2b4843] border-r-4 border-b-4 text-white py-2 px-4 rounded-2xl transition transform hover:scale-105 mb-4 sm:mb-0 cursor-pointer" onClick={() => handleEdit(user)}>
+      
+              <div className="mt-6">
+                <button className="bg-[#619c92] border-[#2b4843] border-r-4 border-b-4 text-white py-2 px-4 rounded-3xl transition hover:scale-105 text-sm sm:text-base">
                   Edit Profile
                 </button>
               </div>
             </div>
-
-            <div className="md:w-2/3 bg-gradient-to-r from-[#79b9ab] to-[#88d2c9] border-zinc-600 backdrop-blur-lg rounded-2xl p-8 mt-4 md:mt-8 shadow-md border">
-              <h3 className="text-2xl font-bold mb-6 text-[#fbfbfb] border-b border-[#497D74] pb-2 ">About Me</h3>
-              
-              <div className="space-y-5">
+      
+            {/* About Me Section */}
+            <div className="md:w-2/3 bg-gradient-to-r from-[#8ecfc2] via-[#a2d5cb] to-[#80c7bf]  border-zinc-600 backdrop-blur-lg rounded-2xl p-6 sm:p-8 mt-6 md:mt-8 shadow-md border">
+              <h3 className="text-xl sm:text-xl font-bold mb-4 sm:mb-6 text-white border-b border-[#497D74] pb-2">
+                About Me
+              </h3>
+      
+              <div className="space-y-4 sm:space-y-5">
                 <div>
-                  <h4 className="text-sm uppercase text-white font-medium mb-1">Bio</h4>
-                  <p className="text-white">{user.bio ? user.bio : "ADD YOUR BIO"}</p>
+                  <h4 className=" sm:text-sm uppercase text-white text-lg mb-1">Bio</h4>
+                  <p className="text-white text-lg sm:text-base">{user.bio || "ADD YOUR BIO"}</p>
                 </div>
-                
+      
                 <div>
-                  <h4 className="text-sm uppercase text-white font-medium mb-1">Contact</h4>
-                  <div className="flex items-center gap-2 text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#ffffff]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <h4 className="text-xs sm:text-sm uppercase text-white font-medium mb-1">Contact</h4>
+                  <div className="flex items-center gap-2 text-white text-sm sm:text-base">
+                    <svg className="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
-                    <span>{user.number ? user.number : "ADD YOUR PHONE NUMBER"}</span>
+                    <span>{user.number || "ADD YOUR PHONE NUMBER"}</span>
                   </div>
                 </div>
               </div>
             </div>
-
+            
             {/* MODAL SECTION */}
 
             {editModalOpen && (
@@ -270,11 +275,11 @@ function UserProfile() {
                       </tbody>
                     </table>
                   </div>
-                
                 </div>
               </div>
             </div>
           </div>
+          
         </div>
       )}
       <Footer></Footer>
