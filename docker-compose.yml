@@ -8,9 +8,11 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
+    env_file:
+      - .env
     environment:
-      # - VITE_API_URL=https://internstreetph.site/api
-      - VITE_API_URL=http://localhost:3000
+      - VITE_API_URL=${VITE_API_URL}
+      # - VITE_API_URL=http://localhost:3000
     command: ["npm", "run", "dev"]
 
   backend:
@@ -22,12 +24,17 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
+    env_file:
+      - .env
     environment:
-      # - PORT=3000
-      #- NODE_ENV=development
-      #- API_URL=https://internstreetph.site/api
-      - API_URL=http://localhost:3000
-      # - SUPABASE_URL=${SUPABASE_URL}
+      - NODE_ENV=development
+      - API_URL=${API_URL}
+      # - API_URL=http://localhost:3000
+      - DB_NAME=${DB_NAME}
+      - DB_PASS=${DB_PASS}
+      - RDS_DB_HOST=${RDS_DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - JWT_SECRET=${JWT_SECRET}
     command: ["npm", "start"]
     depends_on:
       - frontend
