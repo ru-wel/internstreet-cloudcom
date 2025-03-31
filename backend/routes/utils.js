@@ -178,7 +178,11 @@ router.get('/count', async (req, res) => {
 
 router.get('/realIP', async (req, res) => {
   const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-  res.send(clientIP);
+
+  const resp = await axios.get(`http://ip-api.com/json/${clientIP}?fields=proxy`);
+
+  const vpnDetected = resp.data.proxy;
+  res.json(vpnDetected);
 });
 
 const getLastWeekUserCounts = async (model, dbValue) => {
