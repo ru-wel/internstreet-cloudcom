@@ -5,19 +5,19 @@ const testimonials = [
   {
     image: person,
     message:
-      "Starting my role as a WordPress administrator has been a joy, thanks to its intuitive interface, media management, security, and plugin integration, making website management a breeze.",
+      "Finding the right internship felt overwhelming, but InternStreet PH made it easy. They matched me with a great company where I gained valuable experience. It was a rewarding journey that helped me grow in my career!",
     rating: 5,
   },
   {
     image: person,
     message:
-      "Starting my role as a WordPress administrator has been a joy, thanks to its intuitive interface, media management, security, and plugin integration, making website management a breeze.",
+      "InternStreet PH made my internship journey smooth and rewarding. They connected me with a great company where I gained hands-on experience and valuable skills. Thanks to them, I felt confident stepping into the professional world!",
     rating: 5,
   },
   {
     image: person,
     message:
-      "Starting my role as a WordPress administrator has been a joy, thanks to its intuitive interface, media management, security, and plugin integration, making website management a breeze.",
+      "Applying for an internship through InternStreet PH was simple and hassle-free. I received guidance every step of the way and was placed in a company where I learned valuable skills. It was a truly enriching experience!",
     rating: 5,
   },
 ];
@@ -34,7 +34,7 @@ const Testimonials = () => {
         {testimonials.map((testimonial, index) => (
           <div
             key={index}
-            className="p-6 sm:p-8 bg-[#F8F5EC] border rounded-2xl shadow-xl flex flex-col items-center transition transform hover:scale-105 hover:shadow-2xl max-w-xs sm:max-w-sm mx-auto"
+            className="p-6 sm:p-8 bg-[#f5f0e1] border rounded-2xl shadow-xl flex flex-col items-center transition transform hover:scale-105 hover:shadow-2xl max-w-xs sm:max-w-sm mx-auto"
           >
             <img
               src={testimonial.image}

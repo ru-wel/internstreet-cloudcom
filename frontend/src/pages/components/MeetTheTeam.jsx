@@ -1,13 +1,19 @@
 import React from 'react';
+import gab from "/images/gab.jpg";
+import abby from "/images/abby.jpg";
+import ethan from "/images/ethan.png";
+import levin from "/images/levin.jpg";
+import wel from "/images/wel.jpg";
+import mina from "/images/mina.jpg";
 
 function MeetTheTeam() {
   const team = [
-    { name: "Gabrielle Mae Rose Delos Santos", role: "Role/Position", imgSrc: "https://placehold.co/400" },
-    { name: "Abby Dizon", role: "Role/Position", imgSrc: "https://placehold.co/400" },
-    { name: "Ethan James Gonzales", role: "Role/Position", imgSrc: "https://placehold.co/400" },
-    { name: "Levin Mallari", role: "Role/Position", imgSrc: "https://placehold.co/400" },
-    { name: "Reuel Christian Sundiam", role: "Role/Position", imgSrc: "https://placehold.co/400" },
-    { name: "Almina Tanglao", role: "Role/Position", imgSrc: "https://placehold.co/400" }
+    { name: "Gabrielle Mae Rose Delos Santos", role: "Frontend Developer", imgSrc: gab },
+    { name: "Abby Dizon", role: "Mockups & UI/UX Developer", imgSrc: abby },
+    { name: "Ethan James Gonzales", role: "Frontend Developer", imgSrc: ethan },
+    { name: "Levin Mallari", role: "Backend Developer", imgSrc: levin },
+    { name: "Reuel Christian Sundiam", role: "Backend Developer", imgSrc: wel },
+    { name: "Almina Tanglao", role: "Mockups & UI/UX Developer", imgSrc: mina }
   ];
 
   return (
@@ -20,7 +26,7 @@ function MeetTheTeam() {
             <img 
               src={member.imgSrc} 
               alt={member.name} 
-              className="w-full mx-auto object-cover rounded-3xl mb-4"
+              className="w-md  mx-auto object-cover rounded-3xl mb-4"
             />
             <p className="text-xl font-semibold text-[#27445D]">{member.name}</p>
             <p className="text-md text-gray-500">{member.role}</p>

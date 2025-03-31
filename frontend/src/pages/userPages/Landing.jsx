@@ -13,8 +13,8 @@ import Footer from '../components/Footer'
 function Landing() {
   return (
 <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#e2f3ef] via-[#d2eae6] to-[#d5f8f1] shadow-xl">
-<Helmet>
-        <title>Landing Page | InternStreet</title>
+      <Helmet>
+        <title>Welcome to InternStreet!</title>
       </Helmet>
       <Nav></Nav>
       <Hero></Hero>
