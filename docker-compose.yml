@@ -24,6 +24,7 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
+    restart: always
     env_file:
       - .env
     environment:
@@ -35,6 +36,6 @@ services:
       - RDS_DB_HOST=${RDS_DB_HOST}
       - DB_PORT=${DB_PORT}
       - JWT_SECRET=${JWT_SECRET}
-    command: ["npm", "start"]
+    command: ["node", "server.js"]
     depends_on:
       - frontend
