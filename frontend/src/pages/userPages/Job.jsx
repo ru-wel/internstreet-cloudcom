@@ -63,22 +63,6 @@ function Job() {
             </div> 
           </div>
         </div>
-        
-        <div className="lg:flex lg:justify-end lg:mt-24 lg:mr-20 justify-center mt-3">
-          <div className="flex md:justify-center">
-          <button className="ml-4 md:ml-6 lg:ml-10 mt-2 text-black rounded-full px-4 md:px-5 py-2 bg-[#d5efea] border flex items-center">
-          Save  
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-bookmark-fill ml-2" viewBox="0 0 16 16">
-                <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2"/>
-              </svg>
-            </button>
-            <button className="ml-4 md:ml-6 lg:ml-10 mt-2 text-black rounded-full px-4 md:px-5 py-2 bg-[#d5efea] border flex items-center">Share
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-share-fill ml-2" viewBox="0 0 16 16">
-                <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5"/>
-              </svg>
-            </button>
-          </div>   
-        </div>
       </div>
       
       
