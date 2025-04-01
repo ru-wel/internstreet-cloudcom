@@ -46,7 +46,6 @@ router.post('/', async (req, res) => {
 
     console.log('Logged In Successfully!');
     LogAction("Has logged in");
-    // payload.role == "admin" ? (LogAction("Has logged in")) : null;
 
   } catch (error) {
     console.error(error);

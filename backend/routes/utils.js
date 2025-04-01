@@ -20,59 +20,6 @@ let browserType = null;
 let osDetails = null;
 let userIP = null;
 
-// ----- FETCH USER DETAILS FUNCTION ------
-
-
-// export async function fetchUserDetails() {
-//     const token = getToken();
-//     let id, name, email, user_role;
-
-//     if(!token){
-//         return { id, name, email, user_role };
-//     }
-//     let userId;
-
-//     try {
-//         const response = await fetch('http://localhost:3000/validate-token', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             Authorization: `Bearer ${token}`,
-//         },
-//         });
-
-//         const data = await response.json();
-//         if (!response.ok && !data.valid){
-//         console.log("User is not logged in!")
-//         }
-//         const decoded = jwtDecode(token);
-//         if (decoded.exp * 1000 < Date.now()){
-//         console.log("Token expired!")
-//         } else { 
-//         userId = decoded.id; 
-//         console.log('THE USER ID IS NOW SET:', userId);
-//         }
-//     } catch (error) {
-//         console.error('Error decoding token: ', error);
-//     }
-
-//     if (!userId){
-//         return;
-//     }
-//     const user = await User.findOne({ where: { 'id' : userId } });
-
-//     id = user.id;
-//     name = user.name;
-//     email = user.email;
-//     user_role = user.user_role;
-//     console.log('USER EMAIL: ', email);
-
-//     return { id, name, email, user_role };
-// }
-
-
-// ---------------------------------
-
 router.get('/detect-browser', async (req, res) => {
     const userAgent = req.headers['user-agent'];
     const userIp = req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress;
@@ -214,27 +161,6 @@ const getLastWeekUserCounts = async (model, dbValue) => {
 
   return { date };
 };
-
-// TRY | FETCH OS + DEVICE TYPE
-// router.get('/os', (req, res) => {
-
-//   const userAgent = req.headers['user-agent'];
-
-//   if (!userAgent) {
-//       return res.status(400).json({ error: "User-Agent not found in request" });
-//   }
-
-//   const os = platform.parse(userAgent);
-//   console.log(os);
-
-//   res.json({ message: "Successfully fetched OS details." });
-//   osDetails = os.os.family + ' ' + os.os.version;
-
-//   // console.log(os.name + ' ' + os.version);
-//   // console.log(result.os.name);
-//   // console.log(result.os.version);
-//   // console.log(result.device.is('mobile'));
-// });
 
 export default router;
 export const fetchedBrowser = () => [browserType, osDetails];

@@ -102,42 +102,25 @@ function AdminJobs() {
     }));
   }
 
-  // const validateData = () => {
-  //    const error = {};
-
-  //   if (!jobData.password || jobData.password.length < 8 || !/[A-Z]/.test(jobData.password)) {
-  //     error.password = 'Password must be at least 8 characters and include an uppercase letter.';
-  //   }
-
-  //   setErrors(error);
-  //   return Object.keys(error).length === 0;
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // if (validateData()){
-      try {
-        const response = await axios.post(import.meta.env.VITE_API_URL + '/jobs/add', jobData);
-        const newJob = response.data.newJob; 
-        setFilteredJobs([...filteredJobs, newJob]);
-        setAddModalOpen(false);
-        setJobData(initialJobData);
-      } catch (error) {
-        console.error('Error adding job posting:', error);
-        alert(error.response.data.message || 'Failed to add job posting.');
-        setJobData(initialJobData);
-        setAddModalOpen(false);
-      } finally {
-        setIsLoading(false);
-      }
-    } 
-    // else {
-    //   console.log("Error with input validation:", error);
-    //   setIsLoading(false);
-    // }
-  // }
+    try {
+      const response = await axios.post(import.meta.env.VITE_API_URL + '/jobs/add', jobData);
+      const newJob = response.data.newJob; 
+      setFilteredJobs([...filteredJobs, newJob]);
+      setAddModalOpen(false);
+      setJobData(initialJobData);
+    } catch (error) {
+      console.error('Error adding job posting:', error);
+      alert(error.response.data.message || 'Failed to add job posting.');
+      setJobData(initialJobData);
+      setAddModalOpen(false);
+    } finally {
+      setIsLoading(false);
+    }
+  } 
 
   // EDIT JOB
   const handleEdit = (job) => {

@@ -8,29 +8,6 @@ app.use(express.json());
 
 const router = express.Router();
 
-// DUMMY LOGIN ROUTE
-router.post('/login', async (req, res) => {
-  const username = req.body.username;
-  const user = { name: username, role: 'admin' };
-  const accessToken = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1h' } );
-  res.json({ accessToken: accessToken });
-});
-
-// DUMMY CHECK TOKEN FUNCTION
-function checkToken (req, res, next) {
-  const header = req.headers['authorization'];
-  if (typeof header !== 'undefined'){
-    const bearer = header.split(' ');
-    const token = bearer[1];
-    req.token = token;
-    next();
-  } else {
-    res.sendStatus(403);
-  }
-};
-
-// =======================================================================
-
 // FETCH JOBS
 router.get('/', async (req, res) => {
   try {
@@ -130,16 +107,7 @@ router.post('/add', async (req, res, next) => {
     await LogAction(message);
     } catch (error) {
       console.error("Error registering job:", error);
-
-      // if (error.title === 'SequelizeUniqueConstraintError') {
-      //     res.status(400).json({ message: 'Job already exists!' });
-      // } 
-      // else if (error.title === 'SequelizeValidationError') {
-      //     res.status(400).json({ message: 'Validation error: Check your inputs.' });
-      // } 
-      // else {
-      //     res.status(500).json({ message: 'Internal server error. Please try again later.' });
-      // }
+      res.status(500).json({message: 'Internal Server Error'});
     }
 
 })

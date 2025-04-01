@@ -21,38 +21,6 @@ async function getUserDetails() {
 export async function LogAction(message, rEmail) {
 
     const { ip_address, location, os_version, browser_type } = await getUserDetails();
-    // const fetchResult = await fetchUserDetails();
-    // let result;
-    
-    // if(fetchResult){
-    //   result = await fetchUserDetails();
-    // }
-    // console.log(result.id, result.name, result.email, result.user_role);
-
-    // const token = getToken();
-
-    // try {
-    //   const response = await fetch('http://localhost:3000/validate-token', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   });
-
-    //   const data = await response.json();
-    //   if (!response.ok && !data.valid){
-    //     console.log("User is not logged in!")
-    //   }
-    //   const decoded = jwtDecode(token);
-    //   if (decoded.exp * 1000 < Date.now()){
-    //     console.log("Token expired!")
-    //   } else { 
-    //     email = decoded.email; 
-    //   }
-    // } catch (error) {
-    //   console.error('Error decoding token: ', error);
-    // }
 
     await Log.create({
         email: getEmail() || rEmail || 'Unknown',
@@ -62,7 +30,6 @@ export async function LogAction(message, rEmail) {
         browser_type: browser_type,
         location: location
     });
-    // console.log("NEW LOGS:", newLog);
 }
 
 function setOS() {

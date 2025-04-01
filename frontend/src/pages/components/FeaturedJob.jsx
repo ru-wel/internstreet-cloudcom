@@ -57,7 +57,7 @@ const FeaturedJob = () => {
                         </div>
 
                         <div className="mt-6">
-                            <h2 className="text-lg sm:text-xl text-left">{job.position}</h2>
+                            <h2 className="text-lg sm:text-xl text-left">{job.title}</h2>
                             <button className="bg-[#497D74] rounded-2xl px-3 text-sm text-white mt-2">Intern</button>
                         </div>
 

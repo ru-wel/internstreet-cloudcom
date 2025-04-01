@@ -163,8 +163,6 @@ function UserProfile() {
               <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-50">
                 <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
                   <h2 className="text-xl font-bold text-gray-800 mb-4">Edit User</h2>
-                  {/* {errors.lrn && <p className="text-red-500 mb-3">{errors.lrn}</p>}
-          //         {errors.password && <p className="text-red-500 mb-3">{errors.password}</p>} */}
 
                   <form onSubmit={handleEditSubmit}>
 

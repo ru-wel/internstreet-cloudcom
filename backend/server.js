@@ -16,10 +16,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ------ TO BE ADDED WITH FRONTEND INIT ------ //
-
 app.use(cors({
-  origin: ['https://internstreetph.site', 'https://www.internstreetph.site', 'http://ip-api.com'],
+  origin: ['https://internstreetph.site', 'https://www.internstreetph.site'],
   methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
   exposedHeaders: ['Content-Disposition'],
 }));

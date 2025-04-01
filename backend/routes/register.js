@@ -13,13 +13,6 @@ router.post('/', async (req, res) => {
   const user_role = 'user';
   const message = `Has registered successfully`;
 
-  console.log({
-    name: name,
-    email: email,
-    password: password,
-    user_role: user_role,
-  }); // ----- FOR DEBUGGING PURPOSES ------
-
   try {
     await User.create({
       name: name,

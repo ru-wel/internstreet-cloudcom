@@ -36,32 +36,6 @@ router.get('/all', async (req, res) => {
   }
 });
 
-// TODO's
-// - APPLY JOB - PUSH TO APPLICATIONS
-// - DISABLE APPLY NOW BUTTON IF USER HAS APPLIED ALREADY
-
-
-// router.post('/', async (req, res) => {
-//     const { email, c_name, c_position, resume, cover_letter } = req.body;
-//     try{
-//         const apply = await Application.create({
-//             email: email,
-//             c_name: c_name,
-//             c_position: c_position,
-//             resume: resume,
-//             cover_letter: cover_letter,
-//             status: "pending"
-//         })
-//         const message = `Has successfully applied to "${c_name}" as a "${c_position}"`;
-//         res.status(201).json({ message: message, apply});
-//         await LogAction(message)
-//     } catch(error){
-//         console.error("Error applying job:", error);
-
-//     }
-// });
-
-
 // APPLY JOB FOR APPLICATION PAGE
 
 router.post('/', upload.fields([{ name: "resume" }, { name: "cover"}]), async (req, res) => {
