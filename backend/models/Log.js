@@ -1,7 +1,9 @@
 import { DataTypes } from 'sequelize';
-import { rds_sequelize } from '../config/db_config_rds.js';
+// import { rds_sequelize } from '../config/db_config_rds.js';
+import { rds_sequelize } from '../config/db_config.js';
 
-const Log = rds_sequelize.define('logs', {
+// const Log = rds_sequelize.define('logs', {
+const Log = rds_sequelize.define('try_logs', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   executed_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
   email: { type: DataTypes.STRING, allowNull: false },
