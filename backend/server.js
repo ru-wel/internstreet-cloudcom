@@ -17,7 +17,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({
-  origin: ['https://internstreetph.site', 'https://www.internstreetph.site', 'https://internstreetph.netlify.app/'],
+  origin: ['https://internstreetph.site', 'https://www.internstreetph.site', 'https://internstreetph.netlify.app'],
   methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
   exposedHeaders: ['Content-Disposition'],
 }));
