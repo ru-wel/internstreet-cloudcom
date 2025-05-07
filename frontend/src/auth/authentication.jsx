@@ -78,10 +78,10 @@ const AdminWrapper = () => {
     return <Navigate to="/" replace />;
   }
   
-  if (!isVPN) {
-    alert('VPN not detected.');
-    return <Navigate to="/" replace />;
-  }
+  // if (!isVPN) {
+  //   alert('VPN not detected.');
+  //   return <Navigate to="/" replace />;
+  // }
   
   return <Outlet />;
   
