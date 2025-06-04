@@ -1,6 +1,8 @@
 # INTERNSTREET | CLOUD COMPUTING
 
-<p>InternStreet is your No. 1 destination for landing internships!</p>
+<p>InternStreet is your No. 1 destination for landing internships! It is designed to connect students with internship opportunities tailored to their location and field of interest. The platform allows users to create profiles, explore internship listings, and apply directly—acting as a central hub for internships all over the Philippines.</p>
+
+You can visit the site here: https://internstreetph.site/
 
 # Tech Stacks
 - PostgreSQL
@@ -9,7 +11,9 @@
 - Node
 
 # Features
-- 
+- Internship job listings and application tracking
+- User authentication and profile management
+- Admin dashboard with statistics, logs, and visual analytics
 
 # Contributors
 | Roles | Names |Links |
