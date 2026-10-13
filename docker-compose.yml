@@ -29,8 +29,6 @@ services:
       - .env
     environment:
       - NODE_ENV=development
-      - API_URL=${API_URL}
-      # - API_URL=http://localhost:3000
       - DATABASE_URL=${DATABASE_URL}
       - JWT_SECRET=${JWT_SECRET}
     command: ["node", "server.js"]

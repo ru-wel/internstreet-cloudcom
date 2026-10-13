@@ -76,10 +76,7 @@ router.get('/analytics', async (req, res) => {
   try {
       const userCounts = await getLastWeekUserCounts(User, 'created_at');
       const applicationCounts = await getLastWeekUserCounts(Application, 'applied_at');
-      const logResult = await fetch(process.env.API_URL + `/logs`);
-
-      const fetchedLogs = await logResult.json();
-      const slicedLogs = fetchedLogs.slice(0, 5);
+      const slicedLogs = await Log.findAll({ order: [['id', 'DESC']], limit: 5, raw: true });
 
       let usersDetails = await Promise.all(
           slicedLogs.map(async log => {

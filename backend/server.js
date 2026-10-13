@@ -25,16 +25,16 @@ app.use(cors({
 // app.use(cors());
 app.use(express.json());
 
-// ROUTES
-app.use('/jobs', jobsRoute);
-app.use('/apply-job', applyRoute);
-app.use('/users', usersRoute);
-app.use('/logs', logsRoute);
-app.use('/login', loginRoute);
-app.use('/register', registerRoute);
-app.use('/validate-token', authRoute);
-app.use('/utils', utilsRoute);
-app.use('/uploads', express.static('uploads'));
+// ROUTES (under /api: Vercel routes /api/* to this service with the prefix kept)
+app.use('/api/jobs', jobsRoute);
+app.use('/api/apply-job', applyRoute);
+app.use('/api/users', usersRoute);
+app.use('/api/logs', logsRoute);
+app.use('/api/login', loginRoute);
+app.use('/api/register', registerRoute);
+app.use('/api/validate-token', authRoute);
+app.use('/api/utils', utilsRoute);
+app.use('/api/uploads', express.static('uploads'));
 
 app.use((err, req, res, next) => {
   console.error(err.message);

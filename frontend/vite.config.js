@@ -11,8 +11,11 @@ export default defineConfig({
     watch: {
       usePolling: true
     },
-    origin: 'https://internstreetph.site',
     allowedHosts: ['internstreetph.site', 'www.internstreetph.site'],
-    hmr: { clientPort: 5173 }
+    hmr: { clientPort: 5173 },
+    // Same-origin /api like on Vercel, so local dev needs no CORS
+    proxy: {
+      '/api': 'http://localhost:3000'
+    }
   }
 })
