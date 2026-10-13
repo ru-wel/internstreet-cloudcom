@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --legacy-watch server"
+    "dev": "nodemon --legacy-watch server",
+    "migrate": "node migrate.js",
+    "seed": "node seed.js"
   },
   "keywords": [],
   "author": "",

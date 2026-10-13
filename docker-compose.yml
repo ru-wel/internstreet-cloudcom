@@ -31,10 +31,7 @@ services:
       - NODE_ENV=development
       - API_URL=${API_URL}
       # - API_URL=http://localhost:3000
-      - DB_NAME=${DB_NAME}
-      - DB_PASS=${DB_PASS}
-      - RDS_DB_HOST=${RDS_DB_HOST}
-      - DB_PORT=${DB_PORT}
+      - DATABASE_URL=${DATABASE_URL}
       - JWT_SECRET=${JWT_SECRET}
     command: ["node", "server.js"]
     depends_on:

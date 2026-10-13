@@ -3,10 +3,11 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const sequelize = new Sequelize(`postgresql://postgres.zfjzgvyyjhpbgbpmpeox:${process.env.JWT_SECRET}@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres`, {
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   dialectOptions: {
     keepDefaultTimezone: false,
+    ssl: { require: true },
   },
   timezone: 'Asia/Manila',
 });
