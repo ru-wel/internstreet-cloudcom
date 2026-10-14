@@ -13,6 +13,8 @@ function UserProfile() {
   const [editUser, setEditUser] = useState({ name: '', location: '', number: '', bio: '', });
   const maxChars = 300;
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editError, setEditError] = useState('');
+  const [saving, setSaving] = useState(false);
   const [UID, setUID] = useState(null);
   const [applications, setApplications] = useState([]);
 
@@ -25,23 +27,29 @@ function UserProfile() {
   }, []);
 
   const handleEdit = (user) => {
-    setEditUser(user);
+    setEditUser({ name: user.name ?? '', location: user.location ?? '', number: user.number ?? '', bio: user.bio ?? '' });
+    setEditError('');
     setEditModalOpen(true);
   };
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
 
-    if (Object.keys(error).length === 0){
-      try {
-        const response = await axios.put(import.meta.env.VITE_API_URL + `/users/profile/${UID}`, editUser);
-        alert('User details updated succesfully!');
-        setEditModalOpen(false);
-        setUser(editUser);
-      } catch (error) {
-        console.error('Error updating user:', error);
-        alert(error.response.data.message || 'Failed to update user details.');
-      }
+    if (editUser.number && !/^09\d{9}$/.test(editUser.number)) {
+      setEditError('Enter an 11-digit phone number starting with 09, like 09171234567.');
+      return;
+    }
+
+    setSaving(true);
+    try {
+      await axios.put(import.meta.env.VITE_API_URL + `/users/profile/${UID}`, editUser);
+      setEditModalOpen(false);
+      setUser({ ...user, ...editUser });
+    } catch (error) {
+      console.error('Error updating user:', error);
+      setEditError(error.response?.data?.message || "Your changes weren't saved. Check your connection and try again.");
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -69,7 +77,7 @@ function UserProfile() {
         const response = await fetch(import.meta.env.VITE_API_URL + '/apply-job');
         const result = await response.json();
         setApplications(result);
-      } catch (error) {
+      } catch (err) {
         console.error('Error fetching applications:', err);
         setError(err.message || 'Failed to fetch applications.');
       }
@@ -127,7 +135,7 @@ function UserProfile() {
               </div>
       
               <div className="mt-6">
-                <button className="bg-[#619c92] border-[#2b4843] border-r-4 border-b-4 text-white py-2 px-4 rounded-3xl transition hover:scale-105 text-sm sm:text-base">
+                <button type="button" onClick={() => handleEdit(user)} className="bg-[#1F3531] border-[#0f1f1c] border-r-4 border-b-4 text-white py-2 px-4 rounded-3xl transition hover:scale-105 text-sm sm:text-base cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2">
                   Edit Profile
                 </button>
               </div>
@@ -160,45 +168,57 @@ function UserProfile() {
             {/* MODAL SECTION */}
 
             {editModalOpen && (
-              <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-50">
-                <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
-                  <h2 className="text-xl font-bold text-gray-800 mb-4">Edit User</h2>
+              <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-50"
+                onKeyDown={(e) => e.key === 'Escape' && setEditModalOpen(false)}>
+                <div role="dialog" aria-modal="true" aria-labelledby="edit-profile-title" className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4 text-[#1F3531]">
+                  <h2 id="edit-profile-title" className="text-xl font-bold mb-4">Edit profile</h2>
 
-                  <form onSubmit={handleEditSubmit}>
-
-                    <input type="text" placeholder="name" value={editUser.name} onChange={(e) => setEditUser({ ...editUser, name: e.target.value })} required className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"/>
-
-                    <input type="text" placeholder="location" value={editUser.location} onChange={(e) => setEditUser({ ...editUser, location: e.target.value })} required className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"/>
-
-                    <input type="text" placeholder="number (09**)" maxLength="11" value={editUser.number} onChange={(e) => setEditUser({ ...editUser, number: e.target.value })} required className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"/>
-
-                    <textarea placeholder='personal bio' value={editUser.bio} onChange={(e) => {
-                      if (e.target.value.length <= maxChars){
-                        setEditUser({ ...editUser, bio: e.target.value })
-                      }
-                      }} 
-                      required className="w-full min-h-24 p-3 border border-gray-300 rounded-lg shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </textarea>
-
-                    <div className="text-right text-sm mt-1">
-                      <span className={(editUser.bio?.length ?? 0) >= maxChars - 10 ? "text-red-500" : "text-gray-500"}>
-                        {editUser.bio?.length ?? 0}/{maxChars}
-                      </span>
+                  <form onSubmit={handleEditSubmit} noValidate className="space-y-4">
+                    <div>
+                      <label htmlFor="edit-name" className="block font-semibold mb-1">Full name</label>
+                      <input id="edit-name" type="text" autoFocus value={editUser.name} onChange={(e) => setEditUser({ ...editUser, name: e.target.value })} className="w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531]"/>
                     </div>
 
-                    <div className="flex justify-end space-x-3 mt-2">
-                      <button type="button" onClick={() => setEditModalOpen(false)} className="px-4 py-2 bg-gray-200 text-gray-800  rounded-2xl hover:bg-gray-300 transition-colors">
+                    <div>
+                      <label htmlFor="edit-location" className="block font-semibold mb-1">Location</label>
+                      <input id="edit-location" type="text" placeholder="e.g. Quezon City" value={editUser.location} onChange={(e) => setEditUser({ ...editUser, location: e.target.value })} className="w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531]"/>
+                    </div>
+
+                    <div>
+                      <label htmlFor="edit-number" className="block font-semibold mb-1">Phone number</label>
+                      <input id="edit-number" type="tel" inputMode="numeric" placeholder="09XXXXXXXXX" maxLength="11" value={editUser.number} onChange={(e) => setEditUser({ ...editUser, number: e.target.value.replace(/\D/g, '') })} className="w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531]"/>
+                    </div>
+
+                    <div>
+                      <label htmlFor="edit-bio" className="block font-semibold mb-1">Bio</label>
+                      <textarea id="edit-bio" placeholder="A few lines about you, your course, and the internship you're after" value={editUser.bio} onChange={(e) => {
+                        if (e.target.value.length <= maxChars){
+                          setEditUser({ ...editUser, bio: e.target.value })
+                        }
+                        }}
+                        className="w-full min-h-24 p-3 border border-gray-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531]">
+                      </textarea>
+                      <div className="text-right text-sm mt-1">
+                        <span className={(editUser.bio?.length ?? 0) >= maxChars - 10 ? "text-red-700" : "text-gray-600"}>
+                          {editUser.bio?.length ?? 0}/{maxChars}
+                        </span>
+                      </div>
+                    </div>
+
+                    {editError && <p role="alert" className="text-red-800 font-semibold">{editError}</p>}
+
+                    <div className="flex justify-end space-x-3">
+                      <button type="button" onClick={() => setEditModalOpen(false)} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-2xl hover:bg-gray-300 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531]">
                         Cancel
                       </button>
-                      <button type="submit" className="bg-[#5c938a] border-[#2b4843] border-r-4 border-b-4 text-white py-2 px-4 rounded-2xl transition transform hover:scale-105 mb-4 sm:mb-0 cursor-pointer">
-                        Save
+                      <button type="submit" disabled={saving} className="bg-[#1F3531] border-[#0f1f1c] border-r-4 border-b-4 text-white py-2 px-4 rounded-2xl transition transform enabled:hover:scale-105 cursor-pointer disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2">
+                        {saving ? 'Saving…' : 'Save'}
                       </button>
                     </div>
                   </form>
-                  
                 </div>
               </div>
-            )}   
+            )}
             </div>
           </div>
 

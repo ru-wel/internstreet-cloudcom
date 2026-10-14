@@ -19,7 +19,13 @@ const storage = multer.diskStorage({
     },
 });
   
-const upload = multer({ storage });
+const upload = multer({
+    storage,
+    limits: { fileSize: 4 * 1024 * 1024 },
+    // Skips anything that isn't PDF/DOC/DOCX; the route then reports it as missing
+    fileFilter: (req, file, cb) => cb(null, /\.(pdf|docx?)$/i.test(file.originalname)),
+});
+const uploadFiles = upload.fields([{ name: "resume" }, { name: "cover"}]);
 const app = express();
 app.use(express.json());
 
@@ -38,11 +44,20 @@ router.get('/all', async (req, res) => {
 
 // APPLY JOB FOR APPLICATION PAGE
 
-router.post('/', upload.fields([{ name: "resume" }, { name: "cover"}]), async (req, res) => {
+router.post('/', (req, res, next) => {
+    uploadFiles(req, res, (err) => {
+        if (err?.code === 'LIMIT_FILE_SIZE') return res.status(400).json({ message: 'Each file must be 4 MB or smaller.' });
+        if (err) return next(err);
+        next();
+    });
+}, async (req, res) => {
 
     try{
-        const resume = req.files["resume"] ? req.files["resume"][0] : null;
-        const cover = req.files["cover"] ? req.files["cover"][0] : null;
+        const resume = req.files?.["resume"] ? req.files["resume"][0] : null;
+        const cover = req.files?.["cover"] ? req.files["cover"][0] : null;
+        if (!resume || !cover) {
+            return res.status(400).json({ message: 'Attach a resume and a cover letter as PDF, DOC or DOCX files.' });
+        }
     
         const { email, c_name, c_location, c_position, job_id, name, c_logo } = req.body;
     

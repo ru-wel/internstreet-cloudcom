@@ -1,194 +1,251 @@
-import React, { useEffect, useState } from 'react'
-import { FaUpload } from "react-icons/fa";
-import { useLocation, useNavigate } from 'react-router-dom'
+import React, { useEffect, useRef, useState } from 'react'
+import { FaUpload, FaCheckCircle } from "react-icons/fa";
+import { Link, Navigate, useLocation } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 
+// Both files go up in one request, and Vercel rejects request bodies over 4.5 MB
+const MAX_TOTAL_BYTES = 4 * 1024 * 1024;
+const ALLOWED_FILE = /\.(pdf|docx?)$/i;
+
+const toMB = (bytes) => (bytes / 1024 / 1024).toFixed(1);
+
+const inputClass = "w-full p-3 border border-[#497D74] rounded-xl bg-white text-[#1F3531] placeholder-gray-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] aria-[invalid=true]:border-red-700";
+const fileButtonClass = "bg-[#497D74] border-[#2b4843] border-b-4 border-r-4 text-white font-bold px-4 py-2 rounded-3xl mt-2 inline-flex items-center gap-2 cursor-pointer max-w-full focus-within:ring-2 focus-within:ring-[#1F3531] focus-within:ring-offset-2";
+
 const Application = () => {
-    const navigate = useNavigate();
-    const compData = useLocation();
-    const company = compData.state;
-    const [error, setError] = useState('');
+    const company = useLocation().state;
+
+    const [user, setUser] = useState(null);
+    const [UID, setUID] = useState(null);
+    const [userError, setUserError] = useState('');
+    const [details, setDetails] = useState({ location: '', number: '' });
 
     const [resume, setResume] = useState(null);
     const [cover, setCover] = useState(null);
 
-    const [user, setUser] = useState([]);
-    const [UID, setUID] = useState(null);
+    const [errors, setErrors] = useState({});
+    const [submitting, setSubmitting] = useState(false);
+    const [applied, setApplied] = useState(false);
+    const successHeading = useRef(null);
 
-    const [editDetails, setEdit] = useState({ location: '', number: ''});
-
-    const handleResume = (e) => {
-        setResume(e.target.files[0]);
-    }
-    const handleCover = (e) => {
-        setCover(e.target.files[0]);
-    }
-
-    const applyNow = async () => {
-
-        if(!resume || !cover){
-            alert('Please upload both requirements!');
-            return;
-        }
-
-        const applyData = new FormData();
-        applyData.append('email', user.email);
-        applyData.append('c_name', company.name);
-        applyData.append('c_position', company.title);
-        applyData.append('resume', resume);
-        applyData.append('cover', cover);
-        applyData.append('c_location', company.location);
-        applyData.append('c_logo', company.logo);
-        applyData.append('job_id', company.id);
-        applyData.append('name', user.name);
-        
-        try{
-            const result = await axios.post(import.meta.env.VITE_API_URL + "/apply-job", applyData,
-            {
-                headers: {"Content-Type": "multipart/form-data" },
-            });
-            alert('Successfully applied');
-            navigate(`/job/${company.id}`);
-        }catch(error){
-            console.log(error);
-            alert('Application failed');
-        }
-    }
-    // SUBMIT EDIT
-    const handleEdit = async (e) => {
-        e.preventDefault();
-    
-        if (Object.keys(error).length === 0){
-          try {
-            const response = await axios.put(import.meta.env.VITE_API_URL + `/users/profile/${UID}`, editDetails);
-            alert('Successfully updated user details');
-          } catch (error) {
-            console.error('Error updating user:', error);
-            alert(error.response.data.message || 'Failed to update user details.');
-          }
-        }
-    }
-
-    // USER DETAILS
-
-    // FETCH TOKEN + DECODE
+    // FETCH USER FROM TOKEN
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-        const decoded = jwtDecode(token);
-        setUID(decoded.id);
-        }
-    }, []);
-
-    // EDIT USER
-    useEffect(() => {
-
         const fetchUser = async () => {
-        try {
-            if (!UID) return;
-            const response = await fetch(import.meta.env.VITE_API_URL + `/users/${UID}`);
-            const result = await response.json();
-            setUser(result);
-        } catch (err) {
-            console.error('Error fetching user:', err);
-            setError(err.message || 'Failed to fetch user.');
-        } finally { 
-
-            
-        }
+            try {
+                const { id } = jwtDecode(localStorage.getItem('token'));
+                setUID(id);
+                const response = await axios.get(import.meta.env.VITE_API_URL + `/users/${id}`);
+                setUser(response.data);
+                setDetails({ location: response.data.location ?? '', number: response.data.number ?? '' });
+            } catch (err) {
+                console.error('Error fetching user:', err);
+                setUserError("We couldn't load your details. Refresh the page to try again.");
+            }
         }
         fetchUser();
-    }, [UID]);
+    }, []);
+
+    useEffect(() => {
+        if (applied) successHeading.current?.focus();
+    }, [applied]);
+
+    const pickFile = (field, setFile) => (e) => {
+        const file = e.target.files[0] ?? null;
+        if (file && !ALLOWED_FILE.test(file.name)) {
+            setFile(null);
+            e.target.value = '';
+            setErrors({ ...errors, [field]: `"${file.name}" isn't a PDF, DOC or DOCX file.` });
+            return;
+        }
+        setFile(file);
+        setErrors({ ...errors, [field]: '', files: '' });
+    }
+
+    const validate = () => {
+        const found = {};
+        if (details.number && !/^09\d{9}$/.test(details.number)) {
+            found.number = 'Enter an 11-digit number starting with 09, like 09171234567.';
+        }
+        if (!resume) found.resume = 'Attach your resume.';
+        if (!cover) found.cover = 'Attach your cover letter.';
+        if (resume && cover && resume.size + cover.size > MAX_TOTAL_BYTES) {
+            found.files = `Your files add up to ${toMB(resume.size + cover.size)} MB. Keep both under 4 MB combined.`;
+        }
+        return found;
+    }
+
+    const applyNow = async (e) => {
+        e.preventDefault();
+        const found = validate();
+        setErrors(found);
+        if (Object.values(found).some(Boolean)) return;
+
+        setSubmitting(true);
+        try {
+            // Location and phone changed here also update the profile
+            if (details.location !== (user.location ?? '') || details.number !== (user.number ?? '')) {
+                await axios.put(import.meta.env.VITE_API_URL + `/users/profile/${UID}`, details);
+            }
+
+            const applyData = new FormData();
+            applyData.append('email', user.email);
+            applyData.append('name', user.name);
+            applyData.append('c_name', company.name);
+            applyData.append('c_position', company.title);
+            applyData.append('c_location', company.location);
+            applyData.append('c_logo', company.logo);
+            applyData.append('job_id', company.id);
+            applyData.append('resume', resume);
+            applyData.append('cover', cover);
+
+            await axios.post(import.meta.env.VITE_API_URL + "/apply-job", applyData);
+            setApplied(true);
+        } catch (err) {
+            console.error('Error applying:', err);
+            let message = err.response?.data?.message || "Your application didn't go through. Check your connection and try again; your files are still attached.";
+            if (err.response?.status === 413) message = 'Your files are too large to upload. Keep both under 4 MB combined.';
+            setErrors({ form: message });
+        } finally {
+            setSubmitting(false);
+        }
+    }
+
+    // Opened directly (no job picked), so there's nothing to apply to
+    if (!company) return <Navigate to="/" replace />;
+
+    const fieldError = (field) => errors[field] && (
+        <p id={`${field}-error`} className="text-red-800 text-sm font-semibold mt-1">{errors[field]}</p>
+    );
 
     return (
-       <div className='bg-gradient-to-r from-[#b4d5ce] to-[#c6f5ed] to-90%'>
-  <Helmet>
-    <title>{company.title} for {company.name} | InternStreet</title>
-  </Helmet>
-  <Nav />
+    <div className='bg-gradient-to-r from-[#b4d5ce] to-[#c6f5ed] to-90% min-h-screen flex flex-col'>
+      <Helmet>
+        <title>{`Apply: ${company.title} at ${company.name} | InternStreet`}</title>
+      </Helmet>
+      <Nav />
 
-  <div className="items-start px-4 sm:px-6 md:px-10 py-7 rounded-t-3xl">
-    <div className="flex flex-col lg:flex-row lg:ml-30 mt-10 overflow-hidden max-w-2xl md:max-w-4xl w-full items-center justify-center">
-    <div className="bg-[#d1eae6] p-2 rounded-3xl border-1  border-black max-w-xs sm:max-w-md">
-        <img src={company.logo} alt="Job Image" className="w-24 p-4 h-auto object-cover rounded-2xl mx-auto" />
-      </div>
-
-      <div className="w-full lg:w-2/3 lg:ml-12 flex flex-col items-center lg:items-start justify-center mt-4 lg:mt-0">
-        <h3 className="text-gray-500 text-sm sm:text-md md:text-lg mb-2 font-semibold uppercase text-center lg:text-left">Applying for</h3>
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black mt-2 text-center lg:text-left">{company.title}</h2>
-        <p className="text-black mt-1 text-sm sm:text-md lg:text-lg text-center lg:text-left">{company.name}</p>
-      </div>
-    </div>
-
-    <hr className="my-8 border-t-2 border-black w-full max-w-7xl mx-auto" />
-
-    <div className="bg-gradient-to-r from-[#94c6bc] to-[#c6eee8] to-90% p-6 sm:p-8 mt-9 max-w-7xl mx-auto rounded-3xl my-20 border">
-      <div className='max-w-5xl mx-auto'>
-        <h2 className="text-3xl sm:text-4xl font-bold text-center lg:text-left my-8">Personal Details</h2>
-        <form onSubmit={handleEdit} className="space-y-4 max-w-4xl mx-auto mt-8">
-          <div className="flex flex-col sm:flex-row sm:space-x-6">
-            <div className="w-full lg:w-1/2 mb-4 md:mb-0">
-              <p className="text-black font-semibold text-md">Full Name</p>
-              <p className="px-0 lg:px-10 py-2 text-md sm:text-lg">{user.name}</p>
-            </div>
+      <main className="flex-grow px-4 sm:px-6 md:px-10 py-10">
+        <div className="max-w-3xl mx-auto flex items-center gap-5">
+          <div className="bg-white p-2 rounded-2xl border border-[#497D74] shrink-0">
+            <img src={company.logo} alt={`${company.name} logo`} className="w-16 h-16 sm:w-20 sm:h-20 object-contain" />
           </div>
-
-          <div>
-            <label className="block text-black font-semibold text-md mb-2">Location</label>
-            <input type="text" className="p-3 border border-stone-700 w-full rounded-3xl text-center bg-white placeholder-gray-500 text-black focus:outline-none" 
-              placeholder={user.location} 
-              onChange={(e) => setEdit({ ...editDetails, location: e.target.value })}/>
+          <div className="min-w-0">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1F3531] break-words">{company.title}</h1>
+            <p className="text-[#1F3531] mt-1 text-base sm:text-lg">{company.name}{company.location && ` · ${company.location}`}</p>
           </div>
-
-          <div>
-            <label className="block text-black font-semibold text-md mb-2">Phone Number</label>
-            <input type="text" className="p-3 border border-gray-400 w-full rounded-3xl text-center bg-white placeholder-gray-500 text-black focus:outline-none" 
-              placeholder={user.number} 
-              onChange={(e) => setEdit({ ...editDetails, number: e.target.value })} />
-          </div>
-
-          <div>
-            <p className="text-black font-semibold text-md">Email Address</p>
-            <p className="px-0 lg:px-10 py-2 text-md sm:text-lg">{user.email}</p>
-          </div>
-
-          <button type="submit" className="bg-[#497D74] rounded-4xl px-8 sm:px-7 py-2 text-base sm:text-lg text-white transition transform hover:scale-105 border-[#2b4843] border-b-4 border-r-4 cursor-pointer">Save</button>
-          <p className="text-sm sm:text-md">*this only updates your personal info above</p>
-
-          <div className="flex flex-col sm:flex-row sm:space-x-6">
-            <div className="w-full sm:w-1/2 flex flex-col items-center">
-              <p className="font-semibold text-md sm:text-lg">Resume</p>
-              <label htmlFor="resume" className="bg-[#497D74] border-[#2b4843] border-b-4 border-r-4 text-white font-bold px-4 py-2 rounded-3xl mt-2 flex items-center gap-1 cursor-pointer">
-                <FaUpload /> {resume ? `${resume.name}` : "Choose File"}
-                <input onChange={handleResume} type="file" name="resume" id="resume" className="hidden" />
-              </label>
-            </div>
-            <div className="w-full sm:w-1/2 flex flex-col items-center">
-              <p className="font-semibold text-md sm:text-lg">Cover Letter</p>
-              <label htmlFor="cover" className="bg-[#497D74] border-[#2b4843] border-b-4 border-r-4 text-white font-bold px-4 py-2 rounded-3xl mt-2 flex items-center gap-1 cursor-pointer">
-                <FaUpload /> {cover ? `${cover.name}` : "Choose File"}
-                <input onChange={handleCover} type="file" name="cover" id="cover" className="hidden" />
-              </label>
-            </div>
-          </div>
-        </form>
-
-        <div className="flex justify-center mt-8">
-          <button className="bg-[#27445d] border-2 border-[#1d3346] border-b-6 border-r-6 text-white py-2 px-6 sm:px-8 rounded-3xl transition transform hover:scale-105 cursor-pointer text-md sm:text-xl" onClick={applyNow}>
-            Submit
-          </button>
         </div>
-      </div>
+
+        <div className="bg-[#f5f0e1] p-6 sm:p-10 mt-8 mb-16 max-w-3xl mx-auto rounded-3xl border border-[#497D74] shadow-md text-[#1F3531]">
+          {applied ? (
+            <div className="text-center py-6">
+              <FaCheckCircle className="mx-auto text-[#497D74] text-5xl" aria-hidden="true" />
+              <h2 ref={successHeading} tabIndex={-1} className="text-2xl sm:text-3xl font-bold mt-4 focus:outline-none">Application sent</h2>
+              <p className="mt-3 text-lg max-w-xl mx-auto">
+                {company.name} now has your resume and cover letter for {company.title}. It shows as <span className="font-semibold">Pending</span> until they review it, and you can follow it from your profile.
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+                <Link to="/profile" className="bg-[#27445d] border-[#1d3346] border-b-4 border-r-4 text-white py-2 px-6 rounded-3xl transition hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2">
+                  Track my applications
+                </Link>
+                <Link to="/" className="py-2 px-6 rounded-3xl border-2 border-[#497D74] text-[#1F3531] font-semibold hover:bg-[#e6efe9] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2">
+                  Browse more jobs
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={applyNow} noValidate className="space-y-8">
+              <section>
+                <h2 className="text-2xl font-bold">Your details</h2>
+                {userError && <p role="alert" className="text-red-800 font-semibold mt-2">{userError}</p>}
+
+                <dl className="grid sm:grid-cols-2 gap-4 mt-4">
+                  <div>
+                    <dt className="font-semibold">Full name</dt>
+                    <dd className="py-1 break-words">{user?.name ?? '…'}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-semibold">Email</dt>
+                    <dd className="py-1 break-words">{user?.email ?? '…'}</dd>
+                  </div>
+                </dl>
+
+                <div className="grid sm:grid-cols-2 gap-4 mt-4">
+                  <div>
+                    <label htmlFor="location" className="block font-semibold mb-1">Location</label>
+                    <input id="location" type="text" className={inputClass} placeholder="e.g. Quezon City"
+                      value={details.location}
+                      onChange={(e) => setDetails({ ...details, location: e.target.value })} />
+                  </div>
+                  <div>
+                    <label htmlFor="number" className="block font-semibold mb-1">Phone number</label>
+                    <input id="number" type="tel" inputMode="numeric" maxLength="11" className={inputClass} placeholder="09XXXXXXXXX"
+                      value={details.number}
+                      aria-invalid={Boolean(errors.number)}
+                      aria-describedby={errors.number ? 'number-error' : undefined}
+                      onChange={(e) => setDetails({ ...details, number: e.target.value.replace(/\D/g, '') })} />
+                    {fieldError('number')}
+                  </div>
+                </div>
+                <p className="text-sm mt-2">Changes to your location or phone number also update your profile.</p>
+              </section>
+
+              <section>
+                <h2 className="text-2xl font-bold">Documents</h2>
+                <p id="file-hint" className="mt-1">PDF, DOC or DOCX. Up to 4 MB for both files combined.</p>
+
+                <div className="grid sm:grid-cols-2 gap-6 mt-4">
+                  <div>
+                    <p className="font-semibold">Resume</p>
+                    <label className={fileButtonClass}>
+                      <FaUpload aria-hidden="true" className="shrink-0" />
+                      <span className="truncate">{resume ? resume.name : "Choose file"}</span>
+                      <input onChange={pickFile('resume', setResume)} type="file" name="resume" accept=".pdf,.doc,.docx" className="sr-only"
+                        aria-label="Resume"
+                        aria-invalid={Boolean(errors.resume)}
+                        aria-describedby={errors.resume ? 'resume-error file-hint' : 'file-hint'} />
+                    </label>
+                    {resume && <p className="text-sm mt-1">{toMB(resume.size)} MB</p>}
+                    {fieldError('resume')}
+                  </div>
+                  <div>
+                    <p className="font-semibold">Cover letter</p>
+                    <label className={fileButtonClass}>
+                      <FaUpload aria-hidden="true" className="shrink-0" />
+                      <span className="truncate">{cover ? cover.name : "Choose file"}</span>
+                      <input onChange={pickFile('cover', setCover)} type="file" name="cover" accept=".pdf,.doc,.docx" className="sr-only"
+                        aria-label="Cover letter"
+                        aria-invalid={Boolean(errors.cover)}
+                        aria-describedby={errors.cover ? 'cover-error file-hint' : 'file-hint'} />
+                    </label>
+                    {cover && <p className="text-sm mt-1">{toMB(cover.size)} MB</p>}
+                    {fieldError('cover')}
+                  </div>
+                </div>
+                {fieldError('files')}
+              </section>
+
+              {errors.form && <p role="alert" className="text-red-800 font-semibold">{errors.form}</p>}
+
+              <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-4">
+                <Link to={`/job/${company.id}`} className="text-center py-2 px-6 rounded-3xl text-[#1F3531] font-semibold underline underline-offset-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531]">
+                  Cancel
+                </Link>
+                <button type="submit" disabled={submitting || !user}
+                  className="bg-[#27445d] border-[#1d3346] border-b-4 border-r-4 text-white py-2 px-8 rounded-3xl transition enabled:hover:scale-105 cursor-pointer text-lg disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2">
+                  {submitting ? 'Submitting…' : 'Submit application'}
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
+      </main>
+
+      <Footer />
     </div>
-  </div>
-
-  <Footer />
-</div>
-
     )
 }
 

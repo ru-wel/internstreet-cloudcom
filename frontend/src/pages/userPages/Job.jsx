@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Helmet } from 'react-helmet';
 import Nav from '../components/Nav'
@@ -35,11 +35,26 @@ function Job() {
   const handleApply = () =>{
     navigate('/apply', { state: { title: job.title, desc: job.description, name: job.company, location: job.location, logo: job.logo, id: job.id }})
   }
-  if (error) return <p>Error: {error}</p>;
-  if (!job) return 
-    <div className="flex justify-center items-center h-64">
-      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-[#1F3531] border-solid"></div>
+  if (error || !job) return (
+    <div className="bg-gradient-to-r from-[#cdf1e9] to-[#b7e2db] to-90% min-h-screen flex flex-col">
+      <Nav></Nav>
+      <div className="flex-grow flex flex-col justify-center items-center px-5 py-20 text-center text-[#1F3531]">
+        {error ? (
+          <>
+            <h1 className="text-2xl font-bold">We couldn't load this job</h1>
+            <p className="mt-2 text-lg">{error}</p>
+            <Link to="/" className="mt-6 underline underline-offset-4 font-semibold">Back to all jobs</Link>
+          </>
+        ) : (
+          <div role="status" className="flex flex-col items-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-[#1F3531] border-solid"></div>
+            <p className="mt-4">Loading job…</p>
+          </div>
+        )}
+      </div>
+      <Footer></Footer>
     </div>
+  );
 
   return (
     <div className="bg-gradient-to-r from-[#cdf1e9] to-[#b7e2db] to-90% ">
@@ -51,7 +66,7 @@ function Job() {
       <div className="lg:grid lg:grid-cols-2 mx-10 mt-5">
         <div className="flex items-center lg:mx-10">
           <div className="h-40 w-40 flex-shrink-0 bg-[#add1ca] border rounded-4xl p-2 flex items-center justify-center overflow-hidden">
-            <img src = {job.logo} className="h-full w-full object-cover"/>
+            <img src={job.logo} alt={`${job.company} logo`} className="h-full w-full object-contain"/>
           </div>
           <div className="">
             <h1 className="lg:ml-10 ml-5 lg:text-4xl text-2xl font-bold text-gray-800">{job.title}</h1>
@@ -59,7 +74,7 @@ function Job() {
             <p className=" lg:ml-10 ml-5 lg:text-lg text-md text-gray-800 ">{job.location}</p>
 
             <div className="mt-4">
-              <button onClick={handleApply} className=" lg:ml-10 ml-5 text-white lg:text-lg text-md rounded-3xl px-5 py-2 bg-[#497D74]" disabled={isApplied}><a className="cursor-pointer">{isApplied ? "Applied" : "Apply Now"}</a></button>
+              <button onClick={handleApply} className="lg:ml-10 ml-5 text-white lg:text-lg text-md rounded-3xl px-5 py-2 bg-[#497D74] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2" disabled={isApplied}>{isApplied ? "Applied" : "Apply Now"}</button>
             </div> 
           </div>
         </div>

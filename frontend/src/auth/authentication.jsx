@@ -1,11 +1,12 @@
 import { useState, useEffect, createContext, useContext } from "react";
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet, Navigate, useLocation } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
 const AuthContext = createContext();
 
 const UserWrapper = () => {
+  const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [role, setRole] = useState(null);
   const [isVPN, setIsVPN] = useState(null);
@@ -58,8 +59,8 @@ const UserWrapper = () => {
   }
 
   if (!isAuthenticated){
-    alert('Please log in.');
-    return <Navigate to="/login" replace />
+    // Login sends the user back here (with the same state, e.g. the job being applied to)
+    return <Navigate to="/login" replace state={{ from: { pathname: location.pathname, state: location.state } }} />
   }
 
   return (

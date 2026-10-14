@@ -1,6 +1,6 @@
 import React, { useState, } from 'react';
 import { Helmet } from 'react-helmet';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
@@ -12,6 +12,8 @@ function Login() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  // Set by UserWrapper when a logged-out user opens a protected page (e.g. /apply)
+  const from = useLocation().state?.from;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -23,7 +25,7 @@ function Login() {
       const token = response.data.token;
       localStorage.setItem('token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      navigate('/');
+      navigate(from ? from.pathname : '/', { state: from?.state, replace: true });
     } catch (error) {
       setError(error.response?.data?.message || error.message || 'Login failed! Please try again.');
     } finally {
@@ -49,12 +51,21 @@ function Login() {
             {/* Login Form */}
             <div className="bg-white p-6 sm:p-10 rounded-2xl shadow-lg w-full max-w-sm mx-auto">
               <h2 className="text-2xl sm:text-3xl font-semibold text-[#000000] text-center mb-4">Welcome Back!</h2>
+              {from && (
+                <p role="status" className="text-[#1F3531] bg-[#e6f4f1] rounded-lg p-3 mb-4 text-center">
+                  {from.pathname === '/apply' && from.state?.title
+                    ? `Log in to apply for ${from.state.title} at ${from.state.name}.`
+                    : 'Log in to continue.'}
+                </p>
+              )}
 
               <form onSubmit={handleSubmit} className="flex flex-col">
                 <label htmlFor="email" className="text-gray-700 text-md font-medium mb-1">Email</label>
                 <input 
                   type="email" 
+                  id="email"
                   name="email" 
+                  autoComplete="email"
                   value={email} 
                   placeholder="Enter your email" 
                   onChange={(e) => setEmail(e.target.value)} 
@@ -65,7 +76,9 @@ function Login() {
                 <label htmlFor="password" className="text-gray-700 text-md font-medium mt-4 mb-1">Password</label>
                 <input 
                   type="password" 
+                  id="password"
                   name="password" 
+                  autoComplete="current-password"
                   value={password} 
                   placeholder="Enter your password" 
                   onChange={(e) => setPassword(e.target.value)} 
@@ -84,7 +97,7 @@ function Login() {
 
                 <p className="mt-6 text-gray-700 text-center">
                   Don't have an account?{' '}
-                  <Link to="/register" className="font-medium text-[#497D74] hover:underline">
+                  <Link to="/register" state={from && { from }} className="font-medium text-[#497D74] hover:underline">
                     Sign Up
                   </Link>
                 </p>

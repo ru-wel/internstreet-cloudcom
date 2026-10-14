@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer'
@@ -11,6 +11,7 @@ function Register() {
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const validateData = () => {
     const error = {};
@@ -45,7 +46,7 @@ function Register() {
         const response = await axios.post(import.meta.env.VITE_API_URL + '/register', userData);
         setUserData({ name: '', email: '', password: '', password2: '', });
         alert('Registration successful! You can now log in.');
-        navigate('/login');
+        navigate('/login', { state: location.state });
       } catch (error) {
         console.error(error);
         alert(error.response.data.message || 'Registration failed');
