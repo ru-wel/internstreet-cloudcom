@@ -209,7 +209,7 @@ function AdminJobs() {
                 <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
               </svg>
             </div>
-            <input type="text" placeholder="Search" className="pl-10 pr-4 py-2 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-md text-sm" value={searchTerm} onChange={handleSearch}/>
+            <input type="text" aria-label="Search jobs" placeholder="Search" className="pl-10 pr-4 py-2 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-md text-sm" value={searchTerm} onChange={handleSearch}/>
           </div>
         </div>
 
@@ -256,11 +256,11 @@ function AdminJobs() {
 
                 <div className="flex justify-end gap-4 mt-6">
 
-                  <button type='button' disabled={isLoading}  className="bg-gray-300 text-gray-700 py-3 px-6 rounded-xl font-medium transition-transform hover:scale-105 hover:bg-gray-400 focus:ring-2 focus:ring-gray-500" onClick={() => { setAddModalOpen(false); setJobData(initialJobData); }}>
+                  <button type='button' disabled={isLoading}  className="bg-gray-300 text-gray-700 py-3 px-6 rounded-xl font-medium transition-transform motion-safe:hover:scale-105 hover:bg-gray-400 focus:ring-2 focus:ring-gray-500" onClick={() => { setAddModalOpen(false); setJobData(initialJobData); }}>
                     Cancel
                   </button>
 
-                  <button type='submit' disabled = {isLoading} className={`py-3 px-6 rounded-xl font-medium transition-transform hover:scale-105 focus:ring-2 focus:ring-[#1F3531]/50 ${ isLoading ? "bg-[#497D74]/50 text-white cursor-not-allowed" : "bg-[#1F3531] text-white hover:bg-[#1F3531]/90" }`} >
+                  <button type='submit' disabled = {isLoading} className={`py-3 px-6 rounded-xl font-medium transition-transform motion-safe:hover:scale-105 focus:ring-2 focus:ring-[#1F3531]/50 ${ isLoading ? "bg-[#497D74]/50 text-white cursor-not-allowed" : "bg-[#1F3531] text-white hover:bg-[#1F3531]/90" }`} >
                     {isLoading ? 'Adding Job...' : 'Add Job'}
                   </button>
                 </div>
@@ -317,12 +317,12 @@ function AdminJobs() {
                 </label>
 
                 <div className="flex justify-end gap-4 mt-6">
-                  <button type='button' disabled={isLoading}  className="bg-gray-300 text-gray-700 py-3 px-6 rounded-2xl font-medium transition-transform hover:scale-105 hover:bg-gray-400 focus:ring-2 focus:ring-gray-500" onClick={() => {
+                  <button type='button' disabled={isLoading}  className="bg-gray-300 text-gray-700 py-3 px-6 rounded-2xl font-medium transition-transform motion-safe:hover:scale-105 hover:bg-gray-400 focus:ring-2 focus:ring-gray-500" onClick={() => {
                     setEditModalOpen(false); 
                     setJobData(initialJobData)}}>
                     Cancel
                   </button>
-                  <button type='submit' disabled = {isLoading} className={`py-3 px-6 rounded-2xl font-medium transition-transform hover:scale-105 focus:ring-2 focus:ring-[#1F3531]/50 ${isLoading ? "bg-[#1F3531]/50 text-white cursor-not-allowed" : "bg-[#1F3531] text-white hover:bg-[#1F3531]/90"}`}>
+                  <button type='submit' disabled = {isLoading} className={`py-3 px-6 rounded-2xl font-medium transition-transform motion-safe:hover:scale-105 focus:ring-2 focus:ring-[#1F3531]/50 ${isLoading ? "bg-[#1F3531]/50 text-white cursor-not-allowed" : "bg-[#1F3531] text-white hover:bg-[#1F3531]/90"}`}>
                     {isLoading ? 'Editing Job...' : 'Edit Job'}
                   </button>
                 </div>
@@ -365,7 +365,7 @@ function AdminJobs() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                           <div className="h-10 w-10 flex-shrink-0 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
-                            <img src={job.logo} className="h-full w-full object-cover" />
+                            <img src={job.logo} alt={`${job.company} logo`} className="h-full w-full object-cover" />
                           </div>
                           <div className="ml-4">
                             <div className="text-sm font-medium text-gray-900">{job.company}</div>

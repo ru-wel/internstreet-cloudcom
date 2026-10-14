@@ -48,7 +48,7 @@ const FeaturedJob = () => {
         <div key={jobIndex} className="bg-[#f5f0e1] p-4 sm:p-6 md:p-8 border-2 rounded-3xl shadow-xl transform transition-all">
          <div className="flex items-center">
                             <span className="w-12 h-12 flex-shrink-0">
-                                <img src={job.logo} alt={job.company} className="w-full" />
+                                <img src={job.logo} alt={`${job.company} logo`} className="w-full" />
                             </span>
                             <div className="ml-3">
                                 <h3 className="text-md font-bold text-gray-800">{job.company}</h3>
@@ -58,7 +58,7 @@ const FeaturedJob = () => {
 
                         <div className="mt-6">
                             <h2 className="text-lg sm:text-xl text-left">{job.title}</h2>
-                            <button className="bg-[#497D74] rounded-2xl px-3 text-sm text-white mt-2">Intern</button>
+                            <span className="inline-block bg-[#497D74] rounded-2xl px-3 text-sm text-white mt-2">Intern</span>
                         </div>
 
                         <div className="flex pt-5">
@@ -72,10 +72,10 @@ const FeaturedJob = () => {
                         </div>
 
                         <div className="flex flex-wrap justify-center gap-3 sm:gap-6 pt-4 w-full sm:w-auto">
-                            <button onClick={() => handleApply(job)} className={`bg-[#497D74] rounded-3xl px-4 sm:px-7 py-2 text-sm sm:text-md text-white transition transform ${applyData[jobIndex]?.applicationData ? "" : "hover:scale-105 cursor-pointer"} border-[#2b4843] border-b-4 border-r-4`} disabled={applyData[jobIndex]?.applicationData}>
+                            <button onClick={() => handleApply(job)} className={`bg-[#497D74] rounded-3xl px-4 sm:px-7 py-2 text-sm sm:text-md text-white transition transform ${applyData[jobIndex]?.applicationData ? "" : "motion-safe:hover:scale-105 cursor-pointer"} border-[#2b4843] border-b-4 border-r-4`} disabled={applyData[jobIndex]?.applicationData}>
                             {applyData[jobIndex]?.applicationData ? "Applied" : "Apply"}
                             </button>
-                            <a href={`/job/${job.id}`} className="bg-[#2d4e6c] rounded-3xl px-4 sm:px-6 py-2 text-sm sm:text-md text-white transition transform hover:scale-105 border-[#1d3346] border-b-4 border-r-4">
+                            <a href={`/job/${job.id}`} className="bg-[#2d4e6c] rounded-3xl px-4 sm:px-6 py-2 text-sm sm:text-md text-white transition transform motion-safe:hover:scale-105 border-[#1d3346] border-b-4 border-r-4">
                                 View Details
                             </a>
                         </div>

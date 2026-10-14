@@ -148,7 +148,7 @@ const Application = () => {
                 {company.name} now has your resume and cover letter for {company.title}. It shows as <span className="font-semibold">Pending</span> until they review it, and you can follow it from your profile.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
-                <Link to="/profile" className="bg-[#27445d] border-[#1d3346] border-b-4 border-r-4 text-white py-2 px-6 rounded-3xl transition hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2">
+                <Link to="/profile" className="bg-[#27445d] border-[#1d3346] border-b-4 border-r-4 text-white py-2 px-6 rounded-3xl transition motion-safe:hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2">
                   Track my applications
                 </Link>
                 <Link to="/" className="py-2 px-6 rounded-3xl border-2 border-[#497D74] text-[#1F3531] font-semibold hover:bg-[#e6efe9] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2">
@@ -235,7 +235,7 @@ const Application = () => {
                   Cancel
                 </Link>
                 <button type="submit" disabled={submitting || !user}
-                  className="bg-[#27445d] border-[#1d3346] border-b-4 border-r-4 text-white py-2 px-8 rounded-3xl transition enabled:hover:scale-105 cursor-pointer text-lg disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2">
+                  className="bg-[#27445d] border-[#1d3346] border-b-4 border-r-4 text-white py-2 px-8 rounded-3xl transition enabled:motion-safe:hover:scale-105 cursor-pointer text-lg disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2">
                   {submitting ? 'Submitting…' : 'Submit application'}
                 </button>
               </div>

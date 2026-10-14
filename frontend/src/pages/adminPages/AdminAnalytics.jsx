@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { TEChart } from "tw-elements-react";
-import AdminLogs from './AdminLogs';
+import { Link } from 'react-router-dom';
 
-function AdminAnalytics({ changeComponent }) {
+function AdminAnalytics() {
     const [userCounts, setUserCount] = useState([]);
     const [applicationCounts, setAppliCount] = useState([]);
     const [logs, setLogs] = useState([]);
@@ -264,7 +264,7 @@ function AdminAnalytics({ changeComponent }) {
               ))}
             </div>
             <div className="mt-4 pt-2 text-center border-t border-[#1F3531]/10">
-              <a onClick={() => changeComponent("logs", <AdminLogs/>)} className="text-[#1F3531] text-sm font-medium hover:underline cursor-pointer">See More Activities</a>
+              <Link to="/admin-logs" className="text-[#1F3531] text-sm font-medium hover:underline">See More Activities</Link>
             </div>
           </div>
 

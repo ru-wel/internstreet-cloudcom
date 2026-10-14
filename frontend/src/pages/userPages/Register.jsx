@@ -71,47 +71,47 @@ function Register() {
 
       <div className='flex items-center justify-center mx-8 my-10'>
         <div className='bg-gradient-to-r from-[#87b7ad] to-[#b1d3cd] backdrop-blur-lg shadow-xl rounded-3xl p-8 sm:p-12 md:p-16 w-full max-w-xl border-1 mb-16'>
-          <h2 className='text-4xl font-bold mb-6 mt-4 text-white'>Sign Up</h2>
+          <h2 className='text-4xl font-bold mb-6 mt-4 text-[#1F3531]'>Sign Up</h2>
 
           <form onSubmit={handleSubmit} className='flex flex-col px-2'>
 
-            <label htmlFor="name" className='text-left text-white text-md font-medium mb-1'>Name
+            <label htmlFor="name" className='text-left text-[#1F3531] text-md font-medium mb-1'>Name
               <input type="text" name="name"  value={userData.name} onChange={handleChange} required placeholder='Name' className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
             </label>
 
-            <label htmlFor="email" className='text-left text-white text-md font-medium mb-1'>Email
+            <label htmlFor="email" className='text-left text-[#1F3531] text-md font-medium mb-1'>Email
               <input type="email" name="email"  value={userData.email} onChange={handleChange} required placeholder='Email' className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
             </label>
 
-            <label htmlFor="password" className='text-left text-white font-medium'>Password
+            <label htmlFor="password" className='text-left text-[#1F3531] font-medium'>Password
               <input type="password" name="password" value={userData.password} onChange={handleChange} required placeholder='Password' className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
             </label>
 
-            <label htmlFor="password2" className='text-left text-white font-medium'>Repeat Password
+            <label htmlFor="password2" className='text-left text-[#1F3531] font-medium'>Repeat Password
               <input type="password" name="password2" value={userData.password2} onChange={handleChange} required placeholder='Repeat Password' className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
             </label>
 
             {(error.password || error.name || error.email) && (
-              <p className='text-red-500 text-md font-bold'>
+              <p className='text-red-800 text-md font-bold'>
                 {error.password || error.name || error.email}
               </p>
             )} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
 
             {!match && userData.password2 && (
-              <p className='text-red-500 text-md font-bold'>Passwords do not match!</p>
+              <p className='text-red-800 text-md font-bold'>Passwords do not match!</p>
             )} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
 
             {match && userData.password2 && (
-              <p className='text-green-500 text-md font-bold'>Passwords match!</p>
+              <p className='text-green-800 text-md font-bold'>Passwords match!</p>
             )} {/* LILITAW LANG PAG MAY ERROR | STYLE NIYO NALANG ACCORDINGLY */}
 
-            <button type='submit' disabled = {loading} className="bg-[#497D74] text-white p-3 mt-6 rounded-xl font-medium transition transform hover:scale-105">
+            <button type='submit' disabled = {loading} className="bg-[#497D74] text-white p-3 mt-6 rounded-xl font-medium transition transform motion-safe:hover:scale-105">
             {loading ? 'Registering...' : 'Register'}
             </button>
 
-            <p className='mt-6 text-white'>
+            <p className='mt-6 text-[#1F3531]'>
               Already have an account?{' '}
-              <a href="/login" className="font-medium hover:underline">Log in</a>
+              <a href="/login" className="font-semibold underline underline-offset-4">Log in</a>
             </p>
           </form>
         </div>

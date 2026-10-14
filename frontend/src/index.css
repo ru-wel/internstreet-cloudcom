@@ -5,3 +5,11 @@
         width: 95%;
     }
 }
+
+@layer base {
+    /* Visible keyboard focus everywhere; dark green reads on cream, mint and white */
+    :focus-visible {
+        outline: 2px solid #1F3531;
+        outline-offset: 2px;
+    }
+}

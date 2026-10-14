@@ -35,27 +35,30 @@ const Nav = () => {
           {/* Crabby Patty */}
           <div className="relative md:hidden">
             <button 
-              className="text-black text-2xl focus:outline-none" 
+              type="button"
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isOpen}
+              className="text-black text-2xl p-3 -m-3" 
               onClick={() => setIsOpen(!isOpen)}>
-              {isOpen ? <FaTimes /> : <FaBars />}
+              {isOpen ? <FaTimes aria-hidden="true" /> : <FaBars aria-hidden="true" />}
             </button>
             
             {/* Mobile Nav */}
             {isOpen && (
               <div className="absolute right-0 mt-2 w-30 bg-[#8bbcb4] shadow-lg rounded-lg py-2 flex flex-col text-center items-center border border-[#497D74]">
-                <a href="/" className="block px-4 py-2 text-white w-full">Find Jobs</a>
+                <a href="/" className="block px-4 py-2 text-[#1F3531] font-medium w-full">Find Jobs</a>
                 {!role ? (
                   <>
-                    <a href="/login" className="block px-4 py-2 text-white  text-center mx-2">Login</a>
-                    <a href="/register" className="block px-4 py-2 text-white  text-center mx-2">Sign Up</a>
+                    <a href="/login" className="block px-4 py-2 text-[#1F3531] font-medium  text-center mx-2">Login</a>
+                    <a href="/register" className="block px-4 py-2 text-[#1F3531] font-medium  text-center mx-2">Sign Up</a>
                   </>
                 ) : (
                   <>
                     {role === 'admin' && (
-                      <a href="/admin-dashboard" className="block px-4 py-2 text-white  w-full">Admin Dashboard</a>
+                      <a href="/admin-dashboard" className="block px-4 py-2 text-[#1F3531] font-medium  w-full">Admin Dashboard</a>
                     )}
-                    <a href="/profile" className="block px-4 py-2 text-white  w-full">Profile</a>
-                    <a href="/logout" className="block px-4 py-2 text-white  w-full">Logout</a>
+                    <a href="/profile" className="block px-4 py-2 text-[#1F3531] font-medium  w-full">Profile</a>
+                    <a href="/logout" className="block px-4 py-2 text-[#1F3531] font-medium  w-full">Logout</a>
                   </>
                 )}
               </div>
@@ -68,10 +71,10 @@ const Nav = () => {
 
             {!role ? (
               <>
-                <a href="/login" className="border-2 border-[#497D74] text-black rounded-full py-2 px-6 hover:bg-[#497D74] hover:text-white transition transform hover:scale-105">
+                <a href="/login" className="border-2 border-[#497D74] text-black rounded-full py-2 px-6 hover:bg-[#497D74] hover:text-white transition transform motion-safe:hover:scale-105">
                   Login
                 </a>
-                <a href="/register" className="border-2 border-[#497D74] bg-[#497D74] text-white rounded-full py-2 px-6 transition transform hover:scale-105">
+                <a href="/register" className="border-2 border-[#497D74] bg-[#497D74] text-white rounded-full py-2 px-6 transition transform motion-safe:hover:scale-105">
                   Sign Up
                 </a>
               </>

@@ -3,7 +3,7 @@ import { FaSearch, FaMapMarkerAlt } from "react-icons/fa";
 import { Helmet } from 'react-helmet';
 import Nav from '../components/Nav'
 import Footer from '../components/Footer';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 function JobListing() {
@@ -84,43 +84,45 @@ function JobListing() {
                 
 
                     <div className="flex flex-col items-center justify-center p-4">
-                        <div className="flex w-full md:w-2/3 gap-2 items-center md:my-10 my-4 flex-col md:flex-row">
+                        <form role="search" onSubmit={(e) => { e.preventDefault(); handleSearch(); }} className="flex w-full md:w-2/3 gap-2 items-center md:my-10 my-4 flex-col md:flex-row">
                     
-                            <div className="flex w-full items-center border bg-white border-black rounded-3xl p-2 mb-4 md:mb-0">
+                            <div className="flex w-full items-center border bg-white border-black rounded-3xl p-2 mb-4 md:mb-0 focus-within:ring-2 focus-within:ring-[#1F3531]">
                                 <div className="flex items-center w-1/2">
-                                    <FaSearch className="text-gray-700 ms-3 text-xl" />
+                                    <FaSearch aria-hidden="true" className="text-gray-700 ms-3 text-xl shrink-0" />
                                     <input
                                         type="text"
+                                        aria-label="Job title or company"
                                         placeholder="Job Title"
                                         value={jTitle}
                                         onChange={(e) => setJTitle(e.target.value)}
-                                        className="w-full p-2 focus:outline-none text-center placeholder:text-center"
+                                        className="w-full p-2 outline-none text-center placeholder:text-center"
                                     />
                                 </div>
                                 <div className="border-l border-gray-600 h-6 mx-2"></div>
                                 <div className="flex items-center w-1/2">
-                                    <FaMapMarkerAlt className="text-gray-700 ms-3 text-xl" />
+                                    <FaMapMarkerAlt aria-hidden="true" className="text-gray-700 ms-3 text-xl shrink-0" />
                                     <input
                                         type="text"
+                                        aria-label="Location"
                                         placeholder="Location"
                                         value={jLocation}
                                         onChange={(e) => setJLocation(e.target.value)}
-                                        className="w-full p-2 focus:outline-none text-center placeholder:text-center"
+                                        className="w-full p-2 outline-none text-center placeholder:text-center"
                                     />
                                 </div>
                             </div>
 
-                            <button onClick={handleSearch} className="bg-[#2d4e6c] border-[#1d3346] border-b-4 border-r-4  text-white px-8 py-3 rounded-3xl hover:opacity-90 hover:scale-105 text-center whitespace-nowrap cursor-pointer">
+                            <button type="submit" className="bg-[#2d4e6c] border-[#1d3346] border-b-4 border-r-4  text-white px-8 py-3 rounded-3xl hover:opacity-90 motion-safe:hover:scale-105 text-center whitespace-nowrap cursor-pointer">
                                 Find Jobs
                             </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
 
             <div className="mb-6 mx-4 p-6 text-center">
               {loading ? (
-                <div className="flex justify-center items-center h-64">
+                <div role="status" aria-label="Loading jobs" className="flex justify-center items-center h-64">
                   <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-[#1F3531] border-solid"></div>
                 </div>
               ) : (
@@ -130,7 +132,7 @@ function JobListing() {
                       <div className="bg-[#f5f0e1] p-6 rounded-3xl border-2 shadow-lg">
                         <div className="flex items-center">
                           <div className="h-12 w-12 flex-shrink-0 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
-                            <img src={job.logo} className="h-full w-full object-cover" />
+                            <img src={job.logo} alt={`${job.company} logo`} className="h-full w-full object-cover" />
                           </div>
                           <div className="ml-3">
                             <h3 className="text-md font-bold text-gray-800">{job.company}</h3>
@@ -140,7 +142,7 @@ function JobListing() {
 
                         <div className="mt-5">
                         <h2 className="text-lg sm:text-xl text-left">{job.title}</h2>
-                        <button className="bg-[#497D74] rounded-2xl px-3 text-sm text-white mt-2">Intern</button>
+                        <span className="inline-block bg-[#497D74] rounded-2xl px-3 text-sm text-white mt-2">Intern</span>
                           
                         </div>
 
@@ -155,15 +157,15 @@ function JobListing() {
                           <button
                             onClick={() => handleApply(job)}
                             className={`bg-[#497D74] rounded-full px-4 py-2 text-white transition transform border-[#224b45] border-r-4 border-b-4 ${
-                              applyData[index]?.applicationData ? "" : "hover:scale-105 cursor-pointer"
+                              applyData[index]?.applicationData ? "" : "motion-safe:hover:scale-105 cursor-pointer"
                             }`}
                             disabled={applyData[index]?.applicationData}
                           >
                             {applyData[index]?.applicationData ? "Applied" : "Apply"}
                           </button>
-                          <button className="bg-[#27445D] rounded-full px-4 py-2 text-white transition transform hover:scale-105 border-[#1d3346] border-r-4 border-b-4">
-                            <a href={`/job/${job.id}`}>View Details</a>
-                          </button>
+                          <Link to={`/job/${job.id}`} className="bg-[#27445D] rounded-full px-4 py-2 text-white text-center transition transform motion-safe:hover:scale-105 border-[#1d3346] border-r-4 border-b-4">
+                            View Details
+                          </Link>
                         </div>
                       </div>
                     </div>

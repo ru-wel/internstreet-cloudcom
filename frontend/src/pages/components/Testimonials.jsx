@@ -38,11 +38,11 @@ const Testimonials = () => {
         {testimonials.map((testimonial, index) => (
           <div
             key={index}
-            className="p-6 sm:p-8 bg-[#f5f0e1] border rounded-2xl shadow-xl flex flex-col items-center transition transform hover:scale-105 hover:shadow-2xl max-w-xs sm:max-w-sm mx-auto"
+            className="p-6 sm:p-8 bg-[#f5f0e1] border rounded-2xl shadow-xl flex flex-col items-center transition transform motion-safe:hover:scale-105 hover:shadow-2xl max-w-xs sm:max-w-sm mx-auto"
           >
             <img
               src={testimonial.image}
-              alt="Testimonial"
+              alt=""
               className="w-16 sm:w-20 h-16 sm:h-20 rounded-full border-4 border-[#497D74] mb-3 sm:mb-4 shadow-md object-cover"
             />
             <p className="text-gray-700 text-base sm:text-lg italic my-4 sm:my-5 leading-relaxed">

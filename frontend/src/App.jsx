@@ -8,6 +8,7 @@ import Login from './pages/userPages/Login';
 import Logout from './pages/userPages/Logout';
 import Register from './pages/userPages/Register';
 import Dashboard from './pages/adminPages/Dashboard';
+import AdminAnalytics from './pages/adminPages/AdminAnalytics';
 import AdminJobs from './pages/adminPages/AdminJobs';
 import AdminUsers from './pages/adminPages/AdminUsers';
 import AdminLogs from './pages/adminPages/AdminLogs';
@@ -51,11 +52,14 @@ const AppContent = () => {
         <Route path="/logout" element={<Logout />} />
 
         <Route element={<AdminWrapper />}> 
-          <Route path="/admin-dashboard" element={<Dashboard />} />
-          <Route path="/admin-jobs" element={<AdminJobs />} />
-          <Route path="/admin-users" element={<AdminUsers />} />
-          <Route path="/admin-logs" element={<AdminLogs />} />
-          <Route path="/admin-applications" element={<AdminDashboard />} />
+          {/* Dashboard is the sidebar layout; each section has its own URL */}
+          <Route element={<Dashboard />}>
+            <Route path="/admin-dashboard" element={<AdminAnalytics />} />
+            <Route path="/admin-applications" element={<AdminDashboard />} />
+            <Route path="/admin-users" element={<AdminUsers />} />
+            <Route path="/admin-jobs" element={<AdminJobs />} />
+            <Route path="/admin-logs" element={<AdminLogs />} />
+          </Route>
         </Route>
       </Route>
     </Routes>

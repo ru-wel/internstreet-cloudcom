@@ -22,7 +22,7 @@ function MeetTheTeam() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-6 sm:px-8 lg:px-20 lg:mx-20 mx-8 ">
         {team.map((member, index) => (
-          <div key={index} className="text-center hover:scale-105 transition-all duration-300 pb-4">
+          <div key={index} className="text-center motion-safe:hover:scale-105 transition-all duration-300 pb-4">
             <img 
               src={member.imgSrc} 
               alt={member.name} 

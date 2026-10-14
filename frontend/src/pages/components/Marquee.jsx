@@ -11,18 +11,23 @@ import bb88 from '/images/companies/bb88.png'
 import hooli from '/images/companies/hooli.png'
 
 const companies = [
-    cloudstaff, co, accenture, concentrix, mvp, shore, taskus, hooli, itsquarehub, bb88
+    { logo: cloudstaff, name: 'Cloudstaff' }, { logo: co, name: 'Co' }, { logo: accenture, name: 'Accenture' },
+    { logo: concentrix, name: 'Concentrix' }, { logo: mvp, name: 'MVP' }, { logo: shore, name: 'Shore360' },
+    { logo: taskus, name: 'TaskUs' }, { logo: hooli, name: 'Hooli' }, { logo: itsquarehub, name: 'IT Squarehub' },
+    { logo: bb88, name: 'BB88' }
 ];
 
 const Marquee = () => {
   return (
     <div className="overflow-hidden py-4 relative w-full border mb-4">
-      <div className="flex w-max whitespace-nowrap [animation:marquee_30s_linear_infinite] hover:[animation-play-state:paused]">
-        {[...companies, ...companies].map((logo, index) => (
+      <div className="flex w-max whitespace-nowrap motion-safe:[animation:marquee_30s_linear_infinite] hover:[animation-play-state:paused]">
+        {/* The second copy only makes the loop seamless, so screen readers skip it */}
+        {[...companies, ...companies].map((company, index) => (
           <img
             key={index}
-            src={logo}
-            alt="Company Logo"
+            src={company.logo}
+            alt={index < companies.length ? company.name : ''}
+            aria-hidden={index >= companies.length}
             className="h-16 mx-8"
           />
         ))}

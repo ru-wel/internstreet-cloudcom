@@ -115,10 +115,10 @@ function UserProfile() {
                 <img src={person} alt="Profile" className="w-full h-full rounded-full object-cover" />
               </div>
       
-              <div className="mt-14 sm:mt-16 text-white">
+              <div className="mt-14 sm:mt-16 text-[#1F3531]">
                 <h1 className="text-2xl sm:text-4xl font-bold tracking-tight">{user.name}</h1>
       
-                <div className="flex items-center justify-center gap-1 my-3 text-white text-lg sm:text-base">
+                <div className="flex items-center justify-center gap-1 my-3 text-[#1F3531] text-lg sm:text-base">
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -126,7 +126,7 @@ function UserProfile() {
                   <span>{user.location || "ADD YOUR LOCATION"}</span>
                 </div>
       
-                <div className="flex items-center justify-center gap-1 text-white text-sm sm:text-base">
+                <div className="flex items-center justify-center gap-1 text-[#1F3531] text-sm sm:text-base">
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
@@ -135,7 +135,7 @@ function UserProfile() {
               </div>
       
               <div className="mt-6">
-                <button type="button" onClick={() => handleEdit(user)} className="bg-[#1F3531] border-[#0f1f1c] border-r-4 border-b-4 text-white py-2 px-4 rounded-3xl transition hover:scale-105 text-sm sm:text-base cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2">
+                <button type="button" onClick={() => handleEdit(user)} className="bg-[#1F3531] border-[#0f1f1c] border-r-4 border-b-4 text-white py-2 px-4 rounded-3xl transition motion-safe:hover:scale-105 text-sm sm:text-base cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2">
                   Edit Profile
                 </button>
               </div>
@@ -143,20 +143,20 @@ function UserProfile() {
       
             {/* About Me Section */}
             <div className="md:w-2/3 bg-gradient-to-r from-[#8ecfc2] via-[#a9dbd1] to-[#80c7bf]  border-zinc-600 backdrop-blur-lg rounded-2xl p-6 sm:p-8 mt-6 md:mt-8 shadow-md border">
-              <h3 className="text-xl sm:text-xl font-bold mb-4 sm:mb-6 text-white border-b border-[#497D74] pb-2">
+              <h3 className="text-xl sm:text-xl font-bold mb-4 sm:mb-6 text-[#1F3531] border-b border-[#497D74] pb-2">
                 About Me
               </h3>
       
               <div className="space-y-4 sm:space-y-5">
                 <div>
-                  <h4 className=" sm:text-sm uppercase text-white text-lg mb-1">Bio</h4>
-                  <p className="text-white text-lg sm:text-base">{user.bio || "ADD YOUR BIO"}</p>
+                  <h4 className=" sm:text-sm uppercase text-[#1F3531] text-lg mb-1">Bio</h4>
+                  <p className="text-[#1F3531] text-lg sm:text-base">{user.bio || "ADD YOUR BIO"}</p>
                 </div>
       
                 <div>
-                  <h4 className="text-xs sm:text-sm uppercase text-white font-medium mb-1">Contact</h4>
-                  <div className="flex items-center gap-2 text-white text-sm sm:text-base">
-                    <svg className="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <h4 className="text-xs sm:text-sm uppercase text-[#1F3531] font-medium mb-1">Contact</h4>
+                  <div className="flex items-center gap-2 text-[#1F3531] text-sm sm:text-base">
+                    <svg className="h-4 w-4 text-[#1F3531]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
                     <span>{user.number || "ADD YOUR PHONE NUMBER"}</span>
@@ -211,7 +211,7 @@ function UserProfile() {
                       <button type="button" onClick={() => setEditModalOpen(false)} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-2xl hover:bg-gray-300 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531]">
                         Cancel
                       </button>
-                      <button type="submit" disabled={saving} className="bg-[#1F3531] border-[#0f1f1c] border-r-4 border-b-4 text-white py-2 px-4 rounded-2xl transition transform enabled:hover:scale-105 cursor-pointer disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2">
+                      <button type="submit" disabled={saving} className="bg-[#1F3531] border-[#0f1f1c] border-r-4 border-b-4 text-white py-2 px-4 rounded-2xl transition transform enabled:motion-safe:hover:scale-105 cursor-pointer disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2">
                         {saving ? 'Saving…' : 'Save'}
                       </button>
                     </div>

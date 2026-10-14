@@ -180,21 +180,21 @@ function AdminUsers() {
 
               <form onSubmit={handleSubmit} className='flex flex-col px-2'>
 
-                <label htmlFor="name" className='text-left text-white text-md font-medium mb-1'>Name
+                <label htmlFor="name" className='text-left text-gray-700 text-md font-medium mb-1'>Name
                   <input type="text" name="name"  value={userData.name} onChange={handleChange} required placeholder='Name' className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
                 </label>
 
-                <label htmlFor="email" className='text-left text-white text-md font-medium mb-1'>Email
+                <label htmlFor="email" className='text-left text-gray-700 text-md font-medium mb-1'>Email
                   <input type="email" name="email"  value={userData.email} onChange={handleChange} required placeholder='Email' className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
                 </label>
 
-                <label htmlFor="password" className='text-left text-white font-medium'>Password
+                <label htmlFor="password" className='text-left text-gray-700 font-medium'>Password
                   <input type="password" name="password" value={userData.password} onChange={handleChange} required placeholder='Password' className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
                 </label>
 
                 {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
 
-                <label htmlFor="password2" className='text-left text-white font-medium'>Repeat Password
+                <label htmlFor="password2" className='text-left text-gray-700 font-medium'>Repeat Password
                   <input type="password" name="password2" value={userData.password2} onChange={handleChange} required placeholder='Repeat Password' className='w-full mt-2 p-3 mb-4 border rounded-3xl text-center bg-white placeholder-gray-500 text-black' />
                 </label>
 
@@ -208,11 +208,11 @@ function AdminUsers() {
 
                 <div className="flex justify-end gap-4 mt-6">
 
-                  <button type='button' disabled={isLoading}  className="bg-gray-300 text-gray-700 py-3 px-6 rounded-2xl font-medium transition-transform hover:scale-105 hover:bg-gray-400 focus:ring-2 focus:ring-gray-500" onClick={() => setAddModalOpen(false)}>
+                  <button type='button' disabled={isLoading}  className="bg-gray-300 text-gray-700 py-3 px-6 rounded-2xl font-medium transition-transform motion-safe:hover:scale-105 hover:bg-gray-400 focus:ring-2 focus:ring-gray-500" onClick={() => setAddModalOpen(false)}>
                     Cancel
                   </button>
 
-                  <button type='submit' disabled = {isLoading} className={`py-3 px-6 rounded-2xl font-medium transition-transform hover:scale-105 focus:ring-2 focus:ring-[#1F3531]/50 ${isLoading ? "bg-[#1F3531]/50 text-white cursor-not-allowed" : "bg-[#1F3531] text-white hover:bg-[#1F3531]/90"}`}>
+                  <button type='submit' disabled = {isLoading} className={`py-3 px-6 rounded-2xl font-medium transition-transform motion-safe:hover:scale-105 focus:ring-2 focus:ring-[#1F3531]/50 ${isLoading ? "bg-[#1F3531]/50 text-white cursor-not-allowed" : "bg-[#1F3531] text-white hover:bg-[#1F3531]/90"}`}>
                     {isLoading ? 'Adding Admin...' : 'Add Admin'}
                   </button>
                 </div>
@@ -226,22 +226,22 @@ function AdminUsers() {
         {editModalOpen && (
           <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">Add Admin</h2>
+              <h2 className="text-xl font-bold text-gray-800 mb-4">Change user role</h2>
 
               <form onSubmit={handleEditSubmit} className='flex flex-col px-2'>
 
-                <select value={editUser.user_role} onChange={(e) => setEditUser({ ...editUser, user_role: e.target.value })} required >
+                <select aria-label="User role" value={editUser.user_role} onChange={(e) => setEditUser({ ...editUser, user_role: e.target.value })} required >
                   <option value="admin">Admin</option>
                   <option value="user">User</option>
                 </select>
 
                 <div className="flex justify-end gap-4 mt-6">
-                  <button type='button' disabled={isLoading}  className="bg-gray-300 text-gray-700 py-3 px-6 rounded-2xl font-medium transition-transform hover:scale-105 hover:bg-gray-400 focus:ring-2 focus:ring-gray-500" onClick={() => {
+                  <button type='button' disabled={isLoading}  className="bg-gray-300 text-gray-700 py-3 px-6 rounded-2xl font-medium transition-transform motion-safe:hover:scale-105 hover:bg-gray-400 focus:ring-2 focus:ring-gray-500" onClick={() => {
                     setEditModalOpen(false); 
                     setUserData({ name: '', email: '', password: '', password2: '', })}}>
                     Cancel
                   </button>
-                  <button type='submit' disabled = {isLoading} className={`py-3 px-6 rounded-2xl font-medium transition-transform hover:scale-105 focus:ring-2 focus:ring-[#1F3531]/50 ${isLoading ? "bg-[#1F3531]/50 text-white cursor-not-allowed" : "bg-[#1F3531] text-white hover:bg-[#1F3531]/90"}`}>
+                  <button type='submit' disabled = {isLoading} className={`py-3 px-6 rounded-2xl font-medium transition-transform motion-safe:hover:scale-105 focus:ring-2 focus:ring-[#1F3531]/50 ${isLoading ? "bg-[#1F3531]/50 text-white cursor-not-allowed" : "bg-[#1F3531] text-white hover:bg-[#1F3531]/90"}`}>
                     {isLoading ? 'Editing User...' : 'Edit User'}
                   </button>
                 </div>
@@ -260,7 +260,7 @@ function AdminUsers() {
                 <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
               </svg>
             </div>
-            <input type="text" placeholder="Search" className="pl-10 pr-4 py-2 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-md text-sm" value={searchTerm} onChange={handleSearch}/>
+            <input type="text" aria-label="Search users" placeholder="Search" className="pl-10 pr-4 py-2 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-md text-sm" value={searchTerm} onChange={handleSearch}/>
           </div>
         </div>
 
