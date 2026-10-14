@@ -1,14 +1,14 @@
 import React from 'react'
-import cloudstaff from '/images/companies/cloudstaff.png'
-import co from '/images/companies/co.png'
-import accenture from '/images/companies/accenture.png'
-import concentrix from '/images/companies/concentrix.png'
-import mvp from '/images/companies/mvp.png'
-import shore from '/images/companies/shore360.png'
-import taskus from '/images/companies/taskus.png'
-import itsquarehub from '/images/companies/itsquarehub.png'
-import bb88 from '/images/companies/bb88.png'
-import hooli from '/images/companies/hooli.png'
+import cloudstaff from '/images/companies/cloudstaff.webp'
+import co from '/images/companies/co.webp'
+import accenture from '/images/companies/accenture.webp'
+import concentrix from '/images/companies/concentrix.webp'
+import mvp from '/images/companies/mvp.webp'
+import shore from '/images/companies/shore360.webp'
+import taskus from '/images/companies/taskus.webp'
+import itsquarehub from '/images/companies/itsquarehub.webp'
+import bb88 from '/images/companies/bb88.webp'
+import hooli from '/images/companies/hooli.webp'
 
 const companies = [
     { logo: cloudstaff, name: 'Cloudstaff' }, { logo: co, name: 'Co' }, { logo: accenture, name: 'Accenture' },
@@ -28,6 +28,7 @@ const Marquee = () => {
             src={company.logo}
             alt={index < companies.length ? company.name : ''}
             aria-hidden={index >= companies.length}
+            loading="lazy"
             className="h-16 mx-8"
           />
         ))}

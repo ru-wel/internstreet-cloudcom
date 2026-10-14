@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
-import loginimg from '/images/login.jpg';
+import loginimg from '/images/login.webp';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -46,7 +46,7 @@ function Login() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             {/* Image - Hidden on small screens */}
-            <img src={loginimg} alt="Login Illustration" className="hidden md:block w-4/5 mx-auto rounded-2xl shadow-md" />
+            <img src={loginimg} alt="Login Illustration" loading="lazy" className="hidden md:block w-4/5 mx-auto rounded-2xl shadow-md" />
 
             {/* Login Form */}
             <div className="bg-white p-6 sm:p-10 rounded-2xl shadow-lg w-full max-w-sm mx-auto">

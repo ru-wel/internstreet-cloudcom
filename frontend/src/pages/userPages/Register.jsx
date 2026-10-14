@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer'
@@ -111,7 +111,7 @@ function Register() {
 
             <p className='mt-6 text-[#1F3531]'>
               Already have an account?{' '}
-              <a href="/login" className="font-semibold underline underline-offset-4">Log in</a>
+              <Link to="/login" className="font-semibold underline underline-offset-4">Log in</Link>
             </p>
           </form>
         </div>

@@ -1,10 +1,10 @@
 import React from 'react';
-import gab from "/images/gab.jpg";
-import abby from "/images/abby-min.jpg";
-import ethan from "/images/ethan-min.png";
-import levin from "/images/levin.jpg";
-import wel from "/images/wel.jpg";
-import mina from "/images/mina.jpg";
+import gab from "/images/gab.webp";
+import abby from "/images/abby-min.webp";
+import ethan from "/images/ethan-min.webp";
+import levin from "/images/levin.webp";
+import wel from "/images/wel.webp";
+import mina from "/images/mina.webp";
 
 function MeetTheTeam() {
   const team = [
@@ -26,6 +26,7 @@ function MeetTheTeam() {
             <img 
               src={member.imgSrc} 
               alt={member.name} 
+              loading="lazy"
               className="w-md  mx-auto object-cover rounded-3xl mb-6 border-2"
             />
             <p className="text-xl font-semibold text-[#427068]">{member.name}</p>

@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 const FeaturedJob = () => {
     const navigate = useNavigate();
     const [fetchedJobs, setFetchJobs] = useState([]);
-    const [applyData, setApplyData] = useState([]);
+    const [appliedTo, setAppliedTo] = useState(new Set());
+
+    // One request for the student's applications instead of one per job; logged-out visitors skip it
+    useEffect(() => {
+        if (!localStorage.getItem('token')) return;
+        axios.get(import.meta.env.VITE_API_URL + '/apply-job')
+            .then((res) => setAppliedTo(new Set(res.data.map((a) => `${a.c_name}|${a.c_position}`))))
+            .catch((error) => console.error('Error fetching applications:', error));
+    }, []);
 
     useEffect(() => {
         const fetchJobs = async () => {
@@ -18,17 +26,6 @@ const FeaturedJob = () => {
             const slicedJobs = jobs.slice(0, 4);
       
             setFetchJobs(slicedJobs);
-      
-            const jobApplications = await Promise.all(
-              slicedJobs.map(async (job) => {
-                const application = await axios.get(
-                  import.meta.env.VITE_API_URL + `/apply-job/${job.company}/${job.title}`
-                );
-                return { ...job, applicationData: application.data };
-              })
-            );
-      
-            setApplyData(jobApplications);
           } catch (error) {
             console.error('Error fetching data:', error);
           }
@@ -72,12 +69,12 @@ const FeaturedJob = () => {
                         </div>
 
                         <div className="flex flex-wrap justify-center gap-3 sm:gap-6 pt-4 w-full sm:w-auto">
-                            <button onClick={() => handleApply(job)} className={`bg-[#497D74] rounded-3xl px-4 sm:px-7 py-2 text-sm sm:text-md text-white transition transform ${applyData[jobIndex]?.applicationData ? "" : "motion-safe:hover:scale-105 cursor-pointer"} border-[#2b4843] border-b-4 border-r-4`} disabled={applyData[jobIndex]?.applicationData}>
-                            {applyData[jobIndex]?.applicationData ? "Applied" : "Apply"}
+                            <button onClick={() => handleApply(job)} className={`bg-[#497D74] rounded-3xl px-4 sm:px-7 py-2 text-sm sm:text-md text-white transition transform ${appliedTo.has(`${job.company}|${job.title}`) ? "" : "motion-safe:hover:scale-105 cursor-pointer"} border-[#2b4843] border-b-4 border-r-4`} disabled={appliedTo.has(`${job.company}|${job.title}`)}>
+                            {appliedTo.has(`${job.company}|${job.title}`) ? "Applied" : "Apply"}
                             </button>
-                            <a href={`/job/${job.id}`} className="bg-[#2d4e6c] rounded-3xl px-4 sm:px-6 py-2 text-sm sm:text-md text-white transition transform motion-safe:hover:scale-105 border-[#1d3346] border-b-4 border-r-4">
+                            <Link to={`/job/${job.id}`} className="bg-[#2d4e6c] rounded-3xl px-4 sm:px-6 py-2 text-sm sm:text-md text-white transition transform motion-safe:hover:scale-105 border-[#1d3346] border-b-4 border-r-4">
                                 View Details
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 ))}

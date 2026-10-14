@@ -1,5 +1,5 @@
 import React from 'react';
-import heroimg from "/images/about-min.jpg";
+import heroimg from "/images/about-min.webp";
 
 
 function MoreAbout() {

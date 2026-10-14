@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
 function Dashboard() {
@@ -85,7 +85,7 @@ function Dashboard() {
           </nav>
 
           <div className="mt-5 p-4 border-t border-[#2C4B45]">
-            <a href="/profile" className="block rounded-lg focus-visible:outline-2 focus-visible:outline-white">
+            <Link to="/profile" className="block rounded-lg focus-visible:outline-2 focus-visible:outline-white">
               <div className="flex items-center px-4 py-2.5 rounded-lg group transition-all duration-200 hover:bg-[#345952]">
                 <div className="h-8 w-8 rounded-full flex-shrink-0 bg-gray-200 flex items-center justify-center">
                   <img src={`https://avatar.iran.liara.run/username?username=${user.name}`} alt="" />
@@ -95,25 +95,25 @@ function Dashboard() {
                   <p className="text-xs text-gray-400">{user.email}</p>
                 </div>
               </div>
-            </a>
+            </Link>
           </div>
 
           <div className="px-2">
-            <a href="/" className="focus-visible:outline-2 focus-visible:outline-white flex items-center cursor-pointer px-4 py-2.5 text-sm font-medium rounded-lg text-gray-300 group transition-all duration-200 hover:bg-[#345952]">
+            <Link to="/" className="focus-visible:outline-2 focus-visible:outline-white flex items-center cursor-pointer px-4 py-2.5 text-sm font-medium rounded-lg text-gray-300 group transition-all duration-200 hover:bg-[#345952]">
             <svg className="h-5 w-5 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M4.37 7.657c2.063.528 2.396 2.806 3.202 3.87 1.07 1.413 2.075 1.228 3.192 2.644 1.805 2.289 1.312 5.705 1.312 6.705M20 15h-1a4 4 0 0 0-4 4v1M8.587 3.992c0 .822.112 1.886 1.515 2.58 1.402.693 2.918.351 2.918 2.334 0 .276 0 2.008 1.972 2.008 2.026.031 2.026-1.678 2.026-2.008 0-.65.527-.9 1.177-.9H20M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
             </svg>
             Return to Site
-            </a>
+            </Link>
           </div>
 
           <div className="px-2">
-            <a href="/logout" className="focus-visible:outline-2 focus-visible:outline-white flex items-center cursor-pointer px-4 py-2.5 text-sm font-medium rounded-lg text-gray-300 group transition-all duration-200 hover:bg-[#345952]">
+            <Link to="/logout" className="focus-visible:outline-2 focus-visible:outline-white flex items-center cursor-pointer px-4 py-2.5 text-sm font-medium rounded-lg text-gray-300 group transition-all duration-200 hover:bg-[#345952]">
             <svg className="h-5 w-5 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" transform="scale(-1, 1)">
             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"/>
             </svg>
             Logout
-            </a>
+            </Link>
           </div>
           
         </aside>

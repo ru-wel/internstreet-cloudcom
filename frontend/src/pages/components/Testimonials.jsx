@@ -1,7 +1,7 @@
 import React from "react";
-import p1 from "/images/p1.jpg";
-import p2 from "/images/p2.jpg";
-import p3 from "/images/p3.jpg";
+import p1 from "/images/p1.webp";
+import p2 from "/images/p2.webp";
+import p3 from "/images/p3.webp";
 
 
 
@@ -43,6 +43,9 @@ const Testimonials = () => {
             <img
               src={testimonial.image}
               alt=""
+              width="80"
+              height="80"
+              loading="lazy"
               className="w-16 sm:w-20 h-16 sm:h-20 rounded-full border-4 border-[#497D74] mb-3 sm:mb-4 shadow-md object-cover"
             />
             <p className="text-gray-700 text-base sm:text-lg italic my-4 sm:my-5 leading-relaxed">

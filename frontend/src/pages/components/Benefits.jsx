@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 
 const Benefits = () => {
   return (
@@ -42,9 +43,9 @@ const Benefits = () => {
 
       {/* Call to Action */}
       <div className="mt-10 sm:mt-14">
-      <a href="/login" className="inline-block bg-[#497D74] text-white px-4 sm:px-7 py-2 sm:py-3 text-lg sm:text-lg rounded-full shadow-md hover:bg-[#3f6d65] transition-all border-[#2b4843] border-b-4 border-r-4">
+      <Link to="/login" className="inline-block bg-[#497D74] text-white px-4 sm:px-7 py-2 sm:py-3 text-lg sm:text-lg rounded-full shadow-md hover:bg-[#3f6d65] transition-all border-[#2b4843] border-b-4 border-r-4">
         Get Started Now
-      </a>
+      </Link>
 
       </div>
     </section>

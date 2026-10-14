@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 import Landing from './pages/userPages/Landing';
@@ -7,12 +7,13 @@ import JobListing from './pages/userPages/JobListing';
 import Login from './pages/userPages/Login';
 import Logout from './pages/userPages/Logout';
 import Register from './pages/userPages/Register';
-import Dashboard from './pages/adminPages/Dashboard';
-import AdminAnalytics from './pages/adminPages/AdminAnalytics';
-import AdminJobs from './pages/adminPages/AdminJobs';
-import AdminUsers from './pages/adminPages/AdminUsers';
-import AdminLogs from './pages/adminPages/AdminLogs';
-import AdminDashboard from './pages/adminPages/AdminApplications';
+// Admin pages (and their chart library) load only when an admin opens them
+const Dashboard = lazy(() => import('./pages/adminPages/Dashboard'));
+const AdminAnalytics = lazy(() => import('./pages/adminPages/AdminAnalytics'));
+const AdminJobs = lazy(() => import('./pages/adminPages/AdminJobs'));
+const AdminUsers = lazy(() => import('./pages/adminPages/AdminUsers'));
+const AdminLogs = lazy(() => import('./pages/adminPages/AdminLogs'));
+const AdminDashboard = lazy(() => import('./pages/adminPages/AdminApplications'));
 import Job from './pages/userPages/Job';
 import Profile from './pages/userPages/UserProfile';
 import { UserWrapper, AdminWrapper, GuestWrapper } from './auth/authentication';
@@ -35,6 +36,7 @@ const AppContent = () => {
   }, [location.pathname]);
 
   return (
+    <Suspense fallback={<div role="status" className="flex justify-center items-center h-screen">Loading…</div>}>
     <Routes>
       <Route path="/landing" element={<Landing />} />
       <Route path="/about" element={<AboutPage />} />
@@ -63,6 +65,7 @@ const AppContent = () => {
         </Route>
       </Route>
     </Routes>
+    </Suspense>
   );
 };
 

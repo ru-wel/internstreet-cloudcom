@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import Nav from '../components/Nav';
-import person from '/images/person-placeholder.png';
+import person from '/images/person-placeholder.webp';
 import Footer from '../components/Footer';
 
 function UserProfile() {
@@ -270,7 +271,7 @@ function UserProfile() {
                               </div>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="text-sm text-gray-900"><a href={`/job/${application.job_id}`} className='text-blue-500 underline'>{application.c_position}</a></div>
+                              <div className="text-sm text-gray-900"><Link to={`/job/${application.job_id}`} className='text-blue-500 underline'>{application.c_position}</Link></div>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${

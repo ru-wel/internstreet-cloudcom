@@ -1,5 +1,6 @@
 import React from "react";
-import heroimg from "/images/about-min.jpg";
+import { Link } from 'react-router-dom';
+import heroimg from "/images/about-min.webp";
 
 function About() {
   return (
@@ -45,9 +46,9 @@ function About() {
 
           {/* Call to Action Button */}
           <div className="flex justify-center md:justify-start pt-6">
-            <a href="/about" className="inline-block bg-[#497D74] text-white px-4 sm:px-7 py-2 sm:py-3 text-base sm:text-lg rounded-full shadow-md hover:bg-[#3f6d65] transition-all border-[#2b4843] border-b-4 border-r-4">
+            <Link to="/about" className="inline-block bg-[#497D74] text-white px-4 sm:px-7 py-2 sm:py-3 text-base sm:text-lg rounded-full shadow-md hover:bg-[#3f6d65] transition-all border-[#2b4843] border-b-4 border-r-4">
                 Learn More &gt;&gt;
-            </a>
+            </Link>
           </div>
         </div>
 

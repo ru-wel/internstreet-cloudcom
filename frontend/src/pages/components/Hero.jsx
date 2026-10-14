@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import heroimg from '/images/is-hero.webp';
 
 const Hero = () => {
@@ -27,8 +28,8 @@ const Hero = () => {
                         </p>
 
                     <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 w-full">
-                    <a href="/register" className="inline-block bg-[#497D74] rounded-4xl px-8 sm:px-7 py-3 text-base sm:text-lg text-white transition transform motion-safe:hover:scale-105 border-[#2b4843] border-b-4 border-r-4">Get Started</a>
-                    <a href="/" className="inline-block bg-[#2d4e6c] rounded-4xl px-8 sm:px-6 py-3 text-base sm:text-lg text-white transition transform motion-safe:hover:scale-105 border-[#1d3346] border-b-4 border-r-4">Find Jobs</a>
+                    <Link to="/register" className="inline-block bg-[#497D74] rounded-4xl px-8 sm:px-7 py-3 text-base sm:text-lg text-white transition transform motion-safe:hover:scale-105 border-[#2b4843] border-b-4 border-r-4">Get Started</Link>
+                    <Link to="/" className="inline-block bg-[#2d4e6c] rounded-4xl px-8 sm:px-6 py-3 text-base sm:text-lg text-white transition transform motion-safe:hover:scale-105 border-[#1d3346] border-b-4 border-r-4">Find Jobs</Link>
                     
                     </div>
                 </div>

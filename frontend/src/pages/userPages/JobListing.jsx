@@ -13,7 +13,7 @@ function JobListing() {
     const [jTitle, setJTitle] = useState("");
     const [jLocation, setJLocation] = useState("");
     const [error, setErrors] = useState("");
-    const [applyData, setApplyData] = useState([]);
+    const [appliedTo, setAppliedTo] = useState(new Set());
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -23,22 +23,12 @@ function JobListing() {
                 const result = await fetch(import.meta.env.VITE_API_URL + `/jobs`);
                 const fetchedJobs = await result.json();
                 setJobs(fetchedJobs);
-                filteredJobs.includes() ? null : (setFiltered(fetchedJobs));
-
-                const jobApplications = await Promise.all(
-                    fetchedJobs.map(async (job) => {
-                      const application = await axios.get(
-                        import.meta.env.VITE_API_URL + `/apply-job/${job.company}/${job.title}`
-                      );
-                      return { ...job, applicationData: application.data };
-                    })
-                );
-                setApplyData(jobApplications);
-                setLoading(false);
+                setFiltered(fetchedJobs);
             } catch (err) {
                 console.error('Error fetching jobs:', err);
                 setErrors(err.message || 'Failed to fetch jobs.');
             } finally {
+                setLoading(false);
             }
         };
         if (jTitle == "" && jLocation == ""){
@@ -47,22 +37,22 @@ function JobListing() {
         
     },[jTitle, jLocation]);
 
-    const handleSearch = async () => {
+    // One request for the student's applications instead of one per job; logged-out visitors skip it
+    useEffect(() => {
+        if (!localStorage.getItem('token')) return;
+        axios.get(import.meta.env.VITE_API_URL + '/apply-job')
+            .then((res) => setAppliedTo(new Set(res.data.map((a) => `${a.c_name}|${a.c_position}`))))
+            .catch((err) => console.error('Error fetching applications:', err));
+    }, []);
+
+    const isApplied = (job) => appliedTo.has(`${job.company}|${job.title}`);
+
+    const handleSearch = () => {
         const result = filteredJobs.filter(
             (job) =>
                 job.title.toLowerCase().includes(jTitle.toLowerCase()) || job.company.toLowerCase().includes(jTitle.toLowerCase()) && job.location.toLowerCase().includes(jLocation.toLowerCase())
         );
         setJobs(result);
-        const jobApplications = await Promise.all(
-            result.map(async (job) => {
-              const application = await axios.get(
-                import.meta.env.VITE_API_URL + `/apply-job/${job.company}/${job.title}`
-              );
-              return { ...job, applicationData: application.data };
-            })
-        );
-    
-        setApplyData(jobApplications);
     }
     const handleApply = (job) =>{
         navigate('/apply', { state: { title: job.title, desc: job.description, name: job.company, location: job.location, logo: job.logo, id: job.id }})
@@ -157,11 +147,11 @@ function JobListing() {
                           <button
                             onClick={() => handleApply(job)}
                             className={`bg-[#497D74] rounded-full px-4 py-2 text-white transition transform border-[#224b45] border-r-4 border-b-4 ${
-                              applyData[index]?.applicationData ? "" : "motion-safe:hover:scale-105 cursor-pointer"
+                              isApplied(job) ? "" : "motion-safe:hover:scale-105 cursor-pointer"
                             }`}
-                            disabled={applyData[index]?.applicationData}
+                            disabled={isApplied(job)}
                           >
-                            {applyData[index]?.applicationData ? "Applied" : "Apply"}
+                            {isApplied(job) ? "Applied" : "Apply"}
                           </button>
                           <Link to={`/job/${job.id}`} className="bg-[#27445D] rounded-full px-4 py-2 text-white text-center transition transform motion-safe:hover:scale-105 border-[#1d3346] border-r-4 border-b-4">
                             View Details
