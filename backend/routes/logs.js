@@ -1,6 +1,7 @@
 import express from 'express';
 import { LogAction } from '../utils/logger.js';
 import Log from '../models/Log.js';
+import { requireAdmin } from '../middleware/auth.js';
 
 const app = express();
 app.use(express.json());
@@ -8,7 +9,7 @@ app.use(express.json());
 const router = express.Router();
 
 // FETCH LOGS
-router.get('/', async (req, res) => { 
+router.get('/', requireAdmin, async (req, res) => {
     try {
       const logs = await Log.findAll();
       logs.sort((a, b) => b.id - a.id); // sort by id
@@ -20,7 +21,7 @@ router.get('/', async (req, res) => {
 })
 
 // DELETE LOG
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', requireAdmin, async (req, res, next) => {
     try {
         const { id } = req.params;
         const log = await Log.findOne({ where: { "id" : id } });
@@ -30,7 +31,7 @@ router.delete('/:id', async (req, res, next) => {
         await Log.destroy({ where: { "id" : id } });
         const message = `Successfully deleted Log: user: ${log.email} | action: ${log.action}`;
         res.status(200).json({ message: message });
-        await LogAction(message);
+        await LogAction(req, message);
     } catch (error) {
         console.error(error);
         return next(error);

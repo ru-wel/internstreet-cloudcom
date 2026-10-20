@@ -1,6 +1,5 @@
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import { lazy, Suspense, useEffect } from 'react';
-import axios from 'axios';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import './App.css';
 import Landing from './pages/userPages/Landing';
 import JobListing from './pages/userPages/JobListing';
@@ -21,19 +20,6 @@ import AboutPage from './pages/userPages/AboutPage';
 import Application from './pages/userPages/Application';
 
 const AppContent = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    const detectBrowser = async () => {
-      try {
-        await axios.get(import.meta.env.VITE_API_URL + '/utils/detect-browser');
-      } catch (error) {
-        console.error("Error detecting browser:", error);
-      }
-    };
-
-    detectBrowser();
-  }, [location.pathname]);
 
   return (
     <Suspense fallback={<div role="status" className="flex justify-center items-center h-screen">Loading…</div>}>

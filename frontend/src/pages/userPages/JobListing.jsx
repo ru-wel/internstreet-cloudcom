@@ -41,11 +41,11 @@ function JobListing() {
     useEffect(() => {
         if (!localStorage.getItem('token')) return;
         axios.get(import.meta.env.VITE_API_URL + '/apply-job')
-            .then((res) => setAppliedTo(new Set(res.data.map((a) => `${a.c_name}|${a.c_position}`))))
+            .then((res) => setAppliedTo(new Set(res.data.map((a) => a.job_id))))
             .catch((err) => console.error('Error fetching applications:', err));
     }, []);
 
-    const isApplied = (job) => appliedTo.has(`${job.company}|${job.title}`);
+    const isApplied = (job) => appliedTo.has(job.id);
 
     const handleSearch = () => {
         const result = filteredJobs.filter(

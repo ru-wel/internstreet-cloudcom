@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
+import { authFetch } from '../../auth/api';
+import { AuthContext } from '../../auth/authentication';
 
 function AdminUsers() {
+  // The verified user from /validate-token; admins can't edit or delete their own account
+  const { user: me } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +27,7 @@ function AdminUsers() {
     const fetchUsers = async () => {
       setIsLoading(true);
       try {
-        const result = await fetch(import.meta.env.VITE_API_URL + `/users`);
+        const result = await authFetch(import.meta.env.VITE_API_URL + `/users`);
         if (!result.ok) {
           throw new Error('Failed to fetch users');
         }
@@ -93,7 +97,7 @@ function AdminUsers() {
       try {
         const response = await axios.post(import.meta.env.VITE_API_URL + '/users/add', userData);
         const newUser = response.data.newUser; 
-        setFilteredUsers([...filteredUsers, newUser]);
+        setUsers(prevUsers => [newUser, ...prevUsers]);
         setAddModalOpen(false);
         setUserData({ name: '', email: '', password: '', password2: '', });
       } catch (error) {
@@ -126,11 +130,11 @@ function AdminUsers() {
       const response = await axios.put(import.meta.env.VITE_API_URL + `/users/role/${editUser.id}`, editUser);
       alert('User details updated succesfully!');
       setEditModalOpen(false);
-      setFilteredUsers(prevUsers => prevUsers.map(user => user.id === editUser.id ? { ...user, ...editUser } : user)
+      setUsers(prevUsers => prevUsers.map(user => user.id === editUser.id ? { ...user, ...editUser } : user)
       );
     } catch (error) {
       console.error('Error updating user:', error);
-      alert(error.response.data.message || 'Failed to update user details.');
+      alert(error.response?.data?.message || 'Failed to update user details.');
     } finally {
       setIsLoading(false);
     }
@@ -143,16 +147,17 @@ function AdminUsers() {
 
     setIsLoading(true);
     try {
-      const response = await fetch(import.meta.env.VITE_API_URL + `/users/${userId}`, {
+      const response = await authFetch(import.meta.env.VITE_API_URL + `/users/${userId}`, {
         method: "DELETE",
       });
       if (!response.ok) {
-        throw new Error("Failed to delete user");
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.message || "Failed to delete user.");
       }
-      setFilteredUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
+      setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
     } catch (error) {
       console.error("Error deleting user:", error);
-      alert("Failed to delete user.");
+      alert(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -322,10 +327,16 @@ function AdminUsers() {
                           {user.updatedAt ? new Date(user.updatedAt).toLocaleString() : "NULL"}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <button className="text-indigo-600 hover:text-indigo-900 mr-4" onClick={() => handleEdit(user)}>Edit</button>
-                          <button className="text-red-600 hover:text-red-900" onClick={() => deleteUser(user.id)} disabled={isLoading}>
-                            {isLoading ? "Deleting..." : "Delete"}
-                          </button>
+                          {user.id === me?.id ? (
+                            <span className="text-gray-500">You</span>
+                          ) : (
+                            <>
+                              <button className="text-indigo-600 hover:text-indigo-900 mr-4" onClick={() => handleEdit(user)}>Edit</button>
+                              <button className="text-red-600 hover:text-red-900" onClick={() => deleteUser(user.id)} disabled={isLoading}>
+                                {isLoading ? "Deleting..." : "Delete"}
+                              </button>
+                            </>
+                          )}
                         </td>
                       </tr>
                     ))

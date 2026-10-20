@@ -24,7 +24,6 @@ function Login() {
       const response = await axios.post(import.meta.env.VITE_API_URL + `/login`, { email, password });
       const token = response.data.token;
       localStorage.setItem('token', token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       navigate(from ? from.pathname : '/', { state: from?.state, replace: true });
     } catch (error) {
       setError(error.response?.data?.message || error.message || 'Login failed! Please try again.');

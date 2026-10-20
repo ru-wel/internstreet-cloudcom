@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
+import { authFetch } from '../../auth/api';
 
 function AdminJobs() {
   const [jobs, setJobs] = useState([]);
@@ -43,7 +44,7 @@ function AdminJobs() {
     const fetchJobs = async () => {
       setIsLoading(true);
       try {
-          const result = await fetch(import.meta.env.VITE_API_URL + `/jobs`);
+          const result = await authFetch(import.meta.env.VITE_API_URL + `/jobs`);
           if (!result.ok) {
             throw new Error('Failed to fetch jobs');
           }
@@ -109,7 +110,7 @@ function AdminJobs() {
     try {
       const response = await axios.post(import.meta.env.VITE_API_URL + '/jobs/add', jobData);
       const newJob = response.data.newJob; 
-      setFilteredJobs([...filteredJobs, newJob]);
+      setJobs(prevJobs => [newJob, ...prevJobs]);
       setAddModalOpen(false);
       setJobData(initialJobData);
     } catch (error) {
@@ -155,7 +156,7 @@ function AdminJobs() {
       const response = await axios.put(import.meta.env.VITE_API_URL + `/jobs/${editJob.id}`, editJob);
       alert('Job details updated succesfully!');
       setEditModalOpen(false);
-      setFilteredJobs(prevJobs => prevJobs.map(job => job.id === editJob.id ? { ...job, ...editJob } : job)
+      setJobs(prevJobs => prevJobs.map(job => job.id === editJob.id ? { ...job, ...editJob } : job)
       );
     } catch (error) {
       console.error('Error updating job:', error);
@@ -167,21 +168,22 @@ function AdminJobs() {
 
   // DELETE JOB
   const deleteJob = async (jobId) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this job? Doing so will delete selected job in the applications table.");
+    const confirmDelete = window.confirm("Delete this job? Jobs that already have applications can't be deleted.");
     if (!confirmDelete) return;
 
     setIsLoading(true);
     try {
-      const response = await fetch(import.meta.env.VITE_API_URL + `/jobs/${jobId}`, {
+      const response = await authFetch(import.meta.env.VITE_API_URL + `/jobs/${jobId}`, {
         method: "DELETE",
       });
       if (!response.ok) {
-        throw new Error("Failed to delete job");
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.message || "Failed to delete job.");
       }
-      setFilteredJobs(prevJobs => prevJobs.filter(job => job.id !== jobId));
+      setJobs(prevJobs => prevJobs.filter(job => job.id !== jobId));
     } catch (error) {
       console.error("Error deleting job:", error);
-      alert("Failed to delete job.");
+      alert(error.message);
     } finally {
       setIsLoading(false);
     }

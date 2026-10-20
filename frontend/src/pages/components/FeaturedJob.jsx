@@ -11,7 +11,7 @@ const FeaturedJob = () => {
     useEffect(() => {
         if (!localStorage.getItem('token')) return;
         axios.get(import.meta.env.VITE_API_URL + '/apply-job')
-            .then((res) => setAppliedTo(new Set(res.data.map((a) => `${a.c_name}|${a.c_position}`))))
+            .then((res) => setAppliedTo(new Set(res.data.map((a) => a.job_id))))
             .catch((error) => console.error('Error fetching applications:', error));
     }, []);
 
@@ -69,8 +69,8 @@ const FeaturedJob = () => {
                         </div>
 
                         <div className="flex flex-wrap justify-center gap-3 sm:gap-6 pt-4 w-full sm:w-auto">
-                            <button onClick={() => handleApply(job)} className={`bg-[#497D74] rounded-3xl px-4 sm:px-7 py-2 text-sm sm:text-md text-white transition transform ${appliedTo.has(`${job.company}|${job.title}`) ? "" : "motion-safe:hover:scale-105 cursor-pointer"} border-[#2b4843] border-b-4 border-r-4`} disabled={appliedTo.has(`${job.company}|${job.title}`)}>
-                            {appliedTo.has(`${job.company}|${job.title}`) ? "Applied" : "Apply"}
+                            <button onClick={() => handleApply(job)} className={`bg-[#497D74] rounded-3xl px-4 sm:px-7 py-2 text-sm sm:text-md text-white transition transform ${appliedTo.has(job.id) ? "" : "motion-safe:hover:scale-105 cursor-pointer"} border-[#2b4843] border-b-4 border-r-4`} disabled={appliedTo.has(job.id)}>
+                            {appliedTo.has(job.id) ? "Applied" : "Apply"}
                             </button>
                             <Link to={`/job/${job.id}`} className="bg-[#2d4e6c] rounded-3xl px-4 sm:px-6 py-2 text-sm sm:text-md text-white transition transform motion-safe:hover:scale-105 border-[#1d3346] border-b-4 border-r-4">
                                 View Details

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
+import { authFetch } from '../../auth/api';
 
 const AdminApplications = () => {
   const [applications, setApplications] = useState([]);
@@ -8,6 +9,17 @@ const AdminApplications = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+
+  // The download route needs the admin's token, so it can't be a plain link
+  const downloadFile = async (appId, filename) => {
+    try {
+      const { data } = await axios.get(import.meta.env.VITE_API_URL + `/utils/download/${appId}/${encodeURIComponent(filename)}`);
+      window.location.href = data.url;
+    } catch (error) {
+      console.error('Error downloading file:', error);
+      alert(error.response?.data?.message || 'Could not download the file.');
+    }
+  };
 
   const [currentPage, setCurrentPage] = useState(1);
   const [applicationsPerPage] = useState(7);
@@ -22,7 +34,7 @@ const AdminApplications = () => {
     const fetchApplications = async () => {
       setIsLoading(true);
       try {
-        const result = await fetch(import.meta.env.VITE_API_URL + `/apply-job/all`);
+        const result = await authFetch(import.meta.env.VITE_API_URL + `/apply-job/all`);
         if (!result.ok) {
           throw new Error('Failed to fetch applications');
         }
@@ -82,7 +94,7 @@ const AdminApplications = () => {
       const response = await axios.put(import.meta.env.VITE_API_URL + `/apply-job/${editApplication.id}`, editApplication);
       alert('Application status updated succesfully!');
       setEditModalOpen(false);
-      setFilteredApplications(prevApplications => prevApplications.map(app => app.id === editApplication.id ? { ...app, ...editApplication } : app)
+      setApplications(prevApplications => prevApplications.map(app => app.id === editApplication.id ? { ...app, ...editApplication } : app)
       );
     } catch (error) {
       console.error('Error updating application:', error);
@@ -99,13 +111,13 @@ const AdminApplications = () => {
 
     setIsLoading(true);
     try {
-      const response = await fetch(import.meta.env.VITE_API_URL + `/apply-job/${appId}`, {
+      const response = await authFetch(import.meta.env.VITE_API_URL + `/apply-job/${appId}`, {
         method: "DELETE",
       });
       if (!response.ok) {
         throw new Error("Failed to delete application");
       }
-      setFilteredApplications(prevApplications => prevApplications.filter(app => app.id !== appId));
+      setApplications(prevApplications => prevApplications.filter(app => app.id !== appId));
     } catch (error) {
       console.error("Error deleting application:", error);
       alert("Failed to delete application.");
@@ -225,15 +237,15 @@ const AdminApplications = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{app.c_position}</td> 
 
                         <td className="px-2 py-4 max-w-[150px] truncate text-sm">
-                          <a href={import.meta.env.VITE_API_URL + "/utils/download/"+app.id+"/"+app.resume} download className='text-purple-600 underline hover:text-purple-800'>
+                          <button type="button" onClick={() => downloadFile(app.id, app.resume)} className='max-w-full truncate text-purple-600 underline hover:text-purple-800 cursor-pointer'>
                             {app.resume}
-                          </a>
+                          </button>
                         </td>
 
                         <td className="px-2 py-4 max-w-[150px] truncate text-sm">
-                          <a href={import.meta.env.VITE_API_URL + "/utils/download/"+app.id+"/"+app.cover_letter} download className='text-purple-600 underline hover:text-purple-800'>
+                          <button type="button" onClick={() => downloadFile(app.id, app.cover_letter)} className='max-w-full truncate text-purple-600 underline hover:text-purple-800 cursor-pointer'>
                             {app.cover_letter}
-                          </a>
+                          </button>
                         </td>
 
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

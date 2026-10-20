@@ -1,49 +1,27 @@
 import express from 'express';
-import platform from 'platform';
 import { LogAction } from '../utils/logger.js';
-import { getToken } from './login.js';
-import { jwtDecode } from "jwt-decode";
+import { requireUser, requireAdmin } from '../middleware/auth.js';
 import Application from '../models/Application.js';
 import User from '../models/User.js';
 import Job from '../models/Job.js';
 import Log from '../models/Log.js';
-import path from 'path';
+import { GetObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { s3, BUCKET } from '../config/storage.js';
 import { Op } from 'sequelize';
 import axios from 'axios';
 
 const app = express();
 app.use(express.json());
-app.set('trust proxy', true);
 
 const router = express.Router();
-let browserType = null;
-let osDetails = null;
-let userIP = null;
-
-router.get('/detect-browser', async (req, res) => {
-    const userAgent = req.headers['user-agent'];
-    const userIp = req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-
-    if (!userAgent) {
-        return res.status(400).json({ error: "User-Agent not found in request" });
-    }
-
-    const browser = platform.parse(userAgent);
-
-    res.json({ message: "Successfully fetched browser type." });
-    browserType = browser.name + ' ' + browser.version;
-    osDetails = browser.os.family + ' ' + browser.os.version;
-    userIP = userIp;
-
-});
-
-router.get('/logout', (req, res) => {
-    LogAction('Has logged out')
+router.get('/logout', requireUser, async (req, res) => {
+    await LogAction(req, 'Has logged out');
     res.json({ message: "User has logged out successfuly." });
 })
 
 // DOWNLOAD RESUME/COVER
-router.get('/download/:id/:filename', async (req, res) => { 
+router.get('/download/:id/:filename', requireAdmin, async (req, res) => {
   try {
     const application = await Application.findByPk(req.params.id);
 
@@ -55,16 +33,13 @@ router.get('/download/:id/:filename', async (req, res) => {
         return res.status(400).json({ message: 'Filename does not exist' });
     }        
 
-    const filePath = path.join('uploads', req.params.filename);
-    const fileName = req.params.filename;
-
-    res.setHeader('Content-Type', 'application/octet-stream');
-    res.setHeader('Content-Disposition', `attachment; filename="${application.file_name}"`);
-    res.download(filePath, fileName, (err) => {
-        if (err) {
-            res.status(500).send({ message: 'Error downloading the file', error: err });
-        }
-    });
+    // The bucket is private, so hand back a short-lived signed link to the file
+    const url = await getSignedUrl(s3, new GetObjectCommand({
+        Bucket: BUCKET,
+        Key: req.params.filename,
+        ResponseContentDisposition: `attachment; filename="${req.params.filename}"`,
+    }), { expiresIn: 60 });
+    res.json({ url });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Error retrieving the file', error: err.message });
@@ -72,7 +47,7 @@ router.get('/download/:id/:filename', async (req, res) => {
 });
 
 // FOR ANALYTICS - TO BE EDITED PA
-router.get('/analytics', async (req, res) => { 
+router.get('/analytics', requireAdmin, async (req, res) => {
   try {
       const userCounts = await getLastWeekUserCounts(User, 'created_at');
       const applicationCounts = await getLastWeekUserCounts(Application, 'applied_at');
@@ -100,7 +75,7 @@ router.get('/analytics', async (req, res) => {
 })
 
 // COUNT APPLICATION, JOBS, LOGS, USERS OBJECTS IN TABLES
-router.get('/count', async (req, res) => {
+router.get('/count', requireAdmin, async (req, res) => {
   try {
     const [appCount, jobCount, logCount, userCount] = await Promise.all([
       Application.count(),
@@ -124,10 +99,15 @@ router.get('/count', async (req, res) => {
 router.get('/realIP', async (req, res) => {
   const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
-  const resp = await axios.get(`http://ip-api.com/json/${clientIP}?fields=proxy`);
-
-  const proxy = resp.data.proxy;
-  res.json({ proxy });
+  try {
+    // Short timeout so an ip-api outage can't hold the request open
+    const resp = await axios.get(`http://ip-api.com/json/${clientIP}?fields=proxy`, { timeout: 3000 });
+    res.json({ proxy: resp.data.proxy });
+  } catch (error) {
+    // Caught here: an uncaught rejection in an async Express 4 route crashes the server
+    console.error('Error checking VPN:', error.message);
+    res.status(503).json({ message: 'VPN check is unavailable right now.' });
+  }
 });
 
 const getLastWeekUserCounts = async (model, dbValue) => {
@@ -160,5 +140,3 @@ const getLastWeekUserCounts = async (model, dbValue) => {
 };
 
 export default router;
-export const fetchedBrowser = () => [browserType, osDetails];
-export const getUserIP = () => userIP;

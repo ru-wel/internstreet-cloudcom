@@ -6,6 +6,7 @@ import axios from 'axios';
 import Nav from '../components/Nav';
 import person from '/images/person-placeholder.webp';
 import Footer from '../components/Footer';
+import { authFetch } from '../../auth/api';
 
 function UserProfile() {
   const [user, setUser] = useState([]);
@@ -59,7 +60,8 @@ function UserProfile() {
     const fetchUser = async () => {
       try {
         if (!UID) return;
-        const response = await fetch(import.meta.env.VITE_API_URL + `/users/${UID}`);
+        const response = await authFetch(import.meta.env.VITE_API_URL + `/users/${UID}`);
+        if (!response.ok) throw new Error('Failed to fetch user');
         const result = await response.json();
         setUser(result);
       } catch (err) {
@@ -75,7 +77,8 @@ function UserProfile() {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const response = await fetch(import.meta.env.VITE_API_URL + '/apply-job');
+        const response = await authFetch(import.meta.env.VITE_API_URL + '/apply-job');
+        if (!response.ok) throw new Error('Failed to fetch applications');
         const result = await response.json();
         setApplications(result);
       } catch (err) {

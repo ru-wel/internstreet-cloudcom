@@ -1,6 +1,6 @@
 import express from 'express';
 import User from '../models/User.js';
-import bcrypt from 'bcryptjs';
+import { checkPassword, hashPassword } from '../utils/password.js';
 import { LogAction } from '../utils/logger.js';
 
 const app = express();
@@ -12,6 +12,8 @@ router.post('/', async (req, res) => {
   const { name, email, password } = req.body;
   const user_role = 'user';
   const message = `Has registered successfully`;
+  const passwordError = checkPassword(password);
+  if (passwordError) return res.status(400).json({ message: passwordError });
 
   try {
     await User.create({
@@ -21,28 +23,18 @@ router.post('/', async (req, res) => {
       user_role: user_role,
     });
     res.status(201).json({message: message});
-    LogAction(message, email);
+    await LogAction(req, message, email);
   } catch (error) {
     console.error('Error registering user: ', error);
 
     if (error.name === 'SequelizeUniqueConstraintError'){
       res.status(400).json({message:'Email already exists! Try logging in.'});
     } else if (error.name === 'SequelizeValidationError'){
-      res.status(400).json({message:'Validation error: Check your inputs.'});
+      res.status(400).json({message: error.errors[0].message});
     } else {
       res.status(500).json({message:'Internal server error. Please try again later.'});
     }
   }
 });
-
-async function hashPassword(password){
-  try {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    return hashedPassword;
-  } catch (error) {
-    console.error('Error hashing password: ', error);
-  }
-}
 
 export default router;

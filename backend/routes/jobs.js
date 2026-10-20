@@ -1,6 +1,7 @@
 import express from 'express';
 import Job from '../models/Job.js';
-import jwt from 'jsonwebtoken';
+import Application from '../models/Application.js';
+import { requireUser, requireAdmin } from '../middleware/auth.js';
 import { LogAction } from '../utils/logger.js';
 
 const app = express();
@@ -35,7 +36,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // EDIT JOB
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', requireAdmin, async (req, res, next) => {
   const { id } = req.params;
   const { title, company, location, details, logo } = req.body;
   const updates = {};
@@ -65,7 +66,7 @@ router.put('/:id', async (req, res, next) => {
     const changedFields = Object.keys(updates).join(', ');
     const message = `Updated fields: ${changedFields} for Job "${job.title}"`;
     res.status(200).json({ message: message });
-    await LogAction(message);
+    await LogAction(req, message);
   } catch (error) {
     console.error('Error updating job:', error);
     next(error);
@@ -73,25 +74,37 @@ router.put('/:id', async (req, res, next) => {
 });
 
 // DELETE JOB
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', requireAdmin, async (req, res, next) => {
   try {
       const { id } = req.params;
       const job = await Job.findOne({ where: { "id" : id } });
 
       if (!job) return res.status(404).json({ message: 'Job not found!'});
 
-      await Job.destroy({ where: { "id" : id } });
+      // Applications reference the job (on delete no action), so keep them and refuse instead
+      const applications = await Application.count({ where: { job_id: id } });
+      if (applications > 0) {
+        return res.status(409).json({ message: `This job has ${applications} application(s), so it can't be deleted. Delete those applications first.` });
+      }
+
+      // 0 rows means another request deleted it after the lookup above
+      const deleted = await Job.destroy({ where: { "id" : id } });
+      if (deleted === 0) return res.status(404).json({ message: 'Job not found!'});
       const message = `Successfully deleted Job: "${job.title}" from "${job.company}"`;
       res.status(200).json({ message: message });
-      await LogAction(message);
+      await LogAction(req, message);
   } catch (error) {
+      // An application arrived between the count and the delete
+      if (error.name === 'SequelizeForeignKeyConstraintError') {
+        return res.status(409).json({ message: "This job has applications, so it can't be deleted. Delete those applications first." });
+      }
       console.error(error);
       return next(error);
   }
 });
 
 // ADD JOB
-router.post('/add', async (req, res, next) => {
+router.post('/add', requireAdmin, async (req, res, next) => {
   const { title, company, location, details, logo } = req.body;
 
   try {
@@ -104,7 +117,7 @@ router.post('/add', async (req, res, next) => {
     });
     const message = `Successfully added Job: "${newJob.title}" from "${newJob.company}"`;
     res.status(201).json({ message: message, newJob });
-    await LogAction(message);
+    await LogAction(req, message);
     } catch (error) {
       console.error("Error registering job:", error);
       res.status(500).json({message: 'Internal Server Error'});

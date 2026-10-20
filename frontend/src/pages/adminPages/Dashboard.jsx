@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import { authFetch } from '../../auth/api';
 
 function Dashboard() {
   const [user, setUser] = useState([]);
@@ -21,7 +22,8 @@ function Dashboard() {
     const fetchUser = async () => {
       try {
         if (!UID) return;
-        const response = await fetch(import.meta.env.VITE_API_URL + `/users/${UID}`);
+        const response = await authFetch(import.meta.env.VITE_API_URL + `/users/${UID}`);
+        if (!response.ok) throw new Error('Failed to fetch user');
         const result = await response.json();
         setUser(result);
       } catch (err) {

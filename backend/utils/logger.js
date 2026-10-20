@@ -1,62 +1,43 @@
 import Log from "../models/Log.js";
-import { getEmail, getToken } from "../routes/login.js";
-// import { jwtDecode } from "jwt-decode";
+import platform from 'platform';
 import axios from 'axios';
-import { fetchedBrowser, getUserIP } from "../routes/utils.js";
 
-async function getUserDetails() {
+// Everything comes from this request (not shared state), so each log names the right user
+function getRequestDetails(req) {
+  const forwarded = req.headers['x-forwarded-for']?.split(',')[0].trim();
+  const ip_address = req.headers['x-real-ip'] || forwarded || req.socket.remoteAddress || 'Unknown';
+  const agent = platform.parse(req.headers['user-agent'] || '');
 
-  const ipuser = getUserIP();
-  const res = await axios.get(`https://ipinfo.io/${ipuser}/json`);
-  console.log("USER IP: " + getUserIP());
+  const browser = agent.name ? `${agent.name} ${agent.version ?? ''}`.trim().replace('Microsoft ', '') : 'Unknown Browser';
+  let os = agent.os?.family ? `${agent.os.family} ${agent.os.version ?? ''}`.trim() : 'Unknown OS';
+  if (os.includes('OS X')) os = os.replace('OS X', 'macOS');
+  else if (os.includes('Linux ')) os = os.replace('Linux ', '');
 
-  return {
-    ip_address: getUserIP() || "Empty",
-    location: `${res.data.city}, ${res.data.region}, ${res.data.country}` || "Empty",
-    os_version: setOS() || "Unknown OS",
-    browser_type: setBrowser() || "Unknown Browser"
-  };
+  return { ip_address, os_version: os, browser_type: browser };
 }
 
-export async function LogAction(message, rEmail) {
+async function getLocation(ip) {
+  try {
+    const { data } = await axios.get(`https://ipinfo.io/${ip}/json`, { timeout: 3000 });
+    // Local and private addresses come back as "bogon" with no city
+    return data.city ? `${data.city}, ${data.region}, ${data.country}` : 'Unknown';
+  } catch {
+    return 'Unknown';
+  }
+}
 
-    const { ip_address, location, os_version, browser_type } = await getUserDetails();
-
+// Writes an activity log for this request. email defaults to the logged-in user;
+// login and register pass it in. Never throws: a failed log must not break the request.
+export async function LogAction(req, message, email = req.user?.email) {
+  try {
+    const details = getRequestDetails(req);
     await Log.create({
-        email: getEmail() || rEmail || 'Unknown',
-        action: message,
-        ip_address: ip_address,
-        os_version: os_version,
-        browser_type: browser_type,
-        location: location
+      email: email || 'Unknown',
+      action: message,
+      ...details,
+      location: await getLocation(details.ip_address),
     });
-}
-
-function setOS() {
-  const os = fetchedBrowser()[1];
-
-  if (!os) return "Unknown OS";
-
-  let formattedOS = os;
-  if (os.includes('OS X')) {
-    formattedOS = os.replace('OS X', 'macOS');
-  } else if (os.includes('Linux ')) {
-    formattedOS = os.replace('Linux ', '');
+  } catch (error) {
+    console.error('Error writing log:', error.message);
   }
-
-  return formattedOS;
-}
-
-function setBrowser() {
-  const browser = fetchedBrowser()[0];
-
-  if (!browser) return "Unknown Browser";
-
-  let formattedBrowser = browser;
-  
-  if (browser.includes('Microsoft ')) {
-    formattedBrowser = browser.replace('Microsoft ', '');
-  }
-
-  return formattedBrowser;
 }

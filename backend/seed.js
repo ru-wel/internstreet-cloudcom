@@ -35,11 +35,11 @@ try {
     const opts = { transaction, logging: false };
     const hash = (password) => bcrypt.hash(password, 10);
 
-    await User.bulkCreate([
+    const users = await User.bulkCreate([
       { name: 'Admin', email: 'admin@internstreet.test', password: await hash('Admin123!'), user_role: 'admin', created_at: lastWeek(0) },
       { name: 'Maria Santos', email: 'maria@internstreet.test', password: await hash('Student123!'), location: 'Quezon City', number: '09171234567', bio: 'BS Computer Science student looking for a software internship.', created_at: lastWeek(1) },
       { name: 'Juan Dela Cruz', email: 'juan@internstreet.test', password: await hash('Student123!'), location: 'Cebu City', number: '09281234567', bio: 'IT student interested in cloud and support roles.', created_at: lastWeek(3) },
-    ], opts);
+    ], { ...opts, returning: true });
 
     const job = (title, company, location, logo, description, qualifications, questions) => ({
       title, company, location, logo: `/images/companies/${logo}`,
@@ -73,14 +73,13 @@ try {
     ], { ...opts, returning: true });
 
     const apply = (user, j, status, day) => ({
-      name: user.name, email: user.email, job_id: j.id, status, applied_at: lastWeek(day, 14),
+      name: user.name, email: user.email, user_id: user.id, job_id: j.id, status, applied_at: lastWeek(day, 14),
       c_name: j.company, c_location: j.location, c_position: j.title, c_logo: j.logo,
       // Filenames only; no files exist, so downloading these will fail
       resume: `seed-resume-${user.email.split('@')[0]}.pdf`,
       cover_letter: `seed-cover-${user.email.split('@')[0]}.pdf`,
     });
-    const maria = { name: 'Maria Santos', email: 'maria@internstreet.test' };
-    const juan = { name: 'Juan Dela Cruz', email: 'juan@internstreet.test' };
+    const [, maria, juan] = users;
     await Application.bulkCreate([
       apply(maria, jobs[0], 'pending', 1),
       apply(maria, jobs[4], 'approved', 2),

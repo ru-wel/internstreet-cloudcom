@@ -92,12 +92,7 @@ const Application = () => {
             }
 
             const applyData = new FormData();
-            applyData.append('email', user.email);
-            applyData.append('name', user.name);
-            applyData.append('c_name', company.name);
-            applyData.append('c_position', company.title);
-            applyData.append('c_location', company.location);
-            applyData.append('c_logo', company.logo);
+            // The server copies the job's details from its own record
             applyData.append('job_id', company.id);
             applyData.append('resume', resume);
             applyData.append('cover', cover);

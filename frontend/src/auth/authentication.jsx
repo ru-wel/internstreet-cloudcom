@@ -1,6 +1,5 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
 const AuthContext = createContext();
@@ -9,6 +8,7 @@ const UserWrapper = () => {
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [role, setRole] = useState(null);
+  const [user, setUser] = useState(null);
   const [isVPN, setIsVPN] = useState(null);
 
   useEffect(() => {
@@ -23,32 +23,33 @@ const UserWrapper = () => {
       try {
         const response = await fetch(import.meta.env.VITE_API_URL + "/validate-token", {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
-
         const data = await response.json();
 
-        const res = await axios.get(import.meta.env.VITE_API_URL + "/utils/realIP");
-        const vpnDetected = res.data.proxy;
-
-        if (!response.ok && !data.valid){
-          setIsAuthenticated(false);
-        }
-        const decoded = jwtDecode(token);
-        if (decoded.exp * 1000 < Date.now()){
+        // Only the server can tell if the token is genuine and unexpired; anything else means logged out
+        if (!response.ok || !data.valid) {
           localStorage.removeItem('token');
-          setRole(null);
           setIsAuthenticated(false);
-        } else { 
-          setIsAuthenticated(true);
-          setRole(decoded.role);
-          vpnDetected ? (setIsVPN(true)): (setIsVPN(false));
+          return;
         }
+
+        // The VPN check only matters for admins. Done before marking the user as logged in,
+        // so AdminWrapper never sees an unfinished check. A failed lookup counts as "no VPN".
+        if (data.user.role === 'admin') {
+          try {
+            const res = await axios.get(import.meta.env.VITE_API_URL + "/utils/realIP");
+            setIsVPN(Boolean(res.data.proxy));
+          } catch {
+            setIsVPN(false);
+          }
+        }
+        setRole(data.user.role);
+        setUser(data.user);
+        setIsAuthenticated(true);
       } catch (error) {
-        console.error('Error decoding token: ', error);
+        console.error('Error checking token: ', error);
+        setIsAuthenticated(false);
       }
     }
     checkToken();
@@ -64,7 +65,7 @@ const UserWrapper = () => {
   }
 
   return (
-    <AuthContext.Provider value={{ role, isVPN }}>
+    <AuthContext.Provider value={{ role, isVPN, user }}>
       <Outlet />
     </AuthContext.Provider>
   );
@@ -103,26 +104,19 @@ const GuestWrapper = () => {
       try {
         const response = await fetch(import.meta.env.VITE_API_URL + "/validate-token", {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         const data = await response.json();
-        if (!response.ok && !data.valid){
-          setIsValidToken(false);
-        }
-        const decoded = jwtDecode(token);
-        if (decoded.exp * 1000 < Date.now()){
+
+        if (!response.ok || !data.valid) {
           localStorage.removeItem('token');
-          setRole(null);
           setIsValidToken(false);
-        } else { 
-          setIsValidToken(true);
-          setRole(decoded.role); 
+          return;
         }
+        setIsValidToken(true);
       } catch (error) {
-        console.error('Error decoding token: ', error);
+        console.error('Error checking token: ', error);
+        setIsValidToken(false);
       }
     }
     checkToken();

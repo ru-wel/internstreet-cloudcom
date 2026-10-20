@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { TEChart } from "tw-elements-react";
 import { Link } from 'react-router-dom';
+import { authFetch } from '../../auth/api';
 
 function AdminAnalytics() {
     const [userCounts, setUserCount] = useState([]);
@@ -20,7 +21,7 @@ function AdminAnalytics() {
   useEffect(() => {
     const fetchLogs = async () =>{
       try {
-        const result = await fetch(import.meta.env.VITE_API_URL + `/logs`);
+        const result = await authFetch(import.meta.env.VITE_API_URL + `/logs`);
         if (!result.ok){
           throw new Error('Failed to fetch data'); 
         }
@@ -115,7 +116,7 @@ function AdminAnalytics() {
   useEffect(() => {
     const fetchAnalytics = async () =>{
       try {
-        const result = await fetch(import.meta.env.VITE_API_URL + `/utils/analytics`);
+        const result = await authFetch(import.meta.env.VITE_API_URL + `/utils/analytics`);
         if (!result.ok){
           throw new Error('Failed to fetch data'); 
         }
@@ -135,7 +136,7 @@ function AdminAnalytics() {
   useEffect(() => {
     const fetchCount = async () => {
       try {
-        const result = await fetch(import.meta.env.VITE_API_URL + `/utils/count`);
+        const result = await authFetch(import.meta.env.VITE_API_URL + `/utils/count`);
         if (!result.ok) throw new Error('Failed to fetch data');
         const count = await result.json();
         setCounts(count);

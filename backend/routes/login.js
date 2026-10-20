@@ -7,10 +7,6 @@ import { LogAction } from '../utils/logger.js';
 const app = express();
 app.use(express.json());
 
-let userToken = null;
-let userId = null;
-let userEmail = null;
-
 const router = express.Router();
 
 router.post('/', async (req, res) => {
@@ -40,12 +36,7 @@ router.post('/', async (req, res) => {
     res.header('Authorization', `Bearer ${token}`)
     res.json({ token });
 
-    userToken = token;
-    userEmail = user.email;
-    userId = user.id;
-
-    console.log('Logged In Successfully!');
-    LogAction("Has logged in");
+    await LogAction(req, "Has logged in", user.email);
 
   } catch (error) {
     console.error(error);
@@ -53,7 +44,4 @@ router.post('/', async (req, res) => {
   }
 });
 
-export const getToken = () => userToken;
-export const getEmail = () => userEmail;
-export const getUserId = () => userId;
 export default router;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Helmet } from 'react-helmet';
+import { authFetch } from '../../auth/api';
 
 function AdminLogs() {
   const [logs, setLogs] = useState([]);
@@ -18,7 +19,8 @@ function AdminLogs() {
     const fetchLogs = async () => {
       setIsLoading(true);
       try {
-        const result = await fetch(import.meta.env.VITE_API_URL + `/logs`);
+        const result = await authFetch(import.meta.env.VITE_API_URL + `/logs`);
+        if (!result.ok) throw new Error('Failed to fetch logs');
         const fetchedLogs = await result.json();
         setLogs(fetchedLogs);
         setFilteredLogs(fetchedLogs);

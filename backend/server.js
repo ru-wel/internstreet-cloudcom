@@ -34,7 +34,6 @@ app.use('/api/login', loginRoute);
 app.use('/api/register', registerRoute);
 app.use('/api/validate-token', authRoute);
 app.use('/api/utils', utilsRoute);
-app.use('/api/uploads', express.static('uploads'));
 
 app.use((err, req, res, next) => {
   console.error(err.message);

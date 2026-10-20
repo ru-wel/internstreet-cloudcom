@@ -12,8 +12,8 @@ function Job() {
   const [error, setError] = useState(null);
   const [isApplied, setApplied] = useState(false);
 
-  const fetchApplication = async (company, title) =>{
-    const application = await axios.get(import.meta.env.VITE_API_URL + `/apply-job/${company}/${title}`);
+  const fetchApplication = async (jobId) =>{
+    const application = await axios.get(import.meta.env.VITE_API_URL + `/apply-job/job/${jobId}`);
     application.data ? (setApplied(true)) : (setApplied(false));
   }
   useEffect(() => {
@@ -22,7 +22,8 @@ function Job() {
       try {
         const response = await axios.get(import.meta.env.VITE_API_URL + `/jobs/${jId}`);
         setJob(response.data);
-        fetchApplication(response.data.company, response.data.title);
+        // Only logged-in students have applications to check
+        if (localStorage.getItem('token')) fetchApplication(response.data.id);
 
       } catch (err) {
         console.error("Error fetching job details:", err);
