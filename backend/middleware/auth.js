@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
 // Checks the login token ("Authorization: Bearer <token>") and puts the user on
-// req.user as { id, email, role }. The role is read from the database, not the token,
+// req.user as { id, email, role, demo }. The role is read from the database, not the token,
 // so deleting or demoting a user takes effect on their next request.
 export async function requireUser(req, res, next) {
   const token = req.headers.authorization?.split(' ')[1];
@@ -16,9 +16,9 @@ export async function requireUser(req, res, next) {
   }
 
   try {
-    const user = await User.findByPk(payload.id, { attributes: ['id', 'email', 'user_role'] });
+    const user = await User.findByPk(payload.id, { attributes: ['id', 'email', 'user_role', 'is_demo'] });
     if (!user) return res.status(401).json({ message: 'This account no longer exists.' });
-    req.user = { id: user.id, email: user.email, role: user.user_role };
+    req.user = { id: user.id, email: user.email, role: user.user_role, demo: user.is_demo };
     next();
   } catch (error) {
     console.error('Error checking user:', error);

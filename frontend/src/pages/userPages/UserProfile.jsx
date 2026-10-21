@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { Helmet } from 'react-helmet';
@@ -7,6 +7,7 @@ import Nav from '../components/Nav';
 import person from '/images/person-placeholder.webp';
 import Footer from '../components/Footer';
 import { authFetch } from '../../auth/api';
+import { AuthContext } from '../../auth/authentication';
 
 function UserProfile() {
   const [user, setUser] = useState([]);
@@ -19,6 +20,8 @@ function UserProfile() {
   const [saving, setSaving] = useState(false);
   const [UID, setUID] = useState(null);
   const [applications, setApplications] = useState([]);
+  // The demo account is shared by every visitor, so the server refuses profile edits
+  const isDemo = useContext(AuthContext).user?.demo;
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -139,9 +142,13 @@ function UserProfile() {
               </div>
       
               <div className="mt-6">
+                {isDemo ? (
+                  <p className="text-[#1F3531] text-sm bg-[#e6f4f1] rounded-lg p-3">This is the demo account, so profile edits are turned off. Register to make your own profile.</p>
+                ) : (
                 <button type="button" onClick={() => handleEdit(user)} className="bg-[#1F3531] border-[#0f1f1c] border-r-4 border-b-4 text-white py-2 px-4 rounded-3xl transition motion-safe:hover:scale-105 text-sm sm:text-base cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2">
                   Edit Profile
                 </button>
+                )}
               </div>
             </div>
       

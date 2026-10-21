@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { FaUpload, FaCheckCircle } from "react-icons/fa";
 import { Link, Navigate, useLocation } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode';
@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
+import { AuthContext } from '../../auth/authentication';
 
 // Both files go up in one request, and Vercel rejects request bodies over 4.5 MB
 const MAX_TOTAL_BYTES = 4 * 1024 * 1024;
@@ -18,6 +19,8 @@ const fileButtonClass = "bg-[#497D74] border-[#2b4843] border-b-4 border-r-4 tex
 
 const Application = () => {
     const company = useLocation().state;
+    // The shared demo account can apply but not change its profile
+    const isDemo = useContext(AuthContext).user?.demo;
 
     const [user, setUser] = useState(null);
     const [UID, setUID] = useState(null);
@@ -87,7 +90,7 @@ const Application = () => {
         setSubmitting(true);
         try {
             // Location and phone changed here also update the profile
-            if (details.location !== (user.location ?? '') || details.number !== (user.number ?? '')) {
+            if (!isDemo && (details.location !== (user.location ?? '') || details.number !== (user.number ?? ''))) {
                 await axios.put(import.meta.env.VITE_API_URL + `/users/profile/${UID}`, details);
             }
 
@@ -172,12 +175,14 @@ const Application = () => {
                   <div>
                     <label htmlFor="location" className="block font-semibold mb-1">Location</label>
                     <input id="location" type="text" className={inputClass} placeholder="e.g. Quezon City"
+                      readOnly={isDemo}
                       value={details.location}
                       onChange={(e) => setDetails({ ...details, location: e.target.value })} />
                   </div>
                   <div>
                     <label htmlFor="number" className="block font-semibold mb-1">Phone number</label>
                     <input id="number" type="tel" inputMode="numeric" maxLength="11" className={inputClass} placeholder="09XXXXXXXXX"
+                      readOnly={isDemo}
                       value={details.number}
                       aria-invalid={Boolean(errors.number)}
                       aria-describedby={errors.number ? 'number-error' : undefined}
@@ -185,12 +190,21 @@ const Application = () => {
                     {fieldError('number')}
                   </div>
                 </div>
-                <p className="text-sm mt-2">Changes to your location or phone number also update your profile.</p>
+                <p className="text-sm mt-2">
+                  {isDemo
+                    ? "This is the demo account, so these details can't be changed."
+                    : 'Changes to your location or phone number also update your profile.'}
+                </p>
               </section>
 
               <section>
                 <h2 className="text-2xl font-bold">Documents</h2>
                 <p id="file-hint" className="mt-1">PDF, DOC or DOCX. Up to 4 MB for both files combined.</p>
+                {isDemo && (
+                  <p className="mt-2 text-sm font-semibold bg-[#e6f4f1] rounded-lg p-3">
+                    All visitors share the demo account and can see its applications. Use sample files, not your real resume or cover letter.
+                  </p>
+                )}
 
                 <div className="grid sm:grid-cols-2 gap-6 mt-4">
                   <div>

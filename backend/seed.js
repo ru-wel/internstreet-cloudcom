@@ -1,5 +1,5 @@
 // Fills the database with sample data for testing.
-// Refuses if any table has data; `npm run seed -- --reset` wipes all tables first.
+// Refuses if any table has data; `npm run seed -- --reset` wipes all tables first (except the demo account).
 import bcrypt from 'bcryptjs';
 import { sequelize } from './config/db_config.js';
 import User from './models/User.js';
@@ -22,12 +22,14 @@ const lastWeek = (day, hour = 9) => {
 };
 
 try {
-  const counts = await Promise.all([User, Job, Application, Log].map(m => m.count(quiet)));
+  // The demo account comes from migration 006, so it doesn't count as data and survives a reset
+  const counts = await Promise.all([User.count({ where: { is_demo: false }, ...quiet }), ...[Job, Application, Log].map(m => m.count(quiet))]);
   if (counts.some(c => c > 0)) {
     if (!reset) {
       throw new Error('Tables already have data. Run `npm run seed -- --reset` to wipe them and reseed.');
     }
-    await sequelize.query('truncate try_applications, try_jobs, try_users, logs restart identity cascade', quiet);
+    await sequelize.query('truncate try_applications, try_jobs, logs restart identity', quiet);
+    await sequelize.query('delete from try_users where not is_demo', quiet);
     console.log('Wiped all tables.');
   }
 

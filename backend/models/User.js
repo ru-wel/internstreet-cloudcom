@@ -20,6 +20,8 @@ const User = sequelize.define('try_users', {
   location: { type: DataTypes.STRING, allowNull: true },
   number: { type: DataTypes.STRING(11), allowNull: true },
   bio: { type:DataTypes.STRING(300), allowNull: true },
+  // Shared demo account (migration 006); logs in only through /login/demo
+  is_demo: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
   }, { createdAt: false, updatedAt: true, }
 );
 

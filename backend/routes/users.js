@@ -57,6 +57,8 @@ router.get('/:id', requireUser, async (req, res) => {
 // EDIT PROFILE
 router.put('/profile/:id', requireUser, async (req, res, next) => {
     if (!isSelfOrAdmin(req)) return res.status(403).json({ message: "You can't edit this profile." });
+    // Every visitor shares the demo account, so one visitor's edits would show for the next
+    if (req.user.demo) return res.status(403).json({ message: "This is a demo account, so profile changes are turned off." });
     const { id } = req.params;
     const { name, email, location, number, bio } = req.body;
     
@@ -99,6 +101,8 @@ router.delete('/:id', requireAdmin, async (req, res, next) => {
       const admins = await lockAdmins(transaction);
       const user = await User.findByPk(id, { transaction });
       if (!user) return { status: 404, message: 'User not found!' };
+      // The demo login needs this row, and its applications would lose their owner and never be cleared
+      if (user.is_demo) return { status: 400, message: "You can't delete a demo account." };
       if (user.user_role === 'admin' && admins <= 1) return { status: 409, message: "You can't remove the last admin." };
 
       await user.destroy({ transaction });
@@ -160,6 +164,8 @@ router.put('/role/:id', requireAdmin, async (req, res, next) => {
       const admins = await lockAdmins(transaction);
       const user = await User.findByPk(id, { transaction });
       if (!user) return { status: 404, message: 'User not found' };
+      // Anyone can log in as a demo account, so making one an admin would make every visitor an admin
+      if (user.is_demo) return { status: 400, message: "You can't change the role of a demo account." };
       if (user.user_role === 'admin' && user_role !== 'admin' && admins <= 1) {
         return { status: 409, message: "You can't remove the last admin." };
       }

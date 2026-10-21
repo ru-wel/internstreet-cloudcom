@@ -1,4 +1,4 @@
-import { S3Client } from '@aws-sdk/client-s3';
+import { S3Client, DeleteObjectsCommand } from '@aws-sdk/client-s3';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -19,4 +19,12 @@ const s3 = new S3Client({
 // Private bucket declared in neon.ts; holds resumes and cover letters
 const BUCKET = 'uploads';
 
-export { s3, BUCKET };
+const deleteFiles = async (keys) => {
+  const result = await s3.send(new DeleteObjectsCommand({ Bucket: BUCKET, Delete: { Objects: keys.map((Key) => ({ Key })) } }));
+  // DeleteObjects reports per-file failures in Errors instead of throwing
+  if (result.Errors?.length) {
+    throw new Error(`Could not delete ${result.Errors.map((e) => `${e.Key} (${e.Code})`).join(', ')}`);
+  }
+};
+
+export { s3, BUCKET, deleteFiles };

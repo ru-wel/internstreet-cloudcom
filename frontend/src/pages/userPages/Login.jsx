@@ -11,9 +11,16 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [demoLoading, setDemoLoading] = useState(false);
+  const [demoError, setDemoError] = useState('');
   const navigate = useNavigate();
   // Set by UserWrapper when a logged-out user opens a protected page (e.g. /apply)
   const from = useLocation().state?.from;
+
+  const finishLogin = (token) => {
+    localStorage.setItem('token', token);
+    navigate(from ? from.pathname : '/', { state: from?.state, replace: true });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -22,13 +29,25 @@ function Login() {
 
     try {
       const response = await axios.post(import.meta.env.VITE_API_URL + `/login`, { email, password });
-      const token = response.data.token;
-      localStorage.setItem('token', token);
-      navigate(from ? from.pathname : '/', { state: from?.state, replace: true });
+      finishLogin(response.data.token);
     } catch (error) {
       setError(error.response?.data?.message || error.message || 'Login failed! Please try again.');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleDemo = async () => {
+    setDemoError('');
+    setDemoLoading(true);
+
+    try {
+      const response = await axios.post(import.meta.env.VITE_API_URL + `/login/demo`, { role: 'student' });
+      finishLogin(response.data.token);
+    } catch (error) {
+      setDemoError(error.response?.data?.message || "The demo didn't load. Check your connection and try again.");
+    } finally {
+      setDemoLoading(false);
     }
   };
 
@@ -37,7 +56,7 @@ function Login() {
       <Helmet>
         <title>Login | InternStreet</title>
       </Helmet>
-      <Nav />                    
+      <Nav />
       <div className="flex flex-col items-center justify-center flex-grow px-4 sm:px-6">
       <h1 className="text-3xl sm:text-5xl font-bold text-[#000000] text-center mb-10 mt-6">Log in to Your Account</h1>
 
@@ -101,6 +120,20 @@ function Login() {
                   </Link>
                 </p>
               </form>
+
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <p className="text-gray-700 text-center text-sm mb-3">Just looking around? Skip signing up.</p>
+                <button
+                  type="button"
+                  onClick={handleDemo}
+                  disabled={demoLoading}
+                  className="w-full py-3 rounded-xl border-2 border-[#497D74] text-[#1F3531] font-medium hover:bg-[#e6f4f1] transition cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F3531] focus-visible:ring-offset-2"
+                >
+                  {demoLoading ? 'Opening the demo...' : 'Try the demo as a student'}
+                </button>
+                <p className="text-gray-600 text-center text-xs mt-2">All visitors share this account and can see its applications. Apply with a sample file, not your real resume.</p>
+                {demoError && <p role="alert" className="text-red-700 text-sm font-semibold text-center mt-2">{demoError}</p>}
+              </div>
             </div>
           </div>
         </div>

@@ -6,8 +6,8 @@ import User from '../models/User.js';
 import { requireUser, requireAdmin } from '../middleware/auth.js';
 import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
-import { PutObjectCommand, DeleteObjectsCommand } from '@aws-sdk/client-s3';
-import { s3, BUCKET } from '../config/storage.js';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { s3, BUCKET, deleteFiles } from '../config/storage.js';
 
 Application.belongsTo(Job, { foreignKey: 'job_id' });
 Job.hasMany(Application, { foreignKey: 'job_id' });
@@ -33,13 +33,6 @@ const saveFile = async (file) => {
     return key;
 };
 
-const deleteFiles = async (keys) => {
-    const result = await s3.send(new DeleteObjectsCommand({ Bucket: BUCKET, Delete: { Objects: keys.map((Key) => ({ Key })) } }));
-    // DeleteObjects reports per-file failures in Errors instead of throwing
-    if (result.Errors?.length) {
-        throw new Error(`Could not delete ${result.Errors.map((e) => `${e.Key} (${e.Code})`).join(', ')}`);
-    }
-};
 const app = express();
 app.use(express.json());
 
@@ -153,6 +146,8 @@ router.get('/', requireUser, async (req, res) => {
       where: {
         user_id: req.user.id,
       },
+      // The profile page doesn't use the file keys, and they hold the original file names
+      attributes: { exclude: ['resume', 'cover_letter'] },
       order: [['applied_at', 'DESC']]
     });
 
