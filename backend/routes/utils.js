@@ -9,7 +9,6 @@ import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { s3, BUCKET } from '../config/storage.js';
 import { Op } from 'sequelize';
-import axios from 'axios';
 
 const app = express();
 app.use(express.json());
@@ -93,20 +92,6 @@ router.get('/count', requireAdmin, async (req, res) => {
   } catch (error) {
     console.error('Error counting fields:', error);
     res.status(500).json({ message: 'Internal server error' });
-  }
-});
-
-router.get('/realIP', async (req, res) => {
-  const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-
-  try {
-    // Short timeout so an ip-api outage can't hold the request open
-    const resp = await axios.get(`http://ip-api.com/json/${clientIP}?fields=proxy`, { timeout: 3000 });
-    res.json({ proxy: resp.data.proxy });
-  } catch (error) {
-    // Caught here: an uncaught rejection in an async Express 4 route crashes the server
-    console.error('Error checking VPN:', error.message);
-    res.status(503).json({ message: 'VPN check is unavailable right now.' });
   }
 });
 

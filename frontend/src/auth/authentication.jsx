@@ -1,6 +1,5 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
-import axios from "axios";
 
 const AuthContext = createContext();
 
@@ -9,7 +8,6 @@ const UserWrapper = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [role, setRole] = useState(null);
   const [user, setUser] = useState(null);
-  const [isVPN, setIsVPN] = useState(null);
 
   useEffect(() => {
     const checkToken = async () => {
@@ -34,16 +32,6 @@ const UserWrapper = () => {
           return;
         }
 
-        // The VPN check only matters for admins. Done before marking the user as logged in,
-        // so AdminWrapper never sees an unfinished check. A failed lookup counts as "no VPN".
-        if (data.user.role === 'admin') {
-          try {
-            const res = await axios.get(import.meta.env.VITE_API_URL + "/utils/realIP");
-            setIsVPN(Boolean(res.data.proxy));
-          } catch {
-            setIsVPN(false);
-          }
-        }
         setRole(data.user.role);
         setUser(data.user);
         setIsAuthenticated(true);
@@ -65,7 +53,7 @@ const UserWrapper = () => {
   }
 
   return (
-    <AuthContext.Provider value={{ role, isVPN, user }}>
+    <AuthContext.Provider value={{ role, user }}>
       <Outlet />
     </AuthContext.Provider>
   );
@@ -73,15 +61,10 @@ const UserWrapper = () => {
 }
 
 const AdminWrapper = () => {
-  const { role, isVPN } = useContext(AuthContext);
+  const { role } = useContext(AuthContext);
 
   if (!role || role !== 'admin') {
     alert('Insufficient permissions.');
-    return <Navigate to="/" replace />;
-  }
-  
-  if (!isVPN) {
-    alert('VPN not detected.');
     return <Navigate to="/" replace />;
   }
   
