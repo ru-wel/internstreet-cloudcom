@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { authFetch } from '../../auth/api';
+import { AuthContext } from '../../auth/authentication';
 
 function Dashboard() {
   const [user, setUser] = useState([]);
   const [UID, setUID] = useState(null);
+  const isDemo = useContext(AuthContext).user?.demo;
 
   const linkClass = ({ isActive }) => `flex items-center px-4 py-2.5 text-sm font-medium rounded-lg group transition-all duration-200 hover:bg-[#345952] focus-visible:outline-2 focus-visible:outline-white ${isActive ? "bg-[#2C4B45] text-white" : "bg-transparent text-gray-300"}`;
 
@@ -121,6 +123,11 @@ function Dashboard() {
         </aside>
 
         <main className="flex-1 p-6 pl-70 bg-gray-100">
+            {isDemo && (
+              <p role="status" className="p-4 rounded-lg bg-[#e6f4f1] border border-[#497D74] text-[#1F3531] font-medium">
+                You're in the read-only demo admin. You can look around, but changes and file downloads are turned off.
+              </p>
+            )}
             <div className='mt-4 p-6 bg-white rounded-lg shadow-md'>
               <Outlet />
             </div>

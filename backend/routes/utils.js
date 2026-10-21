@@ -21,6 +21,8 @@ router.get('/logout', requireUser, async (req, res) => {
 
 // DOWNLOAD RESUME/COVER
 router.get('/download/:id/:filename', requireAdmin, async (req, res) => {
+  // The demo admin is public, and the files are applicants' real documents
+  if (req.user.demo) return res.status(403).json({ message: 'File downloads are turned off for the demo admin.' });
   try {
     const application = await Application.findByPk(req.params.id);
 

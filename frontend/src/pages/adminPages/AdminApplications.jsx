@@ -115,12 +115,13 @@ const AdminApplications = () => {
         method: "DELETE",
       });
       if (!response.ok) {
-        throw new Error("Failed to delete application");
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.message || "Failed to delete application.");
       }
       setApplications(prevApplications => prevApplications.filter(app => app.id !== appId));
     } catch (error) {
       console.error("Error deleting application:", error);
-      alert("Failed to delete application.");
+      alert(error.message);
     } finally {
       setIsLoading(false);
     }

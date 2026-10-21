@@ -1,5 +1,5 @@
 // Fills the database with sample data for testing.
-// Refuses if any table has data; `npm run seed -- --reset` wipes all tables first (except the demo account).
+// Refuses if any table has data; `npm run seed -- --reset` wipes all tables first (except the demo accounts).
 import bcrypt from 'bcryptjs';
 import { sequelize } from './config/db_config.js';
 import User from './models/User.js';
@@ -22,7 +22,7 @@ const lastWeek = (day, hour = 9) => {
 };
 
 try {
-  // The demo account comes from migration 006, so it doesn't count as data and survives a reset
+  // The demo accounts come from migrations 006 and 007, so they don't count as data and survive a reset
   const counts = await Promise.all([User.count({ where: { is_demo: false }, ...quiet }), ...[Job, Application, Log].map(m => m.count(quiet))]);
   if (counts.some(c => c > 0)) {
     if (!reset) {

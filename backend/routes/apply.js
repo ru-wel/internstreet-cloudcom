@@ -52,6 +52,11 @@ router.get('/all', requireAdmin, async (req, res) => {
 // APPLY JOB FOR APPLICATION PAGE
 
 router.post('/', requireUser, (req, res, next) => {
+    // Checked before the upload so its files are never read. The read-only demo admin's
+    // applications would never be cleared (only the demo student's are).
+    if (req.user.demo && req.user.role === 'admin') {
+        return res.status(403).json({ message: 'This is a read-only demo admin, so it can\'t apply.' });
+    }
     uploadFiles(req, res, (err) => {
         if (err?.code === 'LIMIT_FILE_SIZE') return res.status(400).json({ message: 'Keep both files under 4 MB combined.' });
         if (err?.code === 'LIMIT_FIELD_VALUE') return res.status(400).json({ message: 'A form field is too long.' });

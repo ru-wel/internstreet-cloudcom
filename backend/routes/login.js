@@ -58,13 +58,14 @@ const clearOldDemoApplications = async (userId) => {
 // One-click login for the "Try the demo" buttons on the login page
 router.post('/demo', async (req, res) => {
   try {
-    if (req.body.role !== 'student') { return res.status(400).json({ message: 'Pick a demo account.' }); }
+    if (!['student', 'admin'].includes(req.body.role)) { return res.status(400).json({ message: 'Pick a demo account.' }); }
+    const isStudent = req.body.role === 'student';
 
-    const user = await User.findOne({ where: { is_demo: true, user_role: 'user' } });
+    const user = await User.findOne({ where: { is_demo: true, user_role: isStudent ? 'user' : 'admin' } });
     if (!user) { return res.status(503).json({ message: "The demo account isn't available right now." }); }
 
     // A failed cleanup shouldn't keep the visitor out
-    await clearOldDemoApplications(user.id).catch((err) => console.error('Error clearing demo applications:', err));
+    if (isStudent) await clearOldDemoApplications(user.id).catch((err) => console.error('Error clearing demo applications:', err));
 
     res.json({ token: signToken(user) });
     await LogAction(req, "Has logged in (demo)", user.email);

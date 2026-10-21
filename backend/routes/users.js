@@ -11,8 +11,9 @@ const isSelfOrAdmin = (req) => req.user.role === 'admin' || String(req.user.id) 
 // Locks every admin row for the transaction and returns how many admins there are.
 // The lock makes two admins removing each other at the same moment run one after
 // the other, so the second sees the first's change and the last admin always stays.
+// The read-only demo admin can't manage anything, so it doesn't count.
 const lockAdmins = async (transaction) =>
-    (await User.findAll({ where: { user_role: 'admin' }, attributes: ['id'], lock: transaction.LOCK.UPDATE, transaction })).length;
+    (await User.findAll({ where: { user_role: 'admin', is_demo: false }, attributes: ['id'], lock: transaction.LOCK.UPDATE, transaction })).length;
 
 const app = express();
 app.use(express.json());

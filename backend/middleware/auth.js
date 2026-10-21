@@ -29,6 +29,8 @@ export async function requireUser(req, res, next) {
 export function requireAdmin(req, res, next) {
   requireUser(req, res, () => {
     if (req.user.role !== 'admin') return res.status(403).json({ message: 'Only admins can do that.' });
+    // Anyone can log in as the demo admin, so it can look at everything but change nothing
+    if (req.user.demo && req.method !== 'GET') return res.status(403).json({ message: 'This is a read-only demo admin, so changes are turned off.' });
     next();
   });
 }

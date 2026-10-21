@@ -84,6 +84,7 @@ function AdminLogs() {
       }
     } catch (error) {
       console.error("Error deleting log:", error);
+      alert(error.response?.data?.message || "Failed to delete log.");
     } finally {
       setIsLoading(false);
     }
